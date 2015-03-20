@@ -15,6 +15,8 @@ import io.github.omgimanerd.bouncysquare.util.Util;
  */
 public class Square {
 
+  // TODO: find a good acceleration factor
+  private static final int ACCELERATION_Y = 0;
   private static final int[] SIDE_COLORS = new int[] {
       Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN};
   private static final int CORNER_DOT_COLOR = Color.GRAY;
@@ -36,10 +38,10 @@ public class Square {
   private Paint cornerDotPaint_;
 
   public Square() {
-    trueSquare_ = new RectF(Util.SCREEN_WIDTH / 2,
-                            Util.SCREEN_HEIGHT / 4,
-                            Util.SCREEN_WIDTH / 2 + SIDE_LENGTH,
-                            Util.SCREEN_HEIGHT / 4 + SIDE_LENGTH);
+    trueSquare_ = new RectF(Util.SCREEN_WIDTH / 2 - SIDE_LENGTH / 2,
+                            Util.SCREEN_HEIGHT / 4 - SIDE_LENGTH / 2,
+                            Util.SCREEN_WIDTH / 2 + SIDE_LENGTH / 2,
+                            Util.SCREEN_HEIGHT / 4 + SIDE_LENGTH / 2);
     vx_ = 0;
     vy_ = 0;
     orientation_ = 0;
@@ -90,6 +92,7 @@ public class Square {
   }
 
   public void rotateClockwise() {
+    // TODO: animate this shit.
     orientation_ = (orientation_ == 3) ? 0 : orientation_ + 1;
   }
 
