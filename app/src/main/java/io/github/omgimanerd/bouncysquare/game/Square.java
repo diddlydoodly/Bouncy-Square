@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -14,7 +15,7 @@ public class Square {
 
   // TODO: find a good acceleration factor
   private static final int ACCELERATION_Y = 0;
-  private static final float ROTATION_SPEED = 4.5f;
+  private static final float ROTATION_SPEED = 9;
   private static final int[] SIDE_COLORS = new int[] {
       Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN};
   private static final int CORNER_DOT_COLOR = Color.GRAY;
@@ -23,8 +24,10 @@ public class Square {
 
   /**
    * trueSquare_ stores the absolute position of the square. We rely on the
-   * ViewPort to convert the trueSquare coordinates to canvas coordinates for
+   * ViewPort to convert the trueSquare_'s coordinates to canvas coordinates for
    * drawing.
+   * Every time update() is called, the canvas coordinates of trueSquare_ are
+   * stored in mappedSquare_.
    */
   private RectF trueSquare_;
   private RectF mappedSquare_;
@@ -67,11 +70,17 @@ public class Square {
     trueSquare_.offset(vx_, vy_);
     mappedSquare_ = viewport.mapToCanvas(trueSquare_);
 
-    // TODO: improve rotation logic
-    if (targetOrientationAngle_ > orientationAngle_) {
-      orientationAngle_ += ROTATION_SPEED;
-    } else if (targetOrientationAngle_ < orientationAngle_) {
-      orientationAngle_ -= ROTATION_SPEED;
+    if (targetOrientationAngle_ == orientationAngle_) {
+      return;
+    }
+    if (Util.normalizeAngle(
+        targetOrientationAngle_ - orientationAngle_) <= 180) {
+      orientationAngle_ = Util.normalizeAngle(
+          orientationAngle_ + ROTATION_SPEED);
+    } else if (Util.normalizeAngle(
+        targetOrientationAngle_ - orientationAngle_) > 180) {
+      orientationAngle_ = Util.normalizeAngle(
+          orientationAngle_ - ROTATION_SPEED);
     }
   }
 
@@ -111,12 +120,11 @@ public class Square {
   }
 
   public void rotateClockwise() {
-    targetOrientationAngle_ = (targetOrientationAngle_ + 90) % 360;
+    targetOrientationAngle_ = Util.normalizeAngle(targetOrientationAngle_ + 90);
   }
 
   public void rotateCounterClockwise() {
-    targetOrientationAngle_ = (targetOrientationAngle_ == 0) ? 270 :
-        targetOrientationAngle_ - 90;
+    targetOrientationAngle_ = Util.normalizeAngle(targetOrientationAngle_ - 90);
   }
 
   public float getVx() {
