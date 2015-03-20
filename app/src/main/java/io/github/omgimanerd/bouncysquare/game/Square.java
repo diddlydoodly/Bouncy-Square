@@ -10,13 +10,11 @@ import java.util.ArrayList;
 import io.github.omgimanerd.bouncysquare.game.platform.Platform;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
-/**
- * Created by omgimanerd on 3/18/15.
- */
 public class Square {
 
   // TODO: find a good acceleration factor
   private static final int ACCELERATION_Y = 0;
+  private static final float ROTATION_SPEED = 4.5f;
   private static final int[] SIDE_COLORS = new int[] {
       Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN};
   private static final int CORNER_DOT_COLOR = Color.GRAY;
@@ -32,7 +30,14 @@ public class Square {
   private RectF mappedSquare_;
   private float vx_;
   private float vy_;
-  private int orientation_;
+
+  /**
+   * When the square is rotating, targetOrientationAngle_ keeps track of what
+   * the final angle should be while orientationAngle_ rotates towards it.
+   * Both angles are in degrees.
+   */
+  private float orientationAngle_;
+  private float targetOrientationAngle_;
 
   private Paint[] drawnSquareSidePaints_;
   private Paint cornerDotPaint_;
@@ -44,7 +49,10 @@ public class Square {
                             Util.SCREEN_HEIGHT / 4 + SIDE_LENGTH / 2);
     vx_ = 0;
     vy_ = 0;
-    orientation_ = 0;
+
+    orientationAngle_ = 0;
+    targetOrientationAngle_ = 0;
+
     drawnSquareSidePaints_ = new Paint[4];
     for (int i = 0; i < 4; ++i) {
       drawnSquareSidePaints_[i] = new Paint();
@@ -58,21 +66,31 @@ public class Square {
   public void update(ViewPort viewport, ArrayList<Platform> platforms) {
     trueSquare_.offset(vx_, vy_);
     mappedSquare_ = viewport.mapToCanvas(trueSquare_);
+
+    // TODO: improve rotation logic
+    if (targetOrientationAngle_ > orientationAngle_) {
+      orientationAngle_ += ROTATION_SPEED;
+    } else if (targetOrientationAngle_ < orientationAngle_) {
+      orientationAngle_ -= ROTATION_SPEED;
+    }
   }
 
   public void render(Canvas canvas) {
+    canvas.save();
+    canvas.rotate(orientationAngle_,
+                  mappedSquare_.centerX(), mappedSquare_.centerY());
     canvas.drawLine(mappedSquare_.right, mappedSquare_.bottom,
                     mappedSquare_.left, mappedSquare_.bottom,
-                    drawnSquareSidePaints_[orientation_]);
+                    drawnSquareSidePaints_[0]);
     canvas.drawLine(mappedSquare_.left, mappedSquare_.bottom,
                     mappedSquare_.left, mappedSquare_.top,
-                    drawnSquareSidePaints_[(orientation_ + 1) % 4]);
+                    drawnSquareSidePaints_[1]);
     canvas.drawLine(mappedSquare_.left, mappedSquare_.top,
                     mappedSquare_.right, mappedSquare_.top,
-                    drawnSquareSidePaints_[(orientation_ + 2) % 4]);
+                    drawnSquareSidePaints_[2]);
     canvas.drawLine(mappedSquare_.right, mappedSquare_.top,
                     mappedSquare_.right, mappedSquare_.bottom,
-                    drawnSquareSidePaints_[(orientation_ + 3) % 4]);
+                    drawnSquareSidePaints_[3]);
     canvas.drawCircle(mappedSquare_.right, mappedSquare_.bottom,
                       STROKE_WIDTH / 2, cornerDotPaint_);
     canvas.drawCircle(mappedSquare_.left, mappedSquare_.bottom,
@@ -81,23 +99,24 @@ public class Square {
                       STROKE_WIDTH / 2, cornerDotPaint_);
     canvas.drawCircle(mappedSquare_.left, mappedSquare_.top,
                       STROKE_WIDTH / 2, cornerDotPaint_);
+    canvas.restore();
   }
 
   public RectF getSquare() {
     return trueSquare_;
   }
 
-  public int getOrientation() {
-    return orientation_;
+  public float getOrientationAngle() {
+    return orientationAngle_;
   }
 
   public void rotateClockwise() {
-    // TODO: animate this shit.
-    orientation_ = (orientation_ == 3) ? 0 : orientation_ + 1;
+    targetOrientationAngle_ = (targetOrientationAngle_ + 90) % 360;
   }
 
   public void rotateCounterClockwise() {
-    orientation_ = (orientation_ == 0) ? 3 : orientation_ - 1;
+    targetOrientationAngle_ = (targetOrientationAngle_ == 0) ? 270 :
+        targetOrientationAngle_ - 90;
   }
 
   public float getVx() {
