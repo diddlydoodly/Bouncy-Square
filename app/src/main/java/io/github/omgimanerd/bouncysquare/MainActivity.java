@@ -3,7 +3,11 @@ package io.github.omgimanerd.bouncysquare;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
+
+import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class MainActivity extends Activity {
 
@@ -12,7 +16,15 @@ public class MainActivity extends Activity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    requestWindowFeature(Window.FEATURE_NO_TITLE);
+    getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                         WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
     setContentView(R.layout.menu_layout);
+
+    Util.SCREEN_WIDTH = getResources().getDisplayMetrics().widthPixels;
+    Util.SCREEN_HEIGHT = getResources().getDisplayMetrics().heightPixels;
 
     init();
   }
