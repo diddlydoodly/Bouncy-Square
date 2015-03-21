@@ -55,7 +55,7 @@ public class GameView extends View implements SensorEventListener {
 
   public void onSensorChanged(SensorEvent event) {
     if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-      Log.d("accel", Arrays.toString(event.values));
+      game_.onTilt(event.values);
     }
   }
 

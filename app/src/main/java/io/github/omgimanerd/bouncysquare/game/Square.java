@@ -71,7 +71,8 @@ public class Square {
     if (trueSquare_.left < 0) {
       trueSquare_.offsetTo(0, trueSquare_.top);
     } else if (trueSquare_.right > Util.SCREEN_WIDTH) {
-      trueSquare_.offsetTo(Util.SCREEN_WIDTH, trueSquare_.top);
+      trueSquare_.offsetTo(Util.SCREEN_WIDTH - trueSquare_.width(),
+                           trueSquare_.top);
     }
 
     for (Platform platform : platforms) {
@@ -89,14 +90,13 @@ public class Square {
 
     // Incremements or decrements the orientation angle until it matches the
     // target orientation angle.
-    if (targetOrientationAngle_ == orientationAngle_) {
-      return;
-    }
-    if (Util.normalizeAngle(
+    if (targetOrientationAngle_ != orientationAngle_ &&
+        Util.normalizeAngle(
         targetOrientationAngle_ - orientationAngle_) <= 180) {
       orientationAngle_ = Util.normalizeAngle(
           orientationAngle_ + ROTATION_SPEED);
-    } else if (Util.normalizeAngle(
+    } else if (targetOrientationAngle_ != orientationAngle_ &&
+        Util.normalizeAngle(
         targetOrientationAngle_ - orientationAngle_) > 180) {
       orientationAngle_ = Util.normalizeAngle(
           orientationAngle_ - ROTATION_SPEED);

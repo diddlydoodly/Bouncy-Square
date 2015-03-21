@@ -1,6 +1,7 @@
 package io.github.omgimanerd.bouncysquare.game;
 
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
@@ -49,8 +50,7 @@ public class Game {
     }
   }
 
-  //TODO: orientation behavior
-  public void onOrientationChange(float[] orientations) {
-
+  public void onTilt(float[] accelerations) {
+    square_.setVx(-accelerations[0]);
   }
 }
