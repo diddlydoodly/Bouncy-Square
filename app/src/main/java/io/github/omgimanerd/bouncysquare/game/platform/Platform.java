@@ -3,9 +3,11 @@ package io.github.omgimanerd.bouncysquare.game.platform;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 
 import io.github.omgimanerd.bouncysquare.game.Square;
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
+import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Platform {
 
@@ -44,6 +46,7 @@ public class Platform {
 
   public Platform(float left, float top, float right, float bottom, int color) {
     truePlatform_ = new RectF(left, top, right, bottom);
+    Util.outputRect(truePlatform_);
     mappedPlatform_ = new RectF();
     isMoving_ = false;
     vx_ = 0;
@@ -56,8 +59,8 @@ public class Platform {
   }
 
   public void update(ViewPort viewPort) {
-    truePlatform_.offset(vx_, vy_);
     if (isMoving_) {
+      truePlatform_.offset(vx_, vy_);
       if (truePlatform_.left < moveRangeX_[0]) {
         vx_ = Math.abs(vx_);
       } else if (truePlatform_.right > moveRangeX_[1]) {
@@ -74,7 +77,7 @@ public class Platform {
   }
 
   public void render(Canvas canvas) {
-    canvas.drawRoundRect(mappedPlatform_, RX, RY, platformPaint_);
+    canvas.drawRect(mappedPlatform_, platformPaint_);
   }
 
   public void setPlatform(RectF rect) {
@@ -87,6 +90,10 @@ public class Platform {
 
   public RectF getPlatform() {
     return truePlatform_;
+  }
+
+  public RectF getMappedPlatform() {
+    return mappedPlatform_;
   }
 
   public float centerX() {

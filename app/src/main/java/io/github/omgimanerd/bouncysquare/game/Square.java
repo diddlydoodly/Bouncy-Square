@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -13,7 +14,7 @@ import io.github.omgimanerd.bouncysquare.util.Util;
 public class Square {
 
   // TODO: find a good acceleration factor
-  private static final int ACCELERATION_Y = 0;
+  private static final int ACCELERATION_Y = -2;
   private static final float ROTATION_SPEED = 9;
   private static final int CORNER_DOT_COLOR = Color.GRAY;
   private static final int SIDE_LENGTH = (int) (Util.SCREEN_WIDTH / 8);
@@ -46,9 +47,9 @@ public class Square {
 
   public Square() {
     trueSquare_ = new RectF(Util.SCREEN_WIDTH / 2 - SIDE_LENGTH / 2,
-                            Util.SCREEN_HEIGHT / 4 - SIDE_LENGTH / 2,
+                            Util.SCREEN_HEIGHT / 2 - SIDE_LENGTH / 2,
                             Util.SCREEN_WIDTH / 2 + SIDE_LENGTH / 2,
-                            Util.SCREEN_HEIGHT / 4 + SIDE_LENGTH / 2);
+                            Util.SCREEN_HEIGHT / 2 + SIDE_LENGTH / 2);
     mappedSquare_ = new RectF();
     vx_ = 0;
     vy_ = 0;
@@ -67,24 +68,28 @@ public class Square {
   }
 
   public void update(ViewPort viewport, ArrayList<Platform> platforms) {
-    trueSquare_.offset(vx_, vy_);
-    if (trueSquare_.left < 0) {
+    vy_ += ACCELERATION_Y;
+
+    if (trueSquare_.left + vx_ <= 0) {
       trueSquare_.offsetTo(0, trueSquare_.top);
-    } else if (trueSquare_.right > Util.SCREEN_WIDTH) {
+    } else if (trueSquare_.right + vx_ >= Util.SCREEN_WIDTH) {
       trueSquare_.offsetTo(Util.SCREEN_WIDTH - trueSquare_.width(),
                            trueSquare_.top);
+    } else {
+      trueSquare_.offset(vx_, 0);
+    }
+
+    if (trueSquare_.bottom + 2 * vy_ <= 0) {
+      trueSquare_.offsetTo(trueSquare_.left, trueSquare_.height());
+      vy_ = 0;
+    } else {
+      trueSquare_.offset(0, vy_);
     }
 
     for (Platform platform : platforms) {
-      if (RectF.intersects(trueSquare_, platform.getPlatform())) {
-        if (trueSquare_.centerY() > platform.centerY()) {
-          trueSquare_.offsetTo(trueSquare_.left, platform.getPlatform().top +
-              SIDE_LENGTH);
-          vy_ *= -1;
-        } else {
-          trueSquare_.offsetTo(trueSquare_.left, platform.getPlatform().bottom);
-          vy_ *= -1;
-        }
+      if (RectF.intersects(mappedSquare_, platform.getMappedPlatform())) {
+        Log.d("intersected", "f");
+        vy_ = 50;
       }
     }
 

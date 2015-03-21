@@ -1,6 +1,8 @@
 package io.github.omgimanerd.bouncysquare.game;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -12,6 +14,8 @@ import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Game {
 
+  private static final float TILT_SENSITIVITY = 1.5f;
+
   private ViewPort viewPort_;
   private Square square_;
   private PlatformManager platformManager_;
@@ -20,6 +24,9 @@ public class Game {
     viewPort_ = new ViewPort();
     square_ = new Square();
     platformManager_ = new PlatformManager();
+
+    platformManager_.generatePlatform(0, 100, Util.SCREEN_WIDTH, 0,
+                                       Color.BLUE);
   }
 
   public void update() {
@@ -51,6 +58,6 @@ public class Game {
   }
 
   public void onTilt(float[] accelerations) {
-    square_.setVx(-accelerations[0]);
+    square_.setVx(-accelerations[0] * TILT_SENSITIVITY);
   }
 }

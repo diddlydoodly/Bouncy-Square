@@ -1,6 +1,7 @@
 package io.github.omgimanerd.bouncysquare.game;
 
 import android.graphics.RectF;
+import android.util.Log;
 
 import io.github.omgimanerd.bouncysquare.util.Util;
 
@@ -20,9 +21,9 @@ public class ViewPort {
   }
 
   public void update(Square square) {
-    if (square.getSquare().top > upperScrollBound_) {
-      viewPort_.offsetTo(0, square.getSquare().top + Util.SCREEN_HEIGHT / 4);
-    }
+//    if (square.getSquare().top > upperScrollBound_) {
+//      viewPort_.offsetTo(0, square.getSquare().top + Util.SCREEN_HEIGHT / 4);
+//    }
   }
 
   public float getTop() {
