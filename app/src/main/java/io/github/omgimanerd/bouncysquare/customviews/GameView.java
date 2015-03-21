@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.Arrays;
+import java.util.List;
 
 import io.github.omgimanerd.bouncysquare.game.Game;
 
@@ -30,10 +31,14 @@ public class GameView extends View implements SensorEventListener {
 
     lastUpdateTime_ = currentTimeMillis();
     game_ = new Game();
+
     sensorManager_ = (SensorManager) getContext().getSystemService(
         Context.SENSOR_SERVICE);
-    sensorManager_.registerListener(this, sensorManager_.getDefaultSensor
-        (Sensor.TYPE_ORIENTATION), SensorManager.SENSOR_DELAY_FASTEST);
+
+    sensorManager_.registerListener(
+        this,
+        sensorManager_.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+        SensorManager.SENSOR_DELAY_FASTEST);
   }
 
   public void onDraw(Canvas canvas) {
@@ -45,10 +50,13 @@ public class GameView extends View implements SensorEventListener {
     invalidate();
   }
 
-  public void onAccuracyChanged(Sensor sensor, int value) {}
+  public void onAccuracyChanged(Sensor sensor, int accuracy) {
+  }
 
   public void onSensorChanged(SensorEvent event) {
-    game_.onOrientationChange(event.values);
+    if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+      Log.d("accel", Arrays.toString(event.values));
+    }
   }
 
   public boolean onTouchEvent(MotionEvent event) {
