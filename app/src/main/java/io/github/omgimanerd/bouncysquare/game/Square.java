@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -16,11 +15,11 @@ public class Square {
   // TODO: find a good acceleration factor
   private static final int ACCELERATION_Y = 0;
   private static final float ROTATION_SPEED = 9;
-  private static final int[] SIDE_COLORS = new int[] {
-      Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN};
   private static final int CORNER_DOT_COLOR = Color.GRAY;
   private static final int SIDE_LENGTH = (int) (Util.SCREEN_WIDTH / 8);
   private static final int STROKE_WIDTH = 10;
+  public static final int[] SIDE_COLORS = new int[] {
+      Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN};
 
   /**
    * trueSquare_ stores the absolute position of the square. We rely on the
@@ -50,6 +49,7 @@ public class Square {
                             Util.SCREEN_HEIGHT / 4 - SIDE_LENGTH / 2,
                             Util.SCREEN_WIDTH / 2 + SIDE_LENGTH / 2,
                             Util.SCREEN_HEIGHT / 4 + SIDE_LENGTH / 2);
+    mappedSquare_ = new RectF();
     vx_ = 0;
     vy_ = 0;
 
@@ -68,8 +68,27 @@ public class Square {
 
   public void update(ViewPort viewport, ArrayList<Platform> platforms) {
     trueSquare_.offset(vx_, vy_);
-    mappedSquare_ = viewport.mapToCanvas(trueSquare_);
+    if (trueSquare_.left < 0) {
+      trueSquare_.offsetTo(0, trueSquare_.top);
+    } else if (trueSquare_.right > Util.SCREEN_WIDTH) {
+      trueSquare_.offsetTo(Util.SCREEN_WIDTH, trueSquare_.top);
+    }
 
+    for (Platform platform : platforms) {
+      if (RectF.intersects(trueSquare_, platform.getPlatform())) {
+        if (trueSquare_.centerY() > platform.centerY()) {
+          trueSquare_.offsetTo(trueSquare_.left, platform.getPlatform().top +
+              SIDE_LENGTH);
+          vy_ *= -1;
+        } else {
+          trueSquare_.offsetTo(trueSquare_.left, platform.getPlatform().bottom);
+          vy_ *= -1;
+        }
+      }
+    }
+
+    // Incremements or decrements the orientation angle until it matches the
+    // target orientation angle.
     if (targetOrientationAngle_ == orientationAngle_) {
       return;
     }
@@ -82,6 +101,8 @@ public class Square {
       orientationAngle_ = Util.normalizeAngle(
           orientationAngle_ - ROTATION_SPEED);
     }
+
+    mappedSquare_ = viewport.mapToCanvas(trueSquare_);
   }
 
   public void render(Canvas canvas) {
@@ -117,6 +138,10 @@ public class Square {
 
   public float getOrientationAngle() {
     return orientationAngle_;
+  }
+
+  public int getBottomColor() {
+    return (int) (orientationAngle_ / 90);
   }
 
   public void rotateClockwise() {

@@ -6,33 +6,31 @@ import android.view.MotionEvent;
 import java.util.ArrayList;
 
 import io.github.omgimanerd.bouncysquare.game.platform.Platform;
+import io.github.omgimanerd.bouncysquare.game.platform.PlatformManager;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Game {
 
   private ViewPort viewPort_;
   private Square square_;
-  private ArrayList<Platform> platforms_;
+  private PlatformManager platformManager_;
 
   public Game() {
     viewPort_ = new ViewPort();
     square_ = new Square();
-    platforms_ = new ArrayList<>();
+    platformManager_ = new PlatformManager();
   }
 
   public void update() {
     viewPort_.update(square_);
-    square_.update(viewPort_, platforms_);
-    for (Platform platform : platforms_) {
-      platform.update(viewPort_);
-    }
+    square_.update(viewPort_, platformManager_.getPlatforms());
+    //TODO: fix platform generation
+    platformManager_.update(viewPort_);
   }
 
   public void render(Canvas canvas) {
     square_.render(canvas);
-    for (Platform platform : platforms_) {
-      platform.render(canvas);
-    }
+    platformManager_.render(canvas);
   }
 
   public void onTouch(MotionEvent event) {
@@ -49,5 +47,10 @@ public class Game {
       default:
         break;
     }
+  }
+
+  //TODO: orientation behavior
+  public void onOrientationChange(float[] orientations) {
+
   }
 }

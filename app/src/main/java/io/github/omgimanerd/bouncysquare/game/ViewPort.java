@@ -11,18 +11,26 @@ import io.github.omgimanerd.bouncysquare.util.Util;
  */
 public class ViewPort {
 
-  private float minY_;
+  private RectF viewPort_;
   private float upperScrollBound_;
 
   public ViewPort() {
-    minY_ = 0;
+    viewPort_ = new RectF(0, Util.SCREEN_HEIGHT, Util.SCREEN_WIDTH, 0);
     upperScrollBound_ = Util.SCREEN_HEIGHT / 3 * 4;
   }
 
   public void update(Square square) {
     if (square.getSquare().top > upperScrollBound_) {
-      minY_ = square.getSquare().top - Util.SCREEN_WIDTH / 3 * 4;
+      viewPort_.offsetTo(0, square.getSquare().top + Util.SCREEN_HEIGHT / 4);
     }
+  }
+
+  public float getTop() {
+    return viewPort_.top;
+  }
+
+  public float getBottom() {
+    return viewPort_.bottom;
   }
 
   /**
@@ -33,7 +41,18 @@ public class ViewPort {
    */
   public RectF mapToCanvas(RectF rect) {
     RectF mappedRectF = new RectF(rect);
-    mappedRectF.offsetTo(rect.left, Util.SCREEN_HEIGHT - (rect.top - minY_));
+    mappedRectF.offsetTo(rect.left, Util.SCREEN_HEIGHT - (rect.top -
+        viewPort_.bottom));
     return mappedRectF;
+  }
+
+  /**
+   * Returns if the given RectF is visible inside of the current viewport
+   * bounds.
+   * @param rect
+   * @return
+   */
+  public boolean isVisible(RectF rect) {
+    return viewPort_.intersect(rect);
   }
 }
