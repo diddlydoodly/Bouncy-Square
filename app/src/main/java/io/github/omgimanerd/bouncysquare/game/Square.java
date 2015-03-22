@@ -12,15 +12,19 @@ import io.github.omgimanerd.bouncysquare.game.platform.Platform;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Square {
-
   // TODO: find a good acceleration factor
-  private static final int ACCELERATION_Y = -2;
+  private static final float ACCELERATION_Y = -0.75f;
   private static final float ROTATION_SPEED = 9;
   private static final int CORNER_DOT_COLOR = Color.GRAY;
   private static final int SIDE_LENGTH = (int) (Util.SCREEN_WIDTH / 8);
   private static final int STROKE_WIDTH = 10;
   public static final int[] SIDE_COLORS = new int[] {
       Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN};
+  private static final RectF STARTING_RECT = new RectF(
+      Util.SCREEN_WIDTH / 2 - SIDE_LENGTH / 2,
+      Util.SCREEN_HEIGHT / 2 + SIDE_LENGTH / 2,
+      Util.SCREEN_WIDTH / 2 + SIDE_LENGTH / 2,
+      Util.SCREEN_HEIGHT / 2 - SIDE_LENGTH / 2);
 
   /**
    * trueSquare_ stores the absolute position of the square. We rely on the
@@ -46,10 +50,7 @@ public class Square {
   private Paint cornerDotPaint_;
 
   public Square() {
-    trueSquare_ = new RectF(Util.SCREEN_WIDTH / 2 - SIDE_LENGTH / 2,
-                            Util.SCREEN_HEIGHT / 2 - SIDE_LENGTH / 2,
-                            Util.SCREEN_WIDTH / 2 + SIDE_LENGTH / 2,
-                            Util.SCREEN_HEIGHT / 2 + SIDE_LENGTH / 2);
+    trueSquare_ = new RectF(STARTING_RECT);
     mappedSquare_ = new RectF();
     vx_ = 0;
     vy_ = 0;
@@ -79,14 +80,15 @@ public class Square {
       trueSquare_.offset(vx_, 0);
     }
 
-    if (trueSquare_.bottom + 2 * vy_ <= 0) {
-      trueSquare_.offsetTo(trueSquare_.left, trueSquare_.height());
+    if (trueSquare_.bottom + vy_ <= 0) {
+      trueSquare_.offsetTo(trueSquare_.left, -trueSquare_.height());
       vy_ = 0;
     } else {
       trueSquare_.offset(0, vy_);
     }
 
     for (Platform platform : platforms) {
+      Util.outputRect(getSquare());
       if (RectF.intersects(mappedSquare_, platform.getMappedPlatform())) {
         Log.d("intersected", "f");
         vy_ = 50;

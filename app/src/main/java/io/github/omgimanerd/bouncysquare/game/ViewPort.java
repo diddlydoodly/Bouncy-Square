@@ -6,7 +6,6 @@ import android.util.Log;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 /**
- * Created by omgimanerd on 3/18/15.
  * ViewPort's coordinates are absolute coordinates and not canvas coordinates.
  * ViewPort will map given coordinates to the canvas.
  */
@@ -21,9 +20,9 @@ public class ViewPort {
   }
 
   public void update(Square square) {
-//    if (square.getSquare().top > upperScrollBound_) {
-//      viewPort_.offsetTo(0, square.getSquare().top + Util.SCREEN_HEIGHT / 4);
-//    }
+    if (square.getSquare().top > upperScrollBound_) {
+      viewPort_.offsetTo(0, square.getSquare().top + Util.SCREEN_HEIGHT / 4);
+    }
   }
 
   public float getTop() {

@@ -25,7 +25,7 @@ public class Game {
     square_ = new Square();
     platformManager_ = new PlatformManager();
 
-    platformManager_.generatePlatform(0, 100, Util.SCREEN_WIDTH, 0,
+    platformManager_.generatePlatform(0, 50, Util.SCREEN_WIDTH / 2, 0,
                                        Color.BLUE);
   }
 
