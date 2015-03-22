@@ -34,11 +34,18 @@ public class GameView extends View implements SensorEventListener {
 
     sensorManager_ = (SensorManager) getContext().getSystemService(
         Context.SENSOR_SERVICE);
+    registerSensorListener();
+  }
 
+  public void registerSensorListener() {
     sensorManager_.registerListener(
         this,
         sensorManager_.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
         SensorManager.SENSOR_DELAY_FASTEST);
+  }
+
+  public void unregisterSensorListener() {
+    sensorManager_.unregisterListener(this);
   }
 
   public void onDraw(Canvas canvas) {
@@ -61,6 +68,6 @@ public class GameView extends View implements SensorEventListener {
 
   public boolean onTouchEvent(MotionEvent event) {
     game_.onTouch(event);
-    return true;
+    return super.onTouchEvent(event);
   }
 }

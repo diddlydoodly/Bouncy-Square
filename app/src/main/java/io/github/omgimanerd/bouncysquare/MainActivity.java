@@ -8,11 +8,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import io.github.omgimanerd.bouncysquare.customviews.GameView;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class MainActivity extends Activity {
 
   private Button startButton_;
+  private GameView gameView_;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,21 @@ public class MainActivity extends Activity {
     init();
   }
 
+  /**
+  public void onResume() {
+    if (gameView_ != null) {
+      gameView_.registerSensorListener();
+    }
+    super.onResume();
+  }
+
+  public void onPause() {
+    if (gameView_ != null) {
+      gameView_.unregisterSensorListener();
+    }
+    super.onPause();
+  }*/
+
   public void init() {
     startButton_ = (Button) findViewById(R.id.startButton);
     startButton_.setOnClickListener(new View.OnClickListener() {
@@ -37,5 +54,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.game_layout);
       }
     });
+
+    gameView_ = (GameView) findViewById(R.id.gameView);
   }
 }

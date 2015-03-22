@@ -80,13 +80,13 @@ public class Square {
       trueSquare_.offset(vx_, 0);
     }
 
-
     for (Platform platform : platforms) {
-      if (Util.intersects(trueSquare_, platform.getPlatform())) {
+      if (vy_ < 0 && Util.intersects(trueSquare_, platform.getPlatform())) {
         vy_ = 25;
       }
     }
 
+    // Bottom case, never actually happens.
     if (trueSquare_.bottom + vy_ <= 0) {
       // Since RectF expects bottom > top, trueSquare_.height() returns
       // negative.

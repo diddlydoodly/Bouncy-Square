@@ -35,9 +35,6 @@ public class PlatformManager {
         i++;
       }
     }
-    if (platforms_.size() < 3) {
-      generateRandomPlatform(viewPort);
-    }
   }
 
   public void render(Canvas canvas) {
@@ -56,9 +53,9 @@ public class PlatformManager {
   public void generateRandomPlatform(ViewPort viewPort) {
     Random rand_ = new Random();
     float x = rand_.nextInt((int) (Util.SCREEN_WIDTH - PLATFORM_LENGTH));
-    float y = viewPort.getTop() + rand_.nextInt((int) (Util.SCREEN_HEIGHT / 4));
+    float y = viewPort.getTop() + rand_.nextInt((int) (Util.SCREEN_HEIGHT / 6));
     int color = PLATFORM_COLORS[rand_.nextInt(PLATFORM_COLORS.length)];
-    platforms_.add(new Platform(x, y, x - PLATFORM_LENGTH, y - PLATFORM_HEIGHT,
+    platforms_.add(new Platform(x, y, x + PLATFORM_LENGTH, y - PLATFORM_HEIGHT,
                                 color));
   }
 

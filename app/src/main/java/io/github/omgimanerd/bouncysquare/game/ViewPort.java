@@ -20,7 +20,6 @@ public class ViewPort {
   }
 
   public void update(Square square) {
-    Log.d("bound", square.getSquare().top + " " + upperScrollBound_);
     if (square.getSquare().top > upperScrollBound_) {
       upperScrollBound_ = square.getSquare().top;
       viewPort_.offsetTo(0, upperScrollBound_ + Util.SCREEN_HEIGHT / 4);

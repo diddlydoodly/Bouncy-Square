@@ -2,19 +2,15 @@ package io.github.omgimanerd.bouncysquare.game;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.util.Log;
 import android.view.MotionEvent;
 
-import java.util.ArrayList;
-
-import io.github.omgimanerd.bouncysquare.game.platform.Platform;
 import io.github.omgimanerd.bouncysquare.game.platform.PlatformManager;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Game {
 
   private static final float TILT_SENSITIVITY = 1.5f;
+  private static final int FLOOR_HEIGHT = 20;
 
   private ViewPort viewPort_;
   private Square square_;
@@ -25,10 +21,10 @@ public class Game {
     square_ = new Square();
     platformManager_ = new PlatformManager();
 
-    platformManager_.generatePlatform(0, 50, Util.SCREEN_WIDTH / 2, 0,
-                                       Color.BLUE);
+    platformManager_.generatePlatform(0, 20, Util.SCREEN_WIDTH, 0, Color.BLACK);
+
     platformManager_.generatePlatform(0, Util.SCREEN_HEIGHT / 2,
-                                      Util.SCREEN_WIDTH / 2,
+                                      Util.SCREEN_WIDTH / 3,
                                       Util.SCREEN_HEIGHT / 2 - 50,
                                       Color.BLUE);
   }
@@ -37,6 +33,9 @@ public class Game {
     viewPort_.update(square_);
     square_.update(viewPort_, platformManager_.getPlatforms());
     platformManager_.update(viewPort_);
+    if (platformManager_.getPlatforms().size() < 3) {
+      platformManager_.generateRandomPlatform(viewPort_);
+    }
   }
 
   public void render(Canvas canvas) {
