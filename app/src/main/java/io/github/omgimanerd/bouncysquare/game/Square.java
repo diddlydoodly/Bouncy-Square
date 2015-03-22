@@ -80,19 +80,20 @@ public class Square {
       trueSquare_.offset(vx_, 0);
     }
 
+
+    for (Platform platform : platforms) {
+      if (Util.intersects(trueSquare_, platform.getPlatform())) {
+        vy_ = 25;
+      }
+    }
+
     if (trueSquare_.bottom + vy_ <= 0) {
+      // Since RectF expects bottom > top, trueSquare_.height() returns
+      // negative.
       trueSquare_.offsetTo(trueSquare_.left, -trueSquare_.height());
       vy_ = 0;
     } else {
       trueSquare_.offset(0, vy_);
-    }
-
-    for (Platform platform : platforms) {
-      Util.outputRect(getSquare());
-      if (RectF.intersects(mappedSquare_, platform.getMappedPlatform())) {
-        Log.d("intersected", "f");
-        vy_ = 50;
-      }
     }
 
     // Incremements or decrements the orientation angle until it matches the
@@ -110,6 +111,9 @@ public class Square {
     }
 
     mappedSquare_ = viewport.mapToCanvas(trueSquare_);
+    // This is necessary to since the drawing using lines goes out of the
+    // bounding box.
+    mappedSquare_.inset(STROKE_WIDTH, -STROKE_WIDTH);
   }
 
   public void render(Canvas canvas) {

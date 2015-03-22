@@ -16,12 +16,14 @@ public class ViewPort {
 
   public ViewPort() {
     viewPort_ = new RectF(0, Util.SCREEN_HEIGHT, Util.SCREEN_WIDTH, 0);
-    upperScrollBound_ = Util.SCREEN_HEIGHT / 3 * 4;
+    upperScrollBound_ = Util.SCREEN_HEIGHT * 3 / 4;
   }
 
   public void update(Square square) {
+    Log.d("bound", square.getSquare().top + " " + upperScrollBound_);
     if (square.getSquare().top > upperScrollBound_) {
-      viewPort_.offsetTo(0, square.getSquare().top + Util.SCREEN_HEIGHT / 4);
+      upperScrollBound_ = square.getSquare().top;
+      viewPort_.offsetTo(0, upperScrollBound_ + Util.SCREEN_HEIGHT / 4);
     }
   }
 
@@ -53,6 +55,6 @@ public class ViewPort {
    * @return
    */
   public boolean isVisible(RectF rect) {
-    return viewPort_.intersect(rect);
+    return Util.intersects(viewPort_, rect);
   }
 }

@@ -27,17 +27,17 @@ public class PlatformManager {
     for (Platform platform : platforms_) {
       platform.update(viewPort);
     }
-//    int i = 0;
-//    while (i < platforms_.size()) {
-//      if (!viewPort.isVisible(platforms_.get(i).getPlatform())) {
-//        platforms_.remove(i);
-//      } else {
-//        i++;
-//      }
-//    }
-//    if (platforms_.size() < 3) {
-//      generateRandomPlatform(viewPort);
-//    }
+    int i = 0;
+    while (i < platforms_.size()) {
+      if (!viewPort.isVisible(platforms_.get(i).getPlatform())) {
+        platforms_.remove(i);
+      } else {
+        i++;
+      }
+    }
+    if (platforms_.size() < 3) {
+      generateRandomPlatform(viewPort);
+    }
   }
 
   public void render(Canvas canvas) {

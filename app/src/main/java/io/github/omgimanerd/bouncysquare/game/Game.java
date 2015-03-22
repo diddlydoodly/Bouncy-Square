@@ -27,12 +27,15 @@ public class Game {
 
     platformManager_.generatePlatform(0, 50, Util.SCREEN_WIDTH / 2, 0,
                                        Color.BLUE);
+    platformManager_.generatePlatform(0, Util.SCREEN_HEIGHT / 2,
+                                      Util.SCREEN_WIDTH / 2,
+                                      Util.SCREEN_HEIGHT / 2 - 50,
+                                      Color.BLUE);
   }
 
   public void update() {
     viewPort_.update(square_);
     square_.update(viewPort_, platformManager_.getPlatforms());
-    //TODO: fix platform generation
     platformManager_.update(viewPort_);
   }
 

@@ -46,7 +46,6 @@ public class Platform {
 
   public Platform(float left, float top, float right, float bottom, int color) {
     truePlatform_ = new RectF(left, top, right, bottom);
-    Util.outputRect(truePlatform_);
     mappedPlatform_ = new RectF();
     isMoving_ = false;
     vx_ = 0;
