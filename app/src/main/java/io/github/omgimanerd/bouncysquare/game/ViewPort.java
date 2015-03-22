@@ -42,7 +42,7 @@ public class ViewPort {
    */
   public RectF mapToCanvas(RectF rect) {
     RectF mappedRectF = new RectF(rect);
-    mappedRectF.offsetTo(rect.left, Util.SCREEN_HEIGHT - (rect.top -
+    mappedRectF.offsetTo(rect.left, Util.SCREEN_HEIGHT - (rect.bottom -
         viewPort_.bottom));
     return mappedRectF;
   }
