@@ -6,5 +6,8 @@ package io.github.omgimanerd.bouncysquare.util;
  * Square.
  */
 public class SensorValues {
+
+  public static float SENSITIVITY = 1.5f;
   public static float[] ACCELEROMETER_VALUES = new float[3];
+
 }

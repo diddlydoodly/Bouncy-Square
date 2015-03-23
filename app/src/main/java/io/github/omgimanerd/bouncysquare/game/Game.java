@@ -9,9 +9,6 @@ import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Game {
 
-  private static final float TILT_SENSITIVITY = 1.5f;
-  private static final int FLOOR_HEIGHT = 20;
-
   private ViewPort viewPort_;
   private Square square_;
   private PlatformManager platformManager_;

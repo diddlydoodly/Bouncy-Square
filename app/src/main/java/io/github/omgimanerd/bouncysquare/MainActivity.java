@@ -68,7 +68,8 @@ public class MainActivity extends Activity implements SensorEventListener {
   public void onSensorChanged(SensorEvent event) {
     if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
       for (int i = 0; i < SensorValues.ACCELEROMETER_VALUES.length; ++i) {
-        SensorValues.ACCELEROMETER_VALUES[i] = event.values[i];
+        SensorValues.ACCELEROMETER_VALUES[i] = event.values[i] *
+            SensorValues.SENSITIVITY;
       }
     }
   }
