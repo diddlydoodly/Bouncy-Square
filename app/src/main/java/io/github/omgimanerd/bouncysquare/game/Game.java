@@ -58,8 +58,4 @@ public class Game {
         break;
     }
   }
-
-  public void onTilt(float[] accelerations) {
-    square_.setVx(-accelerations[0] * TILT_SENSITIVITY);
-  }
 }

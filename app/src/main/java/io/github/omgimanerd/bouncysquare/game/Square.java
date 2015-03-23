@@ -9,6 +9,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import io.github.omgimanerd.bouncysquare.game.platform.Platform;
+import io.github.omgimanerd.bouncysquare.util.SensorValues;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Square {
@@ -69,6 +70,7 @@ public class Square {
   }
 
   public void update(ViewPort viewport, ArrayList<Platform> platforms) {
+    vx_ = -SensorValues.ACCELEROMETER_VALUES[0];
     vy_ += ACCELERATION_Y;
 
     if (trueSquare_.left + vx_ <= 0) {

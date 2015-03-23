@@ -18,7 +18,7 @@ import io.github.omgimanerd.bouncysquare.game.Game;
 
 import static java.lang.System.currentTimeMillis;
 
-public class GameView extends View implements SensorEventListener {
+public class GameView extends View {
 
   private static final int FPS = 60;
 
@@ -31,21 +31,6 @@ public class GameView extends View implements SensorEventListener {
 
     lastUpdateTime_ = currentTimeMillis();
     game_ = new Game();
-
-    sensorManager_ = (SensorManager) getContext().getSystemService(
-        Context.SENSOR_SERVICE);
-    registerSensorListener();
-  }
-
-  public void registerSensorListener() {
-    sensorManager_.registerListener(
-        this,
-        sensorManager_.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-        SensorManager.SENSOR_DELAY_FASTEST);
-  }
-
-  public void unregisterSensorListener() {
-    sensorManager_.unregisterListener(this);
   }
 
   public void onDraw(Canvas canvas) {
@@ -55,15 +40,6 @@ public class GameView extends View implements SensorEventListener {
     }
 
     invalidate();
-  }
-
-  public void onAccuracyChanged(Sensor sensor, int accuracy) {
-  }
-
-  public void onSensorChanged(SensorEvent event) {
-    if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-      game_.onTilt(event.values);
-    }
   }
 
   public boolean onTouchEvent(MotionEvent event) {
