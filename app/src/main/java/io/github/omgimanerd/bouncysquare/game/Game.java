@@ -1,31 +1,53 @@
 package io.github.omgimanerd.bouncysquare.game;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.util.Log;
 import android.view.MotionEvent;
 
+import io.github.omgimanerd.bouncysquare.R;
 import io.github.omgimanerd.bouncysquare.game.platform.PlatformManager;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Game {
 
+  public static int[] STANDARD_COLORS = new int[4];
+
   private ViewPort viewPort_;
   private Square square_;
   private PlatformManager platformManager_;
 
-  private boolean isLost_;
+  private int heightScore_;
+  private Paint scoreTextPaint_;
 
-  public Game() {
+  public Game(Context context) {
+    Resources res = context.getResources();
+    STANDARD_COLORS[0] = res.getColor(R.color.STANDARD_RED);
+    STANDARD_COLORS[1] = res.getColor(R.color.STANDARD_BLUE);
+    STANDARD_COLORS[2] = res.getColor(R.color.STANDARD_GREEN);
+    STANDARD_COLORS[3] = res.getColor(R.color.STANDARD_YELLOW);
+
     viewPort_ = new ViewPort();
     square_ = new Square();
     platformManager_ = new PlatformManager();
 
     platformManager_.generatePlatform(0, 20, Util.SCREEN_WIDTH, 0, Color.BLACK);
 
-    platformManager_.generatePlatform(0, Util.SCREEN_HEIGHT / 2,
-                                      Util.SCREEN_WIDTH / 3,
-                                      Util.SCREEN_HEIGHT / 2 - 50,
-                                      Color.BLUE);
+    platformManager_.generatePlatform(
+        0,
+        Util.SCREEN_HEIGHT / 2,
+        Util.SCREEN_WIDTH / 3,
+        Util.SCREEN_HEIGHT / 2 - 50,
+        Game.STANDARD_COLORS[(int) (Math.random() * 4)]);
+
+    heightScore_ = 0;
+    scoreTextPaint_ = new Paint();
+    scoreTextPaint_.setColor(Color.BLACK);
+    scoreTextPaint_.setTextSize(res.getDimensionPixelSize(
+        R.dimen.SCORE_TEXT_SIZE));
   }
 
   public void update() {
@@ -35,11 +57,20 @@ public class Game {
     if (platformManager_.getPlatforms().size() < 3) {
       platformManager_.generateRandomPlatform(viewPort_);
     }
+
+    if (square_.getSquare().top > heightScore_) {
+      heightScore_ = (int) square_.getSquare().top;
+    }
   }
 
   public void render(Canvas canvas) {
     square_.render(canvas);
     platformManager_.render(canvas);
+
+    canvas.drawText(heightScore_ + "",
+                    scoreTextPaint_.getTextSize(),
+                    scoreTextPaint_.getTextSize(),
+                    scoreTextPaint_);
   }
 
   public boolean isLost() {
@@ -60,5 +91,9 @@ public class Game {
       default:
         break;
     }
+  }
+
+  public int getScore() {
+    return heightScore_;
   }
 }

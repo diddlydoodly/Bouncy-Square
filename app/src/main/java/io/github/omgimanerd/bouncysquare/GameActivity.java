@@ -3,29 +3,31 @@ package io.github.omgimanerd.bouncysquare;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-
-import java.util.Arrays;
+import android.widget.TextView;
 
 import io.github.omgimanerd.bouncysquare.util.SensorValues;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class GameActivity extends Activity implements SensorEventListener {
 
+  private Resources res_;
   private SensorManager sensorManager_;
 
   private RelativeLayout lostOverlay_;
-  private Button lostOverlayButton_;
+  private Button mainMenuButton_;
+  private TextView scoreTextView_;
+  private TextView highscoreTextView_;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +46,12 @@ public class GameActivity extends Activity implements SensorEventListener {
   }
 
   public void init() {
+    res_ = getResources();
     sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
     lostOverlay_ = (RelativeLayout) findViewById(R.id.lostOverlay);
-    lostOverlayButton_ = (Button) findViewById(R.id.lostOverlayButton);
-    lostOverlayButton_.setOnClickListener(new View.OnClickListener() {
+    mainMenuButton_ = (Button) findViewById(R.id.mainMenuButton);
+    mainMenuButton_.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
         Intent intent = new Intent(getApplicationContext(),
                                    MenuActivity.class);
@@ -58,10 +61,14 @@ public class GameActivity extends Activity implements SensorEventListener {
         finish();
       }
     });
+    scoreTextView_ = (TextView) findViewById(R.id.scoreTextView);
+    highscoreTextView_ = (TextView) findViewById(R.id.highscoreTextView);
   }
 
-  public void showLostOverlay() {
+  public void showLostOverlay(int score, int highscore) {
     lostOverlay_.setVisibility(View.VISIBLE);
+    scoreTextView_.setText(res_.getString(R.string.score) + score);
+    highscoreTextView_.setText(res_.getString(R.string.highscore) + highscore);
   }
 
   public void onResume() {

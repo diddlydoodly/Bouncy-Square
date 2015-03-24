@@ -13,16 +13,35 @@
       android:layout_height="fill_parent"
       android:layout_margin="@dimen/LOST_OVERLAY_MARGIN"
       android:id="@+id/lostOverlay"
-      android:visibility="gone">
+      android:visibility="visible">
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/main_menu"
-        android:id="@+id/lostOverlayButton"
+        android:id="@+id/mainMenuButton"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/BUTTON_TEXT_SIZE"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/scoreTextView"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/SCORE_TEXT_SIZE"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/highscoreTextView"
+        android:layout_below="@+id/scoreTextView"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/HIGHSCORE_TEXT_SIZE"/>
   </RelativeLayout>
 
 </RelativeLayout>

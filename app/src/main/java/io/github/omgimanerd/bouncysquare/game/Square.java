@@ -1,5 +1,6 @@
 package io.github.omgimanerd.bouncysquare.game;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -8,6 +9,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import io.github.omgimanerd.bouncysquare.R;
 import io.github.omgimanerd.bouncysquare.game.platform.Platform;
 import io.github.omgimanerd.bouncysquare.util.SensorValues;
 import io.github.omgimanerd.bouncysquare.util.Util;
@@ -18,13 +20,12 @@ public class Square {
   private static final int CORNER_DOT_COLOR = Color.GRAY;
   private static final int SIDE_LENGTH = (int) (Util.SCREEN_WIDTH / 8);
   private static final int STROKE_WIDTH = 10;
-  public static final int[] SIDE_COLORS = new int[] {
-      Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN};
   private static final RectF STARTING_RECT = new RectF(
       Util.SCREEN_WIDTH / 2 - SIDE_LENGTH / 2,
       Util.SCREEN_HEIGHT / 2 + SIDE_LENGTH / 2,
       Util.SCREEN_WIDTH / 2 + SIDE_LENGTH / 2,
-      Util.SCREEN_HEIGHT / 2 - SIDE_LENGTH / 2);
+      Util.SCREEN_HEIGHT / 2 - SIDE_LENGTH / 2
+  );
 
   /**
    * trueSquare_ stores the absolute position of the square. We rely on the
@@ -67,7 +68,7 @@ public class Square {
     drawnSquareSidePaints_ = new Paint[4];
     for (int i = 0; i < 4; ++i) {
       drawnSquareSidePaints_[i] = new Paint();
-      drawnSquareSidePaints_[i].setColor(SIDE_COLORS[i]);
+      drawnSquareSidePaints_[i].setColor(Game.STANDARD_COLORS[i]);
       drawnSquareSidePaints_[i].setStrokeWidth(STROKE_WIDTH);
     }
     cornerDotPaint_ = new Paint();
@@ -174,7 +175,7 @@ public class Square {
   }
 
   public int getBottomColor() {
-    return SIDE_COLORS[Math.round(((orientationAngle_ + 180) % 360) / 90) % 4];
+    return Game.STANDARD_COLORS[Math.round(((orientationAngle_ + 180) % 360) / 90) % 4];
   }
 
   public void rotateClockwise() {
