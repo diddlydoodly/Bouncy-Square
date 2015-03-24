@@ -12,9 +12,6 @@ import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Platform {
 
-  private static final int RX = 10;
-  private static final int RY = 10;
-
   /**
    * truePlatform_ stores the absolute position of the platform,
    * while mappedPlatform_ stores the canvas coordinates of the platform.

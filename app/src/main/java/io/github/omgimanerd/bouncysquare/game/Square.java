@@ -14,7 +14,7 @@ import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Square {
   private static final float ACCELERATION_Y = -0.75f;
-  private static final float ROTATION_SPEED = 10;
+  private static final float ROTATION_SPEED = 15;
   private static final int CORNER_DOT_COLOR = Color.GRAY;
   private static final int SIDE_LENGTH = (int) (Util.SCREEN_WIDTH / 8);
   private static final int STROKE_WIDTH = 10;
