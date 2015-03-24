@@ -2,25 +2,30 @@ package io.github.omgimanerd.bouncysquare;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
-import io.github.omgimanerd.bouncysquare.customviews.GameView;
+import java.util.Arrays;
+
 import io.github.omgimanerd.bouncysquare.util.SensorValues;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
-public class MainActivity extends Activity implements SensorEventListener {
+public class GameActivity extends Activity implements SensorEventListener {
 
   private SensorManager sensorManager_;
 
-  private Button startButton_;
+  private RelativeLayout lostOverlay_;
+  private Button lostOverlayButton_;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -30,24 +35,33 @@ public class MainActivity extends Activity implements SensorEventListener {
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                          WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-    setContentView(R.layout.menu_layout);
-
-
-    sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-
     Util.SCREEN_WIDTH = getResources().getDisplayMetrics().widthPixels;
     Util.SCREEN_HEIGHT = getResources().getDisplayMetrics().heightPixels;
+
+    setContentView(R.layout.game_layout);
 
     init();
   }
 
   public void init() {
-    startButton_ = (Button) findViewById(R.id.startButton);
-    startButton_.setOnClickListener(new View.OnClickListener() {
+    sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+    lostOverlay_ = (RelativeLayout) findViewById(R.id.lostOverlay);
+    lostOverlayButton_ = (Button) findViewById(R.id.lostOverlayButton);
+    lostOverlayButton_.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
-        setContentView(R.layout.game_layout);
+        Intent intent = new Intent(getApplicationContext(),
+                                   MenuActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.abc_slide_in_bottom,
+                                  R.anim.abc_slide_out_top);
+        finish();
       }
     });
+  }
+
+  public void showLostOverlay() {
+    lostOverlay_.setVisibility(View.VISIBLE);
   }
 
   public void onResume() {
@@ -73,5 +87,4 @@ public class MainActivity extends Activity implements SensorEventListener {
       }
     }
   }
-
 }

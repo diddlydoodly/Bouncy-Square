@@ -38,6 +38,7 @@ public class Square {
   private RectF mappedSquare_;
   private float vx_;
   private float vy_;
+  private float upwardBounceVelocity_;
 
   /**
    * When the square is rotating, targetOrientationAngle_ keeps track of what
@@ -55,6 +56,7 @@ public class Square {
     mappedSquare_ = new RectF();
     vx_ = 0;
     vy_ = 0;
+    upwardBounceVelocity_ = Util.SCREEN_HEIGHT / 30;
 
     orientationAngle_ = 0;
     targetOrientationAngle_ = 0;
@@ -70,9 +72,14 @@ public class Square {
   }
 
   public void update(ViewPort viewport, ArrayList<Platform> platforms) {
+    // Updates the square's horizontal velocity according to the tilt of the
+    // phone.
     vx_ = -SensorValues.ACCELEROMETER_VALUES[0];
+    // Updates the vertical velocity by constantly accelerating downward.
     vy_ += ACCELERATION_Y;
 
+    // Prevents the square from clipping into the left or right side of the
+    // screen.
     if (trueSquare_.left + vx_ <= 0) {
       trueSquare_.offsetTo(0, trueSquare_.top);
     } else if (trueSquare_.right + vx_ >= Util.SCREEN_WIDTH) {
@@ -82,9 +89,13 @@ public class Square {
       trueSquare_.offset(vx_, 0);
     }
 
+    // Handles upward velocity when the square bounces off of a platform.
+    // The square should bounce if it is falling downward and is above a
+    // platform.
     for (Platform platform : platforms) {
-      if (vy_ < 0 && Util.intersects(trueSquare_, platform.getPlatform())) {
-        vy_ = 25;
+      if (Util.intersects(trueSquare_, platform.getPlatform()) &&
+          vy_ < 0) {
+        vy_ = upwardBounceVelocity_;
       }
     }
 
@@ -95,6 +106,7 @@ public class Square {
       trueSquare_.offsetTo(trueSquare_.left, -trueSquare_.height());
       vy_ = 0;
     } else {
+      // Updates the square's vertical position.
       trueSquare_.offset(0, vy_);
     }
 

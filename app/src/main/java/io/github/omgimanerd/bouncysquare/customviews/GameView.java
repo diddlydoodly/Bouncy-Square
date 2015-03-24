@@ -2,18 +2,13 @@ package io.github.omgimanerd.bouncysquare.customviews;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.RelativeLayout;
 
-import java.util.Arrays;
-import java.util.List;
-
+import io.github.omgimanerd.bouncysquare.GameActivity;
+import io.github.omgimanerd.bouncysquare.R;
 import io.github.omgimanerd.bouncysquare.game.Game;
 
 import static java.lang.System.currentTimeMillis;
@@ -24,7 +19,6 @@ public class GameView extends View {
 
   private long lastUpdateTime_;
   private Game game_;
-  private SensorManager sensorManager_;
 
   public GameView(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -38,7 +32,10 @@ public class GameView extends View {
       game_.update();
       game_.render(canvas);
     }
-
+    if (game_.isLost()) {
+      // Bootleggy upward reference.
+      ((GameActivity) getContext()).showLostOverlay();
+    }
     invalidate();
   }
 

@@ -1,3 +1,4 @@
 <resources>
   <dimen name="BUTTON_TEXT_SIZE">30sp</dimen>
+  <dimen name="LOST_OVERLAY_MARGIN">35sp</dimen>
 </resources>

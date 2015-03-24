@@ -8,5 +8,21 @@
       android:layout_height="fill_parent"
       android:id="@+id/gameView"/>
 
+  <RelativeLayout
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:layout_margin="@dimen/LOST_OVERLAY_MARGIN"
+      android:id="@+id/lostOverlay"
+      android:visibility="gone">
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/main_menu"
+        android:id="@+id/lostOverlayButton"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="@dimen/BUTTON_TEXT_SIZE"/>
+  </RelativeLayout>
 
 </RelativeLayout>

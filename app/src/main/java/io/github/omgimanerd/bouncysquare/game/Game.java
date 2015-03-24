@@ -40,6 +40,13 @@ public class Game {
     platformManager_.render(canvas);
   }
 
+  public boolean isLost() {
+    if (!viewPort_.isVisible(square_.getSquare())) {
+      return true;
+    }
+    return false;
+  }
+
   public void onTouch(MotionEvent event) {
     int action = event.getAction();
 
