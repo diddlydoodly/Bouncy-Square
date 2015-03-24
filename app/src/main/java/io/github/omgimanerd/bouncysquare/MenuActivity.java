@@ -32,8 +32,8 @@ public class MenuActivity extends Activity {
         Intent intent = new Intent(getApplicationContext(),
                                    GameActivity.class);
         startActivity(intent);
-        overridePendingTransition(R.anim.abc_slide_in_bottom,
-                                  R.anim.abc_slide_out_top);
+        overridePendingTransition(R.anim.abc_slide_in_top,
+                                  R.anim.abc_slide_out_bottom);
         finish();
       }
     });

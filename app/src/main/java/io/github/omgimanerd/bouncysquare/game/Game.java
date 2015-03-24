@@ -13,6 +13,8 @@ public class Game {
   private Square square_;
   private PlatformManager platformManager_;
 
+  private boolean isLost_;
+
   public Game() {
     viewPort_ = new ViewPort();
     square_ = new Square();
@@ -41,10 +43,7 @@ public class Game {
   }
 
   public boolean isLost() {
-    if (!viewPort_.isVisible(square_.getSquare())) {
-      return true;
-    }
-    return false;
+    return square_.isLost();
   }
 
   public void onTouch(MotionEvent event) {

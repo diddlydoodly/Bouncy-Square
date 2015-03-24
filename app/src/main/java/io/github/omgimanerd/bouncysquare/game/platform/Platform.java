@@ -1,6 +1,7 @@
 package io.github.omgimanerd.bouncysquare.game.platform;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.Log;
@@ -77,6 +78,11 @@ public class Platform {
 
   public void render(Canvas canvas) {
     canvas.drawRect(mappedPlatform_, platformPaint_);
+  }
+
+  public boolean matchColor(Square square) {
+    return platformPaint_.getColor() == Color.BLACK ||
+        square.getBottomColor() == platformPaint_.getColor();
   }
 
   public void setPlatform(RectF rect) {

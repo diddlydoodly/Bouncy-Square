@@ -13,9 +13,8 @@ import io.github.omgimanerd.bouncysquare.util.SensorValues;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Square {
-  // TODO: find a good acceleration factor
   private static final float ACCELERATION_Y = -0.75f;
-  private static final float ROTATION_SPEED = 9;
+  private static final float ROTATION_SPEED = 10;
   private static final int CORNER_DOT_COLOR = Color.GRAY;
   private static final int SIDE_LENGTH = (int) (Util.SCREEN_WIDTH / 8);
   private static final int STROKE_WIDTH = 10;
@@ -48,6 +47,8 @@ public class Square {
   private float orientationAngle_;
   private float targetOrientationAngle_;
 
+  private boolean isLost_;
+
   private Paint[] drawnSquareSidePaints_;
   private Paint cornerDotPaint_;
 
@@ -61,6 +62,8 @@ public class Square {
     orientationAngle_ = 0;
     targetOrientationAngle_ = 0;
 
+    isLost_ = false;
+
     drawnSquareSidePaints_ = new Paint[4];
     for (int i = 0; i < 4; ++i) {
       drawnSquareSidePaints_[i] = new Paint();
@@ -72,62 +75,67 @@ public class Square {
   }
 
   public void update(ViewPort viewport, ArrayList<Platform> platforms) {
-    // Updates the square's horizontal velocity according to the tilt of the
-    // phone.
-    vx_ = -SensorValues.ACCELEROMETER_VALUES[0];
-    // Updates the vertical velocity by constantly accelerating downward.
-    vy_ += ACCELERATION_Y;
+    if (!isLost_) {
+      // Updates the square's horizontal velocity according to the tilt of the
+      // phone.
+      vx_ = - SensorValues.ACCELEROMETER_VALUES[0];
+      // Updates the vertical velocity by constantly accelerating downward.
+      vy_ += ACCELERATION_Y;
 
-    // Prevents the square from clipping into the left or right side of the
-    // screen.
-    if (trueSquare_.left + vx_ <= 0) {
-      trueSquare_.offsetTo(0, trueSquare_.top);
-    } else if (trueSquare_.right + vx_ >= Util.SCREEN_WIDTH) {
-      trueSquare_.offsetTo(Util.SCREEN_WIDTH - trueSquare_.width(),
-                           trueSquare_.top);
-    } else {
-      trueSquare_.offset(vx_, 0);
-    }
-
-    // Handles upward velocity when the square bounces off of a platform.
-    // The square should bounce if it is falling downward and is above a
-    // platform.
-    for (Platform platform : platforms) {
-      if (Util.intersects(trueSquare_, platform.getPlatform()) &&
-          vy_ < 0) {
-        vy_ = upwardBounceVelocity_;
+      // Prevents the square from clipping into the left or right side of the
+      // screen.
+      if (trueSquare_.left + vx_ <= 0) {
+        trueSquare_.offsetTo(0, trueSquare_.top);
+      } else if (trueSquare_.right + vx_ >= Util.SCREEN_WIDTH) {
+        trueSquare_.offsetTo(Util.SCREEN_WIDTH - trueSquare_.width(),
+                             trueSquare_.top);
+      } else {
+        trueSquare_.offset(vx_, 0);
       }
-    }
 
-    // Bottom case, never actually happens.
-    if (trueSquare_.bottom + vy_ <= 0) {
-      // Since RectF expects bottom > top, trueSquare_.height() returns
-      // negative.
-      trueSquare_.offsetTo(trueSquare_.left, -trueSquare_.height());
-      vy_ = 0;
-    } else {
-      // Updates the square's vertical position.
-      trueSquare_.offset(0, vy_);
-    }
+      // Handles upward velocity when the square bounces off of a platform.
+      // The square should bounce if it is falling downward and is above a
+      // platform.
+      for (Platform platform : platforms) {
+        if (Util.intersects(trueSquare_, platform.getPlatform()) &&
+            vy_ < 0) {
+          vy_ = upwardBounceVelocity_;
+          isLost_ = !platform.matchColor(this);
+          return;
+        }
+      }
 
-    // Incremements or decrements the orientation angle until it matches the
-    // target orientation angle.
-    if (targetOrientationAngle_ != orientationAngle_ &&
-        Util.normalizeAngle(
-        targetOrientationAngle_ - orientationAngle_) <= 180) {
-      orientationAngle_ = Util.normalizeAngle(
-          orientationAngle_ + ROTATION_SPEED);
-    } else if (targetOrientationAngle_ != orientationAngle_ &&
-        Util.normalizeAngle(
-        targetOrientationAngle_ - orientationAngle_) > 180) {
-      orientationAngle_ = Util.normalizeAngle(
-          orientationAngle_ - ROTATION_SPEED);
-    }
+      // Bottom case, never actually happens.
+      if (trueSquare_.bottom + vy_ <= 0) {
+        // Since RectF expects bottom > top, trueSquare_.height() returns
+        // negative.
+        trueSquare_.offsetTo(trueSquare_.left, - trueSquare_.height());
+        vy_ = 0;
+      } else {
+        // Updates the square's vertical position.
+        trueSquare_.offset(0, vy_);
+        isLost_ = !viewport.isVisible(trueSquare_);
+      }
 
-    mappedSquare_ = viewport.mapToCanvas(trueSquare_);
-    // This is necessary to since the drawing using lines goes out of the
-    // bounding box.
-    mappedSquare_.inset(STROKE_WIDTH, -STROKE_WIDTH);
+      // Incremements or decrements the orientation angle until it matches the
+      // target orientation angle.
+      if (targetOrientationAngle_ != orientationAngle_ &&
+          Util.normalizeAngle(
+              targetOrientationAngle_ - orientationAngle_) <= 180) {
+        orientationAngle_ = Util.normalizeAngle(
+            orientationAngle_ + ROTATION_SPEED);
+      } else if (targetOrientationAngle_ != orientationAngle_ &&
+          Util.normalizeAngle(
+              targetOrientationAngle_ - orientationAngle_) > 180) {
+        orientationAngle_ = Util.normalizeAngle(
+            orientationAngle_ - ROTATION_SPEED);
+      }
+
+      mappedSquare_ = viewport.mapToCanvas(trueSquare_);
+      // This is necessary to since the drawing using lines goes out of the
+      // bounding box.
+      mappedSquare_.inset(STROKE_WIDTH, - STROKE_WIDTH);
+    }
   }
 
   public void render(Canvas canvas) {
@@ -166,7 +174,7 @@ public class Square {
   }
 
   public int getBottomColor() {
-    return (int) (orientationAngle_ / 90);
+    return SIDE_COLORS[Math.round(((orientationAngle_ + 180) % 360) / 90) % 4];
   }
 
   public void rotateClockwise() {
@@ -191,5 +199,9 @@ public class Square {
 
   public void setVy(float vy) {
     vy_ = vy;
+  }
+
+  public boolean isLost() {
+    return isLost_;
   }
 }
