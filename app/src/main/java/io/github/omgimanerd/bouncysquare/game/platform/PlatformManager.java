@@ -24,9 +24,11 @@ public class PlatformManager {
   private static final float MOVING_PLATFORM_RANGE = Util.SCREEN_HEIGHT / 9;
 
   private ArrayList<Platform> platforms_;
+  private float lastGeneratedHeight_;
 
   public PlatformManager() {
     platforms_ = new ArrayList<>();
+    lastGeneratedHeight_ = 0;
   }
 
   public void update(ViewPort viewPort) {
@@ -37,7 +39,7 @@ public class PlatformManager {
     while (i < platforms_.size()) {
       if (!viewPort.isVisible(platforms_.get(i).getPlatform())) {
         platforms_.remove(i);
-        generateRandomPlatform(viewPort);
+        generateRandomPlatform();
       } else {
         i++;
       }
@@ -54,22 +56,22 @@ public class PlatformManager {
                                float right, float bottom,
                                int color) {
     platforms_.add(new Platform(left, top, right, bottom, color));
-
+    if (top > lastGeneratedHeight_) {
+      lastGeneratedHeight_ = top;
+    }
   }
 
-  public void generateRandomPlatform(ViewPort viewPort) {
+  public void generateRandomPlatform() {
     //TODO: improve platform generation
     float x = (int) (Math.random() * (Util.SCREEN_WIDTH - PLATFORM_LENGTH));
-    float y = viewPort.getTop();
-    Random rand_ = new Random();
-    int color = Game.STANDARD_COLORS[
-        rand_.nextInt(Game.STANDARD_COLORS.length)];
+    float y = lastGeneratedHeight_ + Util.SCREEN_HEIGHT / 3;
+    lastGeneratedHeight_ = y;
     Platform platform = new Platform(
         x,
         y,
         x + PLATFORM_LENGTH,
         y - PLATFORM_HEIGHT,
-        color);
+        Game.selectRandomColor());
     if (Math.random() < MOVING_PLATFORM_CHANCE) {
       if (Math.random() < 0.33) {
         platform.setMotion((float) Math.random() * PLATFORM_VELOCITY,

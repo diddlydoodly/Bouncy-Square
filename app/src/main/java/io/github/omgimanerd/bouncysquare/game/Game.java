@@ -36,9 +36,11 @@ public class Game {
     platformManager_ = new PlatformManager();
 
     /**
-     * A new platform is generated as soon as an old one is removed,
-     * therefore these platforms are spaced thirds apart so that new
-     * platforms generated will be automatically spaced evenly.
+     * A new platform is generated as soon as an old one is removed.
+     * PlatformManager will automatically take care of spacing them evenly
+     * apart. By manually declaring these four platforms,
+     * we also ensure that there will only be four platforms in existence at
+     * any given point.
      */
     platformManager_.generatePlatform(
         0,
@@ -50,14 +52,17 @@ public class Game {
         0,
         Util.SCREEN_HEIGHT / 3 + PlatformManager.PLATFORM_HEIGHT,
         PlatformManager.PLATFORM_LENGTH,
-        Util.SCREEN_HEIGHT / 3,
-        Game.STANDARD_COLORS[(int) (Math.random() * 4)]);
+        Util.SCREEN_HEIGHT / 3, selectRandomColor());
+    platformManager_.generatePlatform(
+        Util.SCREEN_WIDTH / 3,
+        Util.SCREEN_HEIGHT * 2 / 3 + PlatformManager.PLATFORM_HEIGHT,
+        Util.SCREEN_WIDTH / 3 + PlatformManager.PLATFORM_LENGTH,
+        Util.SCREEN_HEIGHT * 2 / 3, selectRandomColor());
     platformManager_.generatePlatform(
         Util.SCREEN_WIDTH * 2 / 3,
-        Util.SCREEN_HEIGHT * 2 / 3 + PlatformManager.PLATFORM_HEIGHT,
+        Util.SCREEN_HEIGHT + PlatformManager.PLATFORM_HEIGHT,
         Util.SCREEN_WIDTH * 2 / 3 + PlatformManager.PLATFORM_LENGTH,
-        Util.SCREEN_HEIGHT * 2 / 3,
-        Game.STANDARD_COLORS[(int) (Math.random() * 4)]);
+        Util.SCREEN_HEIGHT, selectRandomColor());
 
     heightScore_ = 0;
     scoreTextPaint_ = new Paint();
@@ -110,5 +115,9 @@ public class Game {
 
   public int getScore() {
     return heightScore_;
+  }
+
+  public static int selectRandomColor() {
+    return STANDARD_COLORS[(int) (Math.random() * 4)];
   }
 }
