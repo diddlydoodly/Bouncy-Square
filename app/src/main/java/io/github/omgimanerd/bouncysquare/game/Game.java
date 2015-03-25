@@ -51,15 +51,14 @@ public class Game {
   }
 
   public void update() {
-    viewPort_.update(square_);
-    square_.update(viewPort_, platformManager_.getPlatforms());
-    platformManager_.update(viewPort_);
-    if (platformManager_.getPlatforms().size() < 3) {
-      platformManager_.generateRandomPlatform(viewPort_);
-    }
+    if (!isLost()) {
+      viewPort_.update(square_);
+      square_.update(viewPort_, platformManager_.getPlatforms());
+      platformManager_.update(viewPort_);
 
-    if (square_.getSquare().top > heightScore_) {
-      heightScore_ = (int) square_.getSquare().top;
+      if (square_.getSquare().top > heightScore_) {
+        heightScore_ = (int) square_.getSquare().top;
+      }
     }
   }
 

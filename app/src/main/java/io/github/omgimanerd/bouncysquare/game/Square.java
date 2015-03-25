@@ -76,67 +76,66 @@ public class Square {
   }
 
   public void update(ViewPort viewport, ArrayList<Platform> platforms) {
-    if (!isLost_) {
-      // Updates the square's horizontal velocity according to the tilt of the
-      // phone.
-      vx_ = - SensorValues.ACCELEROMETER_VALUES[0];
-      // Updates the vertical velocity by constantly accelerating downward.
-      vy_ += ACCELERATION_Y;
+    // Updates the square's horizontal velocity according to the tilt of the
+    // phone.
+    vx_ = - SensorValues.ACCELEROMETER_VALUES[0];
+    // Updates the vertical velocity by constantly accelerating downward.
+    vy_ += ACCELERATION_Y;
 
-      // Prevents the square from clipping into the left or right side of the
-      // screen.
-      if (trueSquare_.left + vx_ <= 0) {
-        trueSquare_.offsetTo(0, trueSquare_.top);
-      } else if (trueSquare_.right + vx_ >= Util.SCREEN_WIDTH) {
-        trueSquare_.offsetTo(Util.SCREEN_WIDTH - trueSquare_.width(),
-                             trueSquare_.top);
-      } else {
-        trueSquare_.offset(vx_, 0);
-      }
-
-      // Handles upward velocity when the square bounces off of a platform.
-      // The square should bounce if it is falling downward and is above a
-      // platform.
-      for (Platform platform : platforms) {
-        if (Util.intersects(trueSquare_, platform.getPlatform()) &&
-            vy_ < 0) {
-          vy_ = upwardBounceVelocity_;
-          isLost_ = !platform.matchColor(this);
-          return;
-        }
-      }
-
-      // Bottom case, never actually happens.
-      if (trueSquare_.bottom + vy_ <= 0) {
-        // Since RectF expects bottom > top, trueSquare_.height() returns
-        // negative.
-        trueSquare_.offsetTo(trueSquare_.left, - trueSquare_.height());
-        vy_ = 0;
-      } else {
-        // Updates the square's vertical position.
-        trueSquare_.offset(0, vy_);
-        isLost_ = !viewport.isVisible(trueSquare_);
-      }
-
-      // Incremements or decrements the orientation angle until it matches the
-      // target orientation angle.
-      if (targetOrientationAngle_ != orientationAngle_ &&
-          Util.normalizeAngle(
-              targetOrientationAngle_ - orientationAngle_) <= 180) {
-        orientationAngle_ = Util.normalizeAngle(
-            orientationAngle_ + ROTATION_SPEED);
-      } else if (targetOrientationAngle_ != orientationAngle_ &&
-          Util.normalizeAngle(
-              targetOrientationAngle_ - orientationAngle_) > 180) {
-        orientationAngle_ = Util.normalizeAngle(
-            orientationAngle_ - ROTATION_SPEED);
-      }
-
-      mappedSquare_ = viewport.mapToCanvas(trueSquare_);
-      // This is necessary to since the drawing using lines goes out of the
-      // bounding box.
-      mappedSquare_.inset(STROKE_WIDTH, - STROKE_WIDTH);
+    // Prevents the square from clipping into the left or right side of the
+    // screen.
+    if (trueSquare_.left + vx_ <= 0) {
+      trueSquare_.offsetTo(0, trueSquare_.top);
+    } else if (trueSquare_.right + vx_ >= Util.SCREEN_WIDTH) {
+      trueSquare_.offsetTo(Util.SCREEN_WIDTH - trueSquare_.width(),
+                           trueSquare_.top);
+    } else {
+      trueSquare_.offset(vx_, 0);
     }
+
+    // Handles upward velocity when the square bounces off of a platform.
+    // The square should bounce if it is falling downward and is above a
+    // platform.
+    for (Platform platform : platforms) {
+      if (Util.intersects(trueSquare_, platform.getPlatform()) &&
+          vy_ < 0 &&
+          platform.isSolid()) {
+        vy_ = upwardBounceVelocity_;
+        isLost_ = !platform.matchColor(this);
+        return;
+      }
+    }
+
+    // Bottom case, never actually happens.
+    if (trueSquare_.bottom + vy_ <= 0) {
+      // Since RectF expects bottom > top, trueSquare_.height() returns
+      // negative.
+      trueSquare_.offsetTo(trueSquare_.left, - trueSquare_.height());
+      vy_ = 0;
+    } else {
+      // Updates the square's vertical position.
+      trueSquare_.offset(0, vy_);
+      isLost_ = !viewport.isVisible(trueSquare_);
+    }
+
+    // Incremements or decrements the orientation angle until it matches the
+    // target orientation angle.
+    if (targetOrientationAngle_ != orientationAngle_ &&
+        Util.normalizeAngle(
+            targetOrientationAngle_ - orientationAngle_) <= 180) {
+      orientationAngle_ = Util.normalizeAngle(
+          orientationAngle_ + ROTATION_SPEED);
+    } else if (targetOrientationAngle_ != orientationAngle_ &&
+        Util.normalizeAngle(
+            targetOrientationAngle_ - orientationAngle_) > 180) {
+      orientationAngle_ = Util.normalizeAngle(
+          orientationAngle_ - ROTATION_SPEED);
+    }
+
+    mappedSquare_ = viewport.mapToCanvas(trueSquare_);
+    // This is necessary to since the drawing using lines goes out of the
+    // bounding box.
+    mappedSquare_.inset(STROKE_WIDTH, - STROKE_WIDTH);
   }
 
   public void render(Canvas canvas) {

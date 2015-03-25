@@ -48,12 +48,13 @@ public class ViewPort {
   }
 
   /**
-   * Returns if the given RectF is visible inside of the current viewport
+   * Returns if the given RectF is visible or will be visible at some
+   * point inside of the current viewport
    * bounds.
    * @param rect
    * @return
    */
   public boolean isVisible(RectF rect) {
-    return Util.intersects(viewPort_, rect);
+    return rect.top >= viewPort_.bottom;
   }
 }

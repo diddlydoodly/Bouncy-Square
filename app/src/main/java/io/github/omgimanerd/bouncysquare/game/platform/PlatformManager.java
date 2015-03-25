@@ -18,6 +18,7 @@ public class PlatformManager {
 
   private static final float PLATFORM_LENGTH = Util.SCREEN_WIDTH / 5;
   private static final float PLATFORM_HEIGHT = Util.SCREEN_WIDTH / 20;
+  private static final float PLATFORM_VX = 5;
 
   private ArrayList<Platform> platforms_;
 
@@ -33,6 +34,7 @@ public class PlatformManager {
     while (i < platforms_.size()) {
       if (!viewPort.isVisible(platforms_.get(i).getPlatform())) {
         platforms_.remove(i);
+        generateRandomPlatform(viewPort);
       } else {
         i++;
       }
@@ -58,8 +60,19 @@ public class PlatformManager {
     Random rand_ = new Random();
     int color = Game.STANDARD_COLORS[
         rand_.nextInt(Game.STANDARD_COLORS.length)];
-    platforms_.add(new Platform(x, y, x + PLATFORM_LENGTH, y - PLATFORM_HEIGHT,
-                                color));
+    Platform platform = new Platform(
+        x,
+        y,
+        x + PLATFORM_LENGTH,
+        y - PLATFORM_HEIGHT,
+        color);
+    if (Math.random() < 0.25) {
+
+      platform.setMotion(PLATFORM_VX, 0,
+                         new float[] {0, Util.SCREEN_WIDTH},
+                         new float[] {0, 0});
+    }
+    platforms_.add(platform);
   }
 
   public ArrayList<Platform> getPlatforms() {

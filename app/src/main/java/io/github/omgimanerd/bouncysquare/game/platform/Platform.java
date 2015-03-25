@@ -61,10 +61,10 @@ public class Platform {
       if (truePlatform_.left < moveRangeX_[0]) {
         vx_ = Math.abs(vx_);
       } else if (truePlatform_.right > moveRangeX_[1]) {
-        vx_ = - Math.abs(vx_);
+        vx_ = -Math.abs(vx_);
       }
       if (truePlatform_.bottom < moveRangeY_[0]) {
-        vy_ = - Math.abs(vy_);
+        vy_ = -Math.abs(vy_);
       } else if (truePlatform_.top > moveRangeY_[1]) {
         vy_ = Math.abs(vy_);
       }
@@ -94,10 +94,6 @@ public class Platform {
     return truePlatform_;
   }
 
-  public RectF getMappedPlatform() {
-    return mappedPlatform_;
-  }
-
   public float centerX() {
     return truePlatform_.centerX();
   }
@@ -110,12 +106,8 @@ public class Platform {
     return isSolid_;
   }
 
-  public int getColor() {
-    return platformPaint_.getColor();
-  }
-
   public Platform setMotion(float vx, float vy,
-                        float[] moveRangeX, float[] moveRangeY) {
+                            float[] moveRangeX, float[] moveRangeY) {
     isMoving_ = true;
     vx_ = vx;
     vy_ = vy;

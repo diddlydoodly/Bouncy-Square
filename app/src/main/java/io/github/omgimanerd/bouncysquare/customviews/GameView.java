@@ -27,8 +27,7 @@ public class GameView extends View {
     lastUpdateTime_ = currentTimeMillis();
     game_ = new Game(context);
 
-    persistentData_ = context.getSharedPreferences("bouncy_square",
-                                                Context.MODE_PRIVATE);
+    persistentData_ = context.getSharedPreferences("bouncy_square", 0);
   }
 
   public void onDraw(Canvas canvas) {
@@ -38,9 +37,9 @@ public class GameView extends View {
     }
     if (game_.isLost()) {
       int highScore = persistentData_.getInt("bouncy_square_highscore", 0);
-      if (highScore < game_.getScore()) {
+      if (game_.getScore() > highScore) {
         SharedPreferences.Editor editor = persistentData_.edit();
-        editor.putInt("bouncy_square_highscore", highScore);
+        editor.putInt("bouncy_square_highscore", game_.getScore());
         editor.commit();
       }
       // Bootleggy upward reference.

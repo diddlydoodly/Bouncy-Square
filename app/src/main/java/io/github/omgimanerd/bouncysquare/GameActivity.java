@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import io.github.omgimanerd.bouncysquare.customviews.GameView;
 import io.github.omgimanerd.bouncysquare.util.SensorValues;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
@@ -23,6 +24,8 @@ public class GameActivity extends Activity implements SensorEventListener {
 
   private Resources res_;
   private SensorManager sensorManager_;
+
+  private GameView gameView_;
 
   private RelativeLayout lostOverlay_;
   private Button mainMenuButton_;
@@ -45,24 +48,30 @@ public class GameActivity extends Activity implements SensorEventListener {
     init();
   }
 
-  public void init() {
+  private void init() {
     res_ = getResources();
     sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+    gameView_ = (GameView) findViewById(R.id.gameView);
 
     lostOverlay_ = (RelativeLayout) findViewById(R.id.lostOverlay);
     mainMenuButton_ = (Button) findViewById(R.id.mainMenuButton);
     mainMenuButton_.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
-        Intent intent = new Intent(getApplicationContext(),
-                                   MenuActivity.class);
-        startActivity(intent);
-        overridePendingTransition(R.anim.abc_slide_in_bottom,
-                                  R.anim.abc_slide_out_top);
-        finish();
+        backToMenu();
       }
     });
     scoreTextView_ = (TextView) findViewById(R.id.scoreTextView);
     highscoreTextView_ = (TextView) findViewById(R.id.highscoreTextView);
+  }
+
+  private void backToMenu() {
+    Intent intent = new Intent(getApplicationContext(),
+                               MenuActivity.class);
+    startActivity(intent);
+    overridePendingTransition(R.anim.abc_slide_in_bottom,
+                              R.anim.abc_slide_out_top);
+    finish();
   }
 
   public void showLostOverlay(int score, int highscore) {
@@ -71,7 +80,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     highscoreTextView_.setText(res_.getString(R.string.highscore) + highscore);
   }
 
-  public void onResume() {
+  protected void onResume() {
     sensorManager_.registerListener(
         this,
         sensorManager_.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
@@ -79,9 +88,10 @@ public class GameActivity extends Activity implements SensorEventListener {
     super.onResume();
   }
 
-  public void onPause() {
+  protected void onPause() {
     sensorManager_.unregisterListener(this);
-    super.onPause();
+    backToMenu();
+    super.onStop();
   }
 
   public void onAccuracyChanged(Sensor sensor, int accuracy) {}
