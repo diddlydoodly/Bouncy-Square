@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 import io.github.omgimanerd.bouncysquare.GameActivity;
 import io.github.omgimanerd.bouncysquare.game.Game;
@@ -34,6 +35,8 @@ public class GameView extends View {
     if (currentTimeMillis() > lastUpdateTime_ + (1000 / FPS)) {
       game_.update();
       game_.render(canvas);
+      // Bootleggy upward reference.
+      ((GameActivity) getContext()).updateScoreView(game_.getScore());
     }
     if (game_.isLost()) {
       int highScore = persistentData_.getInt("bouncy_square_highscore", 0);

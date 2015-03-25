@@ -26,8 +26,7 @@ public class GameActivity extends Activity implements SensorEventListener {
   private Resources res_;
   private SensorManager sensorManager_;
 
-  private GameView gameView_;
-
+  private TextView liveScoreTextView_;
   private RelativeLayout lostOverlay_;
   private Button mainMenuButton_;
   private TextView scoreTextView_;
@@ -59,8 +58,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     res_ = getResources();
     sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
-    gameView_ = (GameView) findViewById(R.id.gameView);
-
+    liveScoreTextView_= (TextView) findViewById(R.id.liveScoreTextView);
     lostOverlay_ = (RelativeLayout) findViewById(R.id.lostOverlay);
     mainMenuButton_ = (Button) findViewById(R.id.mainMenuButton);
     mainMenuButton_.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +77,10 @@ public class GameActivity extends Activity implements SensorEventListener {
     overridePendingTransition(R.anim.abc_slide_in_bottom,
                               R.anim.abc_slide_out_top);
     finish();
+  }
+
+  public void updateScoreView(int score) {
+    liveScoreTextView_.setText(res_.getString(R.string.score) + score);
   }
 
   public void showLostOverlay(int score, int highscore) {

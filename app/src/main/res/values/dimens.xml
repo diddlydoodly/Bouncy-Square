@@ -1,6 +1,7 @@
 <resources>
   <dimen name="BUTTON_TEXT_SIZE">30sp</dimen>
-  <dimen name="LOST_OVERLAY_MARGIN">35sp</dimen>
-  <dimen name="SCORE_TEXT_SIZE">25sp</dimen>
   <dimen name="HIGHSCORE_TEXT_SIZE">20sp</dimen>
+  <dimen name="LIVE_SCORE_TEXT_MARGIN">20dp</dimen>
+  <dimen name="LOST_OVERLAY_MARGIN">35dp</dimen>
+  <dimen name="SCORE_TEXT_SIZE">25sp</dimen>
 </resources>

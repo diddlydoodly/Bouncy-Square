@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.widget.TextView;
 
 import io.github.omgimanerd.bouncysquare.R;
 import io.github.omgimanerd.bouncysquare.game.platform.Platform;
@@ -21,7 +22,6 @@ public class Game {
   private PlatformManager platformManager_;
 
   private int heightScore_;
-  private Paint scoreTextPaint_;
 
   public Game() {
     viewPort_ = new ViewPort();
@@ -58,10 +58,6 @@ public class Game {
         Util.SCREEN_HEIGHT, Colors.selectRandomColor());
 
     heightScore_ = 0;
-    scoreTextPaint_ = new Paint();
-    scoreTextPaint_.setColor(Color.BLACK);
-    scoreTextPaint_.setTextSize(res.getDimensionPixelSize(
-        R.dimen.SCORE_TEXT_SIZE));
   }
 
   public void update() {
@@ -79,11 +75,6 @@ public class Game {
   public void render(Canvas canvas) {
     square_.render(canvas);
     platformManager_.render(canvas);
-
-    canvas.drawText(heightScore_ + "",
-                    scoreTextPaint_.getTextSize(),
-                    scoreTextPaint_.getTextSize(),
-                    scoreTextPaint_);
   }
 
   public boolean isLost() {

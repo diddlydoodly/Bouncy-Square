@@ -10,6 +10,16 @@
       android:id="@+id/gameView"
       />
 
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:id="@+id/liveScoreTextView"
+      android:layout_alignParentTop="true"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:textSize="@dimen/SCORE_TEXT_SIZE"
+      android:layout_margin="@dimen/LIVE_SCORE_TEXT_MARGIN"/>
+
   <RelativeLayout
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"
