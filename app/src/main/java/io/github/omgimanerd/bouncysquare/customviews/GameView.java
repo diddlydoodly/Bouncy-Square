@@ -25,7 +25,7 @@ public class GameView extends View {
     super(context, attrs);
 
     lastUpdateTime_ = currentTimeMillis();
-    game_ = new Game(context);
+    game_ = new Game();
 
     persistentData_ = context.getSharedPreferences("bouncy_square", 0);
   }

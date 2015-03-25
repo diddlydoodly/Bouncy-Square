@@ -8,6 +8,7 @@ import android.graphics.RectF;
 import java.util.ArrayList;
 
 import io.github.omgimanerd.bouncysquare.game.platform.Platform;
+import io.github.omgimanerd.bouncysquare.util.Colors;
 import io.github.omgimanerd.bouncysquare.util.SensorValues;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
@@ -65,7 +66,7 @@ public class Square {
     drawnSquareSidePaints_ = new Paint[4];
     for (int i = 0; i < 4; ++i) {
       drawnSquareSidePaints_[i] = new Paint();
-      drawnSquareSidePaints_[i].setColor(Game.STANDARD_COLORS[i]);
+      drawnSquareSidePaints_[i].setColor(Colors.STANDARD_COLORS[i]);
       drawnSquareSidePaints_[i].setStrokeWidth(STROKE_WIDTH);
     }
     cornerDotPaint_ = new Paint();
@@ -172,7 +173,8 @@ public class Square {
   }
 
   public int getBottomColor() {
-    return Game.STANDARD_COLORS[Math.round(((orientationAngle_ + 180) % 360) / 90) % 4];
+    return Colors.STANDARD_COLORS[Math.round(((orientationAngle_ + 180) %
+        360) / 90) % 4];
   }
 
   public void rotateClockwise() {

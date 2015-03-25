@@ -12,6 +12,7 @@ import io.github.omgimanerd.bouncysquare.R;
 import io.github.omgimanerd.bouncysquare.game.Game;
 import io.github.omgimanerd.bouncysquare.game.Square;
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
+import io.github.omgimanerd.bouncysquare.util.Colors;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class PlatformManager {
@@ -71,7 +72,7 @@ public class PlatformManager {
         y,
         x + PLATFORM_LENGTH,
         y - PLATFORM_HEIGHT,
-        Game.selectRandomColor());
+        Colors.selectRandomColor());
     if (Math.random() < MOVING_PLATFORM_CHANCE) {
       if (Math.random() < 0.33) {
         platform.setMotion((float) Math.random() * PLATFORM_VELOCITY,

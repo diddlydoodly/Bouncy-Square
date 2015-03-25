@@ -11,11 +11,10 @@ import android.view.MotionEvent;
 import io.github.omgimanerd.bouncysquare.R;
 import io.github.omgimanerd.bouncysquare.game.platform.Platform;
 import io.github.omgimanerd.bouncysquare.game.platform.PlatformManager;
+import io.github.omgimanerd.bouncysquare.util.Colors;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Game {
-
-  public static int[] STANDARD_COLORS = new int[4];
 
   private ViewPort viewPort_;
   private Square square_;
@@ -24,13 +23,7 @@ public class Game {
   private int heightScore_;
   private Paint scoreTextPaint_;
 
-  public Game(Context context) {
-    Resources res = context.getResources();
-    STANDARD_COLORS[0] = res.getColor(R.color.STANDARD_RED);
-    STANDARD_COLORS[1] = res.getColor(R.color.STANDARD_BLUE);
-    STANDARD_COLORS[2] = res.getColor(R.color.STANDARD_GREEN);
-    STANDARD_COLORS[3] = res.getColor(R.color.STANDARD_YELLOW);
-
+  public Game() {
     viewPort_ = new ViewPort();
     square_ = new Square();
     platformManager_ = new PlatformManager();
@@ -52,17 +45,17 @@ public class Game {
         0,
         Util.SCREEN_HEIGHT / 3 + PlatformManager.PLATFORM_HEIGHT,
         PlatformManager.PLATFORM_LENGTH,
-        Util.SCREEN_HEIGHT / 3, selectRandomColor());
+        Util.SCREEN_HEIGHT / 3, Colors.selectRandomColor());
     platformManager_.generatePlatform(
         Util.SCREEN_WIDTH / 3,
         Util.SCREEN_HEIGHT * 2 / 3 + PlatformManager.PLATFORM_HEIGHT,
         Util.SCREEN_WIDTH / 3 + PlatformManager.PLATFORM_LENGTH,
-        Util.SCREEN_HEIGHT * 2 / 3, selectRandomColor());
+        Util.SCREEN_HEIGHT * 2 / 3, Colors.selectRandomColor());
     platformManager_.generatePlatform(
         Util.SCREEN_WIDTH * 2 / 3,
         Util.SCREEN_HEIGHT + PlatformManager.PLATFORM_HEIGHT,
         Util.SCREEN_WIDTH * 2 / 3 + PlatformManager.PLATFORM_LENGTH,
-        Util.SCREEN_HEIGHT, selectRandomColor());
+        Util.SCREEN_HEIGHT, Colors.selectRandomColor());
 
     heightScore_ = 0;
     scoreTextPaint_ = new Paint();
@@ -115,9 +108,5 @@ public class Game {
 
   public int getScore() {
     return heightScore_;
-  }
-
-  public static int selectRandomColor() {
-    return STANDARD_COLORS[(int) (Math.random() * 4)];
   }
 }

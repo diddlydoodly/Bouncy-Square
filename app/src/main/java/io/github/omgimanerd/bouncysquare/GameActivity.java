@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import io.github.omgimanerd.bouncysquare.customviews.GameView;
+import io.github.omgimanerd.bouncysquare.util.Colors;
 import io.github.omgimanerd.bouncysquare.util.SensorValues;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
@@ -42,6 +43,12 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     Util.SCREEN_WIDTH = getResources().getDisplayMetrics().widthPixels;
     Util.SCREEN_HEIGHT = getResources().getDisplayMetrics().heightPixels;
+
+    Resources res = getResources();
+    Colors.STANDARD_COLORS[0] = res.getColor(R.color.STANDARD_RED);
+    Colors.STANDARD_COLORS[1] = res.getColor(R.color.STANDARD_BLUE);
+    Colors.STANDARD_COLORS[2] = res.getColor(R.color.STANDARD_GREEN);
+    Colors.STANDARD_COLORS[3] = res.getColor(R.color.STANDARD_YELLOW);
 
     setContentView(R.layout.game_layout);
 
