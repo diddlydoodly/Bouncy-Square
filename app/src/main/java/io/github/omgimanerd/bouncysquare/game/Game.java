@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 
 import io.github.omgimanerd.bouncysquare.R;
+import io.github.omgimanerd.bouncysquare.game.platform.Platform;
 import io.github.omgimanerd.bouncysquare.game.platform.PlatformManager;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
@@ -34,13 +35,28 @@ public class Game {
     square_ = new Square();
     platformManager_ = new PlatformManager();
 
-    platformManager_.generatePlatform(0, 20, Util.SCREEN_WIDTH, 0, Color.BLACK);
-
+    /**
+     * A new platform is generated as soon as an old one is removed,
+     * therefore these platforms are spaced thirds apart so that new
+     * platforms generated will be automatically spaced evenly.
+     */
     platformManager_.generatePlatform(
         0,
-        Util.SCREEN_HEIGHT / 2,
-        Util.SCREEN_WIDTH / 3,
-        Util.SCREEN_HEIGHT / 2 - 50,
+        PlatformManager.PLATFORM_HEIGHT,
+        Util.SCREEN_WIDTH,
+        0,
+        Color.BLACK);
+    platformManager_.generatePlatform(
+        0,
+        Util.SCREEN_HEIGHT / 3 + PlatformManager.PLATFORM_HEIGHT,
+        PlatformManager.PLATFORM_LENGTH,
+        Util.SCREEN_HEIGHT / 3,
+        Game.STANDARD_COLORS[(int) (Math.random() * 4)]);
+    platformManager_.generatePlatform(
+        Util.SCREEN_WIDTH * 2 / 3,
+        Util.SCREEN_HEIGHT * 2 / 3 + PlatformManager.PLATFORM_HEIGHT,
+        Util.SCREEN_WIDTH * 2 / 3 + PlatformManager.PLATFORM_LENGTH,
+        Util.SCREEN_HEIGHT * 2 / 3,
         Game.STANDARD_COLORS[(int) (Math.random() * 4)]);
 
     heightScore_ = 0;

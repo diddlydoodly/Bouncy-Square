@@ -16,9 +16,12 @@ import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class PlatformManager {
 
-  private static final float PLATFORM_LENGTH = Util.SCREEN_WIDTH / 5;
-  private static final float PLATFORM_HEIGHT = Util.SCREEN_WIDTH / 20;
-  private static final float PLATFORM_VX = 5;
+  public static final float PLATFORM_LENGTH = Util.SCREEN_WIDTH / 5;
+  public static final float PLATFORM_HEIGHT = Util.SCREEN_WIDTH / 20;
+  public static final float PLATFORM_VELOCITY = 7.5f;
+
+  private static final float MOVING_PLATFORM_CHANCE = 0.25f;
+  private static final float MOVING_PLATFORM_RANGE = Util.SCREEN_HEIGHT / 9;
 
   private ArrayList<Platform> platforms_;
 
@@ -55,6 +58,7 @@ public class PlatformManager {
   }
 
   public void generateRandomPlatform(ViewPort viewPort) {
+    //TODO: improve platform generation
     float x = (int) (Math.random() * (Util.SCREEN_WIDTH - PLATFORM_LENGTH));
     float y = viewPort.getTop();
     Random rand_ = new Random();
@@ -66,11 +70,27 @@ public class PlatformManager {
         x + PLATFORM_LENGTH,
         y - PLATFORM_HEIGHT,
         color);
-    if (Math.random() < 0.25) {
-
-      platform.setMotion(PLATFORM_VX, 0,
-                         new float[] {0, Util.SCREEN_WIDTH},
-                         new float[] {0, 0});
+    if (Math.random() < MOVING_PLATFORM_CHANCE) {
+      if (Math.random() < 0.33) {
+        platform.setMotion((float) Math.random() * PLATFORM_VELOCITY,
+                           0,
+                           new float[] {0, Util.SCREEN_WIDTH},
+                           new float[] {0, 0});
+      } else if (Math.random() < 0.66) {
+        platform.setMotion(0,
+                           (float) Math.random() * PLATFORM_VELOCITY,
+                           new float[] {0, 0},
+                           new float[] {
+                               y - MOVING_PLATFORM_RANGE,
+                               y + MOVING_PLATFORM_RANGE});
+      } else {
+        platform.setMotion((float) Math.random() * PLATFORM_VELOCITY,
+                           (float) Math.random() * PLATFORM_VELOCITY,
+                           new float[] {0, Util.SCREEN_WIDTH},
+                           new float[] {
+                               y - MOVING_PLATFORM_RANGE,
+                               y + MOVING_PLATFORM_RANGE});
+      }
     }
     platforms_.add(platform);
   }

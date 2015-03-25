@@ -1,15 +1,12 @@
 package io.github.omgimanerd.bouncysquare.game;
 
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 
 import java.util.ArrayList;
 
-import io.github.omgimanerd.bouncysquare.R;
 import io.github.omgimanerd.bouncysquare.game.platform.Platform;
 import io.github.omgimanerd.bouncysquare.util.SensorValues;
 import io.github.omgimanerd.bouncysquare.util.Util;
@@ -58,7 +55,7 @@ public class Square {
     mappedSquare_ = new RectF();
     vx_ = 0;
     vy_ = 0;
-    upwardBounceVelocity_ = Util.SCREEN_HEIGHT / 30;
+    upwardBounceVelocity_ = Util.SCREEN_HEIGHT / 32;
 
     orientationAngle_ = 0;
     targetOrientationAngle_ = 0;
@@ -99,6 +96,7 @@ public class Square {
     for (Platform platform : platforms) {
       if (Util.intersects(trueSquare_, platform.getPlatform()) &&
           vy_ < 0 &&
+          trueSquare_.bottom > platform.getPlatform().bottom &&
           platform.isSolid()) {
         vy_ = upwardBounceVelocity_;
         isLost_ = !platform.matchColor(this);

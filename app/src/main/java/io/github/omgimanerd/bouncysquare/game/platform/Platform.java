@@ -64,9 +64,9 @@ public class Platform {
         vx_ = -Math.abs(vx_);
       }
       if (truePlatform_.bottom < moveRangeY_[0]) {
-        vy_ = -Math.abs(vy_);
-      } else if (truePlatform_.top > moveRangeY_[1]) {
         vy_ = Math.abs(vy_);
+      } else if (truePlatform_.top > moveRangeY_[1]) {
+        vy_ = -Math.abs(vy_);
       }
     }
 
