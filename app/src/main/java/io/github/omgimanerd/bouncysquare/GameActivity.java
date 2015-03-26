@@ -3,6 +3,7 @@ package io.github.omgimanerd.bouncysquare;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -25,6 +26,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
   private Resources res_;
   private SensorManager sensorManager_;
+  private SharedPreferences persistentData_;
 
   private TextView liveScoreTextView_;
   private RelativeLayout lostOverlay_;
@@ -40,21 +42,25 @@ public class GameActivity extends Activity implements SensorEventListener {
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                          WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-    setContentView(R.layout.game_layout);
-
-    init();
-  }
-
-  private void init() {
     res_ = getResources();
+    sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+    persistentData_ = getSharedPreferences("bouncy_square", 0);
+
     Util.SCREEN_WIDTH = res_.getDisplayMetrics().widthPixels;
     Util.SCREEN_HEIGHT = res_.getDisplayMetrics().heightPixels;
     Colors.STANDARD_COLORS[0] = res_.getColor(R.color.STANDARD_RED);
     Colors.STANDARD_COLORS[1] = res_.getColor(R.color.STANDARD_BLUE);
     Colors.STANDARD_COLORS[2] = res_.getColor(R.color.STANDARD_GREEN);
     Colors.STANDARD_COLORS[3] = res_.getColor(R.color.STANDARD_YELLOW);
+    SensorValues.SENSITIVITY = SensorValues.toSensitivityFromData(
+        persistentData_.getInt("sensitivity", 2));
 
-    sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+    setContentView(R.layout.game_layout);
+
+    init();
+  }
+
+  private void init() {
 
     liveScoreTextView_= (TextView) findViewById(R.id.liveScoreTextView);
     lostOverlay_ = (RelativeLayout) findViewById(R.id.lostOverlay);
@@ -81,10 +87,17 @@ public class GameActivity extends Activity implements SensorEventListener {
     liveScoreTextView_.setText(res_.getString(R.string.score) + score);
   }
 
-  public void showLostOverlay(int score, int highscore) {
+  public void showLostOverlay(int score) {
+    int highScore = persistentData_.getInt("bouncy_square_highscore", 0);
+    if (score > highScore) {
+      SharedPreferences.Editor editor = persistentData_.edit();
+      editor.putInt("bouncy_square_highscore", score);
+      editor.commit();
+    }
+
     lostOverlay_.setVisibility(View.VISIBLE);
     scoreTextView_.setText(res_.getString(R.string.score) + score);
-    highscoreTextView_.setText(res_.getString(R.string.highscore) + highscore);
+    highscoreTextView_.setText(res_.getString(R.string.highscore) + highScore);
   }
 
   protected void onResume() {

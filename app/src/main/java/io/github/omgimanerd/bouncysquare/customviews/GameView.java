@@ -20,15 +20,11 @@ public class GameView extends View {
   private long lastUpdateTime_;
   private Game game_;
 
-  private SharedPreferences persistentData_;
-
   public GameView(Context context, AttributeSet attrs) {
     super(context, attrs);
 
     lastUpdateTime_ = currentTimeMillis();
     game_ = new Game();
-
-    persistentData_ = context.getSharedPreferences("bouncy_square", 0);
   }
 
   public void onDraw(Canvas canvas) {
@@ -39,14 +35,8 @@ public class GameView extends View {
       ((GameActivity) getContext()).updateScoreView(game_.getScore());
     }
     if (game_.isLost()) {
-      int highScore = persistentData_.getInt("bouncy_square_highscore", 0);
-      if (game_.getScore() > highScore) {
-        SharedPreferences.Editor editor = persistentData_.edit();
-        editor.putInt("bouncy_square_highscore", game_.getScore());
-        editor.commit();
-      }
       // Bootleggy upward reference.
-      ((GameActivity) getContext()).showLostOverlay(game_.getScore(), highScore);
+      ((GameActivity) getContext()).showLostOverlay(game_.getScore());
     }
     invalidate();
   }

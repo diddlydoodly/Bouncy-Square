@@ -32,7 +32,7 @@
       android:layout_alignParentLeft="true"
       android:layout_alignParentStart="true"
       android:indeterminate="false"
-      android:max="5"/>
+      android:max="10"/>
 
   <Button
       android:layout_width="wrap_content"

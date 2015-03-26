@@ -10,4 +10,8 @@ public class SensorValues {
   public static float SENSITIVITY;
   public static float[] ACCELEROMETER_VALUES = new float[3];
 
+  public static float toSensitivityFromData(int dataValue) {
+    return (dataValue + 1) * 0.5f;
+  }
+
 }
