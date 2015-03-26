@@ -17,7 +17,7 @@
       android:layout_alignParentTop="true"
       android:layout_alignParentLeft="true"
       android:layout_alignParentStart="true"
-      android:textSize="@dimen/SCORE_TEXT_SIZE"
+      android:textSize="@dimen/DEFAULT_TEXT_SIZE"
       android:layout_margin="@dimen/LIVE_SCORE_TEXT_MARGIN"/>
 
   <RelativeLayout
@@ -43,7 +43,7 @@
         android:id="@+id/scoreTextView"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:textSize="@dimen/SCORE_TEXT_SIZE"
+        android:textSize="@dimen/DEFAULT_TEXT_SIZE"
         />
 
     <TextView

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textAppearance="?android:attr/textAppearanceMedium"
+      android:text="@string/settings"
+      android:id="@+id/settingsTitleTextView"
+      android:layout_alignParentTop="true"
+      android:layout_centerHorizontal="true"
+      android:textSize="@dimen/SETTINGS_TITLE_TEXT_SIZE"
+      android:layout_marginTop="@dimen/SETTINGS_MARGIN_TOP"/>
+
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textAppearance="?android:attr/textAppearanceMedium"
+      android:text="@string/sensitivity"
+      android:id="@+id/sensitivityTextView"
+      android:layout_above="@+id/sensitivityControl"
+      android:layout_centerHorizontal="true"
+      android:textSize="@dimen/DEFAULT_TEXT_SIZE"/>
+
+  <SeekBar
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/sensitivityControl"
+      android:layout_centerVertical="true"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:indeterminate="false"
+      android:max="5"/>
+
+  <Button
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/main_menu"
+      android:id="@+id/mainMenuButton"
+      android:layout_alignParentBottom="true"
+      android:layout_centerHorizontal="true"
+      android:textSize="@dimen/BUTTON_TEXT_SIZE"/>
+
+</RelativeLayout>

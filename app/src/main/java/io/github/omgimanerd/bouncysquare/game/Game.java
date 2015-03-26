@@ -48,9 +48,9 @@ public class Game {
         Util.SCREEN_HEIGHT / 3, Colors.selectRandomColor());
     platformManager_.generatePlatform(
         Util.SCREEN_WIDTH / 3,
-        Util.SCREEN_HEIGHT * 2 / 3 + PlatformManager.PLATFORM_HEIGHT,
+        Util.SCREEN_HEIGHT / 3 + PlatformManager.PLATFORM_HEIGHT,
         Util.SCREEN_WIDTH / 3 + PlatformManager.PLATFORM_LENGTH,
-        Util.SCREEN_HEIGHT * 2 / 3, Colors.selectRandomColor());
+        Util.SCREEN_HEIGHT / 3, Colors.selectRandomColor());
     platformManager_.generatePlatform(
         Util.SCREEN_WIDTH * 2 / 3,
         Util.SCREEN_HEIGHT + PlatformManager.PLATFORM_HEIGHT,

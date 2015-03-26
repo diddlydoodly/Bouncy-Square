@@ -16,4 +16,13 @@
       android:layout_margin="30dp"
       android:textSize="@dimen/BUTTON_TEXT_SIZE"/>
 
+  <Button
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/settings"
+      android:id="@+id/settingsButton"
+      android:layout_below="@+id/startButton"
+      android:layout_centerHorizontal="true"
+      android:textSize="@dimen/BUTTON_TEXT_SIZE"/>
+
 </RelativeLayout>

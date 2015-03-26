@@ -11,6 +11,7 @@ import android.widget.Button;
 public class MenuActivity extends Activity {
 
   private Button startButton_;
+  private Button settingsButton_;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,17 @@ public class MenuActivity extends Activity {
         startActivity(intent);
         overridePendingTransition(R.anim.abc_slide_in_top,
                                   R.anim.abc_slide_out_bottom);
+        finish();
+      }
+    });
+
+    settingsButton_ = (Button) findViewById(R.id.settingsButton);
+    settingsButton_.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        Intent intent = new Intent(getApplicationContext(),
+                                   SettingsActivity.class);
+        startActivity(intent);
         finish();
       }
     });

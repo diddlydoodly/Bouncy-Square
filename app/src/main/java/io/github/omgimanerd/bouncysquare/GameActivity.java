@@ -40,15 +40,6 @@ public class GameActivity extends Activity implements SensorEventListener {
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                          WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-    Util.SCREEN_WIDTH = getResources().getDisplayMetrics().widthPixels;
-    Util.SCREEN_HEIGHT = getResources().getDisplayMetrics().heightPixels;
-
-    Resources res = getResources();
-    Colors.STANDARD_COLORS[0] = res.getColor(R.color.STANDARD_RED);
-    Colors.STANDARD_COLORS[1] = res.getColor(R.color.STANDARD_BLUE);
-    Colors.STANDARD_COLORS[2] = res.getColor(R.color.STANDARD_GREEN);
-    Colors.STANDARD_COLORS[3] = res.getColor(R.color.STANDARD_YELLOW);
-
     setContentView(R.layout.game_layout);
 
     init();
@@ -56,6 +47,13 @@ public class GameActivity extends Activity implements SensorEventListener {
 
   private void init() {
     res_ = getResources();
+    Util.SCREEN_WIDTH = res_.getDisplayMetrics().widthPixels;
+    Util.SCREEN_HEIGHT = res_.getDisplayMetrics().heightPixels;
+    Colors.STANDARD_COLORS[0] = res_.getColor(R.color.STANDARD_RED);
+    Colors.STANDARD_COLORS[1] = res_.getColor(R.color.STANDARD_BLUE);
+    Colors.STANDARD_COLORS[2] = res_.getColor(R.color.STANDARD_GREEN);
+    Colors.STANDARD_COLORS[3] = res_.getColor(R.color.STANDARD_YELLOW);
+
     sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
     liveScoreTextView_= (TextView) findViewById(R.id.liveScoreTextView);
