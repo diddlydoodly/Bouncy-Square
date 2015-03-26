@@ -17,12 +17,14 @@ public class GameView extends View {
 
   private static final int FPS = 60;
 
+  private GameActivity parentActivity_;
   private long lastUpdateTime_;
   private Game game_;
 
   public GameView(Context context, AttributeSet attrs) {
     super(context, attrs);
 
+    parentActivity_ = (GameActivity) context;
     lastUpdateTime_ = currentTimeMillis();
     game_ = new Game();
   }
@@ -31,12 +33,10 @@ public class GameView extends View {
     if (currentTimeMillis() > lastUpdateTime_ + (1000 / FPS)) {
       game_.update();
       game_.render(canvas);
-      // Bootleggy upward reference.
-      ((GameActivity) getContext()).updateScoreView(game_.getScore());
+      parentActivity_.updateScoreView(game_.getScore());
     }
     if (game_.isLost()) {
-      // Bootleggy upward reference.
-      ((GameActivity) getContext()).showLostOverlay(game_.getScore());
+      parentActivity_.showLostOverlay(game_.getScore());
     }
     invalidate();
   }

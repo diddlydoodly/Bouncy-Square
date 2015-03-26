@@ -61,7 +61,6 @@ public class GameActivity extends Activity implements SensorEventListener {
   }
 
   private void init() {
-
     liveScoreTextView_= (TextView) findViewById(R.id.liveScoreTextView);
     lostOverlay_ = (RelativeLayout) findViewById(R.id.lostOverlay);
     mainMenuButton_ = (Button) findViewById(R.id.mainMenuButton);
