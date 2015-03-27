@@ -7,4 +7,5 @@
   <string name="main_menu">Main Menu</string>
   <string name="score">Score:&#160;</string>
   <string name="highscore">Highscore:&#160;</string>
+  <string name="lost_overlay">lost_overlay</string>
 </resources>

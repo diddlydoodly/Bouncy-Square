@@ -55,6 +55,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     Colors.STANDARD_COLORS[1] = res_.getColor(R.color.STANDARD_BLUE);
     Colors.STANDARD_COLORS[2] = res_.getColor(R.color.STANDARD_GREEN);
     Colors.STANDARD_COLORS[3] = res_.getColor(R.color.STANDARD_YELLOW);
+    Colors.THE_CHOSEN_GREY = res_.getColor(R.color.THE_CHOSEN_GREY);
     SensorValues.SENSITIVITY = SensorValues.toSensitivityFromData(
         persistentData_.getInt("sensitivity", 2));
 
@@ -79,6 +80,7 @@ public class GameActivity extends Activity implements SensorEventListener {
       }
     });
     lostOverlay_ = (RelativeLayout) findViewById(R.id.lostOverlay);
+    lostOverlay_.setVisibility(View.GONE);
     mainMenuButton_ = (Button) findViewById(R.id.mainMenuButton);
     mainMenuButton_.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
