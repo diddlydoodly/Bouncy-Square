@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -19,7 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import io.github.omgimanerd.bouncysquare.customviews.GameView;
-import io.github.omgimanerd.bouncysquare.util.Colors;
+import io.github.omgimanerd.bouncysquare.util.Visuals;
 import io.github.omgimanerd.bouncysquare.util.SensorValues;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
@@ -51,11 +52,15 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     Util.SCREEN_WIDTH = res_.getDisplayMetrics().widthPixels;
     Util.SCREEN_HEIGHT = res_.getDisplayMetrics().heightPixels;
-    Colors.STANDARD_COLORS[0] = res_.getColor(R.color.STANDARD_RED);
-    Colors.STANDARD_COLORS[1] = res_.getColor(R.color.STANDARD_BLUE);
-    Colors.STANDARD_COLORS[2] = res_.getColor(R.color.STANDARD_GREEN);
-    Colors.STANDARD_COLORS[3] = res_.getColor(R.color.STANDARD_YELLOW);
-    Colors.THE_CHOSEN_GREY = res_.getColor(R.color.THE_CHOSEN_GREY);
+    // The standard colors must be instantiated in the order of the color of
+    // the square starting from the bottom color, counterclockwise. The
+    // default square is yellow, green, red, and blue starting from the
+    // bottom square moving counterclockwise.
+    Visuals.STANDARD_COLORS[0] = res_.getColor(R.color.STANDARD_YELLOW);
+    Visuals.STANDARD_COLORS[1] = res_.getColor(R.color.STANDARD_GREEN);
+    Visuals.STANDARD_COLORS[2] = res_.getColor(R.color.STANDARD_RED);
+    Visuals.STANDARD_COLORS[3] = res_.getColor(R.color.STANDARD_BLUE);
+    Visuals.SQUARE = BitmapFactory.decodeResource(res_, R.drawable.square);
     SensorValues.SENSITIVITY = SensorValues.toSensitivityFromData(
         persistentData_.getInt("sensitivity", 2));
 

@@ -1,18 +1,11 @@
 package io.github.omgimanerd.bouncysquare.game;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.util.Log;
 import android.view.MotionEvent;
-import android.widget.TextView;
 
-import io.github.omgimanerd.bouncysquare.R;
-import io.github.omgimanerd.bouncysquare.game.platform.Platform;
 import io.github.omgimanerd.bouncysquare.game.platform.PlatformManager;
-import io.github.omgimanerd.bouncysquare.util.Colors;
+import io.github.omgimanerd.bouncysquare.util.Visuals;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Game {
@@ -45,17 +38,17 @@ public class Game {
         0,
         Util.SCREEN_HEIGHT / 3 + PlatformManager.PLATFORM_HEIGHT,
         PlatformManager.PLATFORM_LENGTH,
-        Util.SCREEN_HEIGHT / 3, Colors.selectRandomColor());
+        Util.SCREEN_HEIGHT / 3, Visuals.selectRandomColor());
     platformManager_.generatePlatform(
         Util.SCREEN_WIDTH / 3,
         Util.SCREEN_HEIGHT * 2 / 3 + PlatformManager.PLATFORM_HEIGHT,
         Util.SCREEN_WIDTH / 3 + PlatformManager.PLATFORM_LENGTH,
-        Util.SCREEN_HEIGHT * 2 / 3, Colors.selectRandomColor());
+        Util.SCREEN_HEIGHT * 2 / 3, Visuals.selectRandomColor());
     platformManager_.generatePlatform(
         Util.SCREEN_WIDTH * 2 / 3,
         Util.SCREEN_HEIGHT + PlatformManager.PLATFORM_HEIGHT,
         Util.SCREEN_WIDTH * 2 / 3 + PlatformManager.PLATFORM_LENGTH,
-        Util.SCREEN_HEIGHT, Colors.selectRandomColor());
+        Util.SCREEN_HEIGHT, Visuals.selectRandomColor());
 
     heightScore_ = 0;
   }

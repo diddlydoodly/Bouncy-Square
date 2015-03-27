@@ -1,21 +1,20 @@
 package io.github.omgimanerd.bouncysquare.game;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
 import java.util.ArrayList;
 
 import io.github.omgimanerd.bouncysquare.game.platform.Platform;
-import io.github.omgimanerd.bouncysquare.util.Colors;
+import io.github.omgimanerd.bouncysquare.util.Visuals;
 import io.github.omgimanerd.bouncysquare.util.SensorValues;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Square {
   private static final float ACCELERATION_Y = -0.75f;
   private static final float ROTATION_SPEED = 15;
-  private static final int SIDE_LENGTH = (int) (Util.SCREEN_WIDTH / 8);
+  private static final int SIDE_LENGTH = (int) (Util.SCREEN_WIDTH / 6);
   private static final int STROKE_WIDTH = 10;
   private static final RectF STARTING_RECT = new RectF(
       Util.SCREEN_WIDTH / 2 - SIDE_LENGTH / 2,
@@ -47,9 +46,6 @@ public class Square {
 
   private boolean isLost_;
 
-  private Paint[] drawnSquareSidePaints_;
-  private Paint cornerDotPaint_;
-
   public Square() {
     trueSquare_ = new RectF(STARTING_RECT);
     mappedSquare_ = new RectF();
@@ -61,15 +57,6 @@ public class Square {
     targetOrientationAngle_ = 0;
 
     isLost_ = false;
-
-    drawnSquareSidePaints_ = new Paint[4];
-    for (int i = 0; i < 4; ++i) {
-      drawnSquareSidePaints_[i] = new Paint();
-      drawnSquareSidePaints_[i].setColor(Colors.STANDARD_COLORS[i]);
-      drawnSquareSidePaints_[i].setStrokeWidth(STROKE_WIDTH);
-    }
-    cornerDotPaint_ = new Paint();
-    cornerDotPaint_.setColor(Colors.THE_CHOSEN_GREY);
   }
 
   public void update(ViewPort viewport, ArrayList<Platform> platforms) {
@@ -140,26 +127,7 @@ public class Square {
     canvas.save();
     canvas.rotate(orientationAngle_,
                   mappedSquare_.centerX(), mappedSquare_.centerY());
-    canvas.drawLine(mappedSquare_.right, mappedSquare_.bottom,
-                    mappedSquare_.left, mappedSquare_.bottom,
-                    drawnSquareSidePaints_[0]);
-    canvas.drawLine(mappedSquare_.left, mappedSquare_.bottom,
-                    mappedSquare_.left, mappedSquare_.top,
-                    drawnSquareSidePaints_[1]);
-    canvas.drawLine(mappedSquare_.left, mappedSquare_.top,
-                    mappedSquare_.right, mappedSquare_.top,
-                    drawnSquareSidePaints_[2]);
-    canvas.drawLine(mappedSquare_.right, mappedSquare_.top,
-                    mappedSquare_.right, mappedSquare_.bottom,
-                    drawnSquareSidePaints_[3]);
-    canvas.drawCircle(mappedSquare_.right, mappedSquare_.bottom,
-                      STROKE_WIDTH / 2, cornerDotPaint_);
-    canvas.drawCircle(mappedSquare_.left, mappedSquare_.bottom,
-                      STROKE_WIDTH / 2, cornerDotPaint_);
-    canvas.drawCircle(mappedSquare_.right, mappedSquare_.top,
-                      STROKE_WIDTH / 2, cornerDotPaint_);
-    canvas.drawCircle(mappedSquare_.left, mappedSquare_.top,
-                      STROKE_WIDTH / 2, cornerDotPaint_);
+    canvas.drawBitmap(Visuals.SQUARE, null, mappedSquare_, null);
     canvas.restore();
   }
 
@@ -172,7 +140,7 @@ public class Square {
   }
 
   public int getBottomColor() {
-    return Colors.STANDARD_COLORS[Math.round(((orientationAngle_ + 180) %
+    return Visuals.STANDARD_COLORS[Math.round(((orientationAngle_ + 180) %
         360) / 90) % 4];
   }
 
