@@ -1,8 +1,8 @@
 package io.github.omgimanerd.bouncysquare.game.platform;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -12,6 +12,7 @@ import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class PlatformManager {
 
+  public static final int MAX_NUM_PLATFORMS = 4;
   public static final float PLATFORM_LENGTH = Util.SCREEN_WIDTH / 5;
   public static final float PLATFORM_HEIGHT = Util.SCREEN_WIDTH / 20;
   public static final float PLATFORM_VELOCITY = 5;
@@ -38,12 +39,46 @@ public class PlatformManager {
         iterator.remove();
       }
     }
+    while (platforms_.size() < MAX_NUM_PLATFORMS) {
+      generateRandomPlatform(viewPort.getTop());
+    }
   }
 
   public void render(Canvas canvas) {
     for (Platform platform : platforms_) {
       platform.render(canvas);
     }
+  }
+
+  public void generateDefault() {
+    /**
+     * A new platform is generated as soon as an old one is removed.
+     * PlatformManager will automatically take care of spacing them evenly
+     * apart. By manually declaring these four platforms,
+     * we also ensure that there will only be four platforms in existence at
+     * any given point.
+     */
+    generatePlatform(
+        0,
+        PlatformManager.PLATFORM_HEIGHT,
+        Util.SCREEN_WIDTH,
+        0,
+        Color.BLACK);
+    generatePlatform(
+        0,
+        Util.SCREEN_HEIGHT / 3 + PlatformManager.PLATFORM_HEIGHT,
+        PlatformManager.PLATFORM_LENGTH,
+        Util.SCREEN_HEIGHT / 3, CustomResources.selectRandomColor());
+    generatePlatform(
+        Util.SCREEN_WIDTH / 3,
+        Util.SCREEN_HEIGHT * 2 / 3 + PlatformManager.PLATFORM_HEIGHT,
+        Util.SCREEN_WIDTH / 3 + PlatformManager.PLATFORM_LENGTH,
+        Util.SCREEN_HEIGHT * 2 / 3, CustomResources.selectRandomColor());
+    generatePlatform(
+        Util.SCREEN_WIDTH * 2 / 3,
+        Util.SCREEN_HEIGHT + PlatformManager.PLATFORM_HEIGHT,
+        Util.SCREEN_WIDTH * 2 / 3 + PlatformManager.PLATFORM_LENGTH,
+        Util.SCREEN_HEIGHT, CustomResources.selectRandomColor());
   }
 
   public void generatePlatform(float left, float top,
@@ -55,16 +90,17 @@ public class PlatformManager {
     }
   }
 
-
   /**
    * Given the height of the viewport, which determines how far the player
-   * has progressed, this method returns the percent chance in (0.25, 0.9)
-   * that the next platform generated will be a moving platform.
-   * Follows the formula.
-   * @param score
-   * @param minPercent
-   * @param maxPercent
-   * @return
+   * has progressed, this method returns the percent chance in (minPercent,
+   * maxPercent) that the next platform generated will be a moving platform.
+   * Recommend passing in a min-max range of (0.25, 0.8), which are preset in
+   * PlatformManager defaults.
+   * Preconditions; (0 < minPercent < 1) && (minPercent < maxPercent)
+   * @param score The score or height that the player has reached
+   * @param minPercent The lower bound of all generated percentages.
+   * @param maxPercent The upper bound of all generated percentages.
+   * @return The percentage that a platform will generate.
    */
   public static double getPercentMovingPlatformChance(double score,
                                                       double minPercent,
@@ -74,7 +110,7 @@ public class PlatformManager {
         maxPercent;
   }
 
-  public void generateRandomPlatform(double score) {
+  public void generateRandomPlatform(double heightReached) {
     //TODO: improve platform generation
     float x = (int) (Math.random() * (Util.SCREEN_WIDTH - PLATFORM_LENGTH));
     float y = lastGeneratedHeight_ + Util.SCREEN_HEIGHT / 3;
@@ -85,7 +121,7 @@ public class PlatformManager {
         x + PLATFORM_LENGTH,
         y - PLATFORM_HEIGHT,
         CustomResources.selectRandomColor());
-    if (Math.random() < getPercentMovingPlatformChance(score,
+    if (Math.random() < getPercentMovingPlatformChance(heightReached,
                                                        DEFAULT_MIN_PERCENT,
                                                        DEFAULT_MAX_PERCENT)) {
       if (Math.random() < 0.33) {

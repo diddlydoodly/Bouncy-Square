@@ -23,7 +23,6 @@ public class PersistentData {
 
   public static void init(Context context) {
     persistentData_ = context.getSharedPreferences(PERSISTENT_DATA_KEY, 0);
-    editor_ = persistentData_.edit();
   }
 
   public static int getRawSensitivity() {
@@ -33,11 +32,12 @@ public class PersistentData {
   public static float getConvertedSensitivity() {
     return ((persistentData_.getInt(SENSITIVITY_KEY, DEFAULT_SENSITIVITY) + 1)
         * 0.5f);
-  };
+  }
 
   public static void setSensitivity(int sensitivity) {
+    editor_ = persistentData_.edit();
     editor_.putInt(SENSITIVITY_KEY, sensitivity);
-    editor_.commit();
+    editor_.apply();
   }
 
   public static int getHighScore() {
@@ -45,7 +45,8 @@ public class PersistentData {
   }
 
   public static void setHighScore(int highScore) {
+    editor_ = persistentData_.edit();
     editor_.putInt(HIGHSCORE_KEY, highScore);
-    editor_.commit();
+    editor_.apply();
   }
 }

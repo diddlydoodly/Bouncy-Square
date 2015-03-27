@@ -2,7 +2,6 @@ package io.github.omgimanerd.bouncysquare.util;
 
 import android.content.Context;
 import android.graphics.RectF;
-import android.util.Log;
 
 public class Util {
 
@@ -30,8 +29,8 @@ public class Util {
    * RectF's does not work with "normal" coordinates. This method uses AABB
    * collision detection to quickly detect if two RectF's with "normal"
    * coordinates where top > bottom have collided.
-   * @param a
-   * @param b
+   * @param a A RectF to test
+   * @param b The RectF to test against the first
    */
   public static boolean intersects(RectF a, RectF b) {
     return Math.abs(a.centerX() - b.centerX()) <

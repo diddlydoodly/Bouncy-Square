@@ -47,7 +47,8 @@ public class ViewPort {
    * point inside of the current viewport
    * bounds.
    * @param rect The RectF to test for visibility
-   * @return
+   * @return true if the RectF given will show up later at some point,
+   * false if it will never show up again and should be removed.
    */
   public boolean isOutOfBounds(RectF rect) {
     return !(rect.top >= viewPort_.bottom);
