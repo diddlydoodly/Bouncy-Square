@@ -71,6 +71,11 @@ public class GameActivity extends Activity implements SensorEventListener {
       @Override
       public void onClick(View v) {
         gameView_.pause();
+        if (gameView_.getPauseState()) {
+          pauseButton_.setImageDrawable(res_.getDrawable(R.drawable.play));
+        } else {
+          pauseButton_.setImageDrawable(res_.getDrawable(R.drawable.pause));
+        }
       }
     });
     lostOverlay_ = (RelativeLayout) findViewById(R.id.lostOverlay);

@@ -50,6 +50,10 @@ public class GameView extends View {
     paused_ = !paused_;
   }
 
+  public boolean getPauseState() {
+    return paused_;
+  }
+
   public boolean onTouchEvent(MotionEvent event) {
     game_.onTouch(event);
     return super.onTouchEvent(event);
