@@ -125,7 +125,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
       for (int i = 0; i < Util.ACCELEROMETER_VALUES.length; ++i) {
         Util.ACCELEROMETER_VALUES[i] = event.values[i] *
-            PersistentData.getSensitivity();
+            PersistentData.getConvertedSensitivity();
       }
     }
   }

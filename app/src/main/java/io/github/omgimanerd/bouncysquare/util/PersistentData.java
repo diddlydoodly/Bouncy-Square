@@ -26,7 +26,11 @@ public class PersistentData {
     editor_ = persistentData_.edit();
   }
 
-  public static float getSensitivity() {
+  public static int getRawSensitivity() {
+    return persistentData_.getInt(SENSITIVITY_KEY, DEFAULT_SENSITIVITY);
+  }
+
+  public static float getConvertedSensitivity() {
     return ((persistentData_.getInt(SENSITIVITY_KEY, DEFAULT_SENSITIVITY) + 1)
         * 0.5f);
   };

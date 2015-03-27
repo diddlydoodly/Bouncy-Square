@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 import io.github.omgimanerd.bouncysquare.game.platform.Platform;
 import io.github.omgimanerd.bouncysquare.util.CustomResources;
-import io.github.omgimanerd.bouncysquare.util.PersistentData;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Square {
   private static final float ACCELERATION_Y = -0.75f;
+  // ROTATION_SPEED is in degrees/update.
   private static final float ROTATION_SPEED = 15;
   private static final int SIDE_LENGTH = (int) (Util.SCREEN_WIDTH / 6);
   private static final int STROKE_WIDTH = 10;
@@ -134,10 +134,6 @@ public class Square {
     return trueSquare_;
   }
 
-  public float getOrientationAngle() {
-    return orientationAngle_;
-  }
-
   public int getBottomColor() {
     return CustomResources.STANDARD_COLORS[Math.round(((orientationAngle_ + 180) %
         360) / 90) % 4];
@@ -149,22 +145,6 @@ public class Square {
 
   public void rotateCounterClockwise() {
     targetOrientationAngle_ = Util.normalizeAngle(targetOrientationAngle_ - 90);
-  }
-
-  public float getVx() {
-    return vx_;
-  }
-
-  public void setVx(float vx) {
-    vx_ = vx;
-  }
-
-  public float getVy() {
-    return vy_;
-  }
-
-  public void setVy(float vy) {
-    vy_ = vy;
   }
 
   public boolean isLost() {

@@ -10,9 +10,9 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.SeekBar;
 
-public class SettingsActivity extends Activity {
+import io.github.omgimanerd.bouncysquare.util.PersistentData;
 
-  private SharedPreferences persistentData_;
+public class SettingsActivity extends Activity {
 
   private SeekBar sensitivityControl_;
   private Button mainMenuButton_;
@@ -31,8 +31,7 @@ public class SettingsActivity extends Activity {
   }
 
   private void init() {
-    persistentData_ = getSharedPreferences("bouncy_square", 0);
-    int sensitivity = persistentData_.getInt("sensitivity", 2);
+    int sensitivity = PersistentData.getRawSensitivity();
 
     sensitivityControl_ = (SeekBar) findViewById(R.id.sensitivityControl);
     sensitivityControl_.setProgress(sensitivity);
@@ -46,9 +45,7 @@ public class SettingsActivity extends Activity {
 
       @Override
       public void onStopTrackingTouch(SeekBar seekBar) {
-        SharedPreferences.Editor editor = persistentData_.edit();
-        editor.putInt("sensitivity", seekBar.getProgress());
-        editor.commit();
+        PersistentData.setSensitivity(seekBar.getProgress());
       }
     });
 
