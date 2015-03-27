@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,7 +29,9 @@ public class GameActivity extends Activity implements SensorEventListener {
   private SensorManager sensorManager_;
   private SharedPreferences persistentData_;
 
+  private GameView gameView_;
   private TextView liveScoreTextView_;
+  private ImageButton pauseButton_;
   private RelativeLayout lostOverlay_;
   private Button mainMenuButton_;
   private TextView scoreTextView_;
@@ -61,7 +64,15 @@ public class GameActivity extends Activity implements SensorEventListener {
   }
 
   private void init() {
+    gameView_ = (GameView) findViewById(R.id.gameView);
     liveScoreTextView_= (TextView) findViewById(R.id.liveScoreTextView);
+    pauseButton_ = (ImageButton) findViewById(R.id.pauseButton);
+    pauseButton_.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        gameView_.pause();
+      }
+    });
     lostOverlay_ = (RelativeLayout) findViewById(R.id.lostOverlay);
     mainMenuButton_ = (Button) findViewById(R.id.mainMenuButton);
     mainMenuButton_.setOnClickListener(new View.OnClickListener() {

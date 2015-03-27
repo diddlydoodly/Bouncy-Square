@@ -56,4 +56,15 @@
         android:textSize="@dimen/HIGHSCORE_TEXT_SIZE"/>
   </RelativeLayout>
 
+  <ImageButton
+      android:layout_width="@dimen/PAUSE_BUTTON_SIZE"
+      android:layout_height="@dimen/PAUSE_BUTTON_SIZE"
+      android:id="@+id/pauseButton"
+      android:layout_alignParentTop="true"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentEnd="true"
+      android:src="@drawable/pause"
+      android:contentDescription="@string/pause"
+      android:background="#00000000"/>
+
 </RelativeLayout>

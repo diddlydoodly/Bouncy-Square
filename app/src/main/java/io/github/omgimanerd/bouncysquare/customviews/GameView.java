@@ -20,6 +20,7 @@ public class GameView extends View {
   private GameActivity parentActivity_;
   private long lastUpdateTime_;
   private Game game_;
+  private boolean paused_;
 
   public GameView(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -27,18 +28,26 @@ public class GameView extends View {
     parentActivity_ = (GameActivity) context;
     lastUpdateTime_ = currentTimeMillis();
     game_ = new Game();
+    paused_ = false;
   }
 
   public void onDraw(Canvas canvas) {
-    if (currentTimeMillis() > lastUpdateTime_ + (1000 / FPS)) {
+    // Game loop interpolation, this logic here ensures a quasi-constant FPS.
+    if (currentTimeMillis() > lastUpdateTime_ + (1000 / FPS) && !paused_) {
       game_.update();
-      game_.render(canvas);
       parentActivity_.updateScoreView(game_.getScore());
     }
+
+    game_.render(canvas);
+
     if (game_.isLost()) {
       parentActivity_.showLostOverlay(game_.getScore());
     }
     invalidate();
+  }
+
+  public void pause() {
+    paused_ = !paused_;
   }
 
   public boolean onTouchEvent(MotionEvent event) {
