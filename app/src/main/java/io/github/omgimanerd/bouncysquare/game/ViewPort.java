@@ -1,7 +1,6 @@
 package io.github.omgimanerd.bouncysquare.game;
 
 import android.graphics.RectF;
-import android.util.Log;
 
 import io.github.omgimanerd.bouncysquare.util.Util;
 
@@ -30,14 +29,10 @@ public class ViewPort {
     return viewPort_.top;
   }
 
-  public float getBottom() {
-    return viewPort_.bottom;
-  }
-
   /**
    * Maps the given RectF to it's position relative to the canvas so that it
    * can be drawn.
-   * @param rect
+   * @param rect The RectF to map
    * @return The appropriately mapped RectF
    */
   public RectF mapToCanvas(RectF rect) {
@@ -51,10 +46,10 @@ public class ViewPort {
    * Returns if the given RectF is visible or will be visible at some
    * point inside of the current viewport
    * bounds.
-   * @param rect
+   * @param rect The RectF to test for visibility
    * @return
    */
-  public boolean isVisible(RectF rect) {
-    return rect.top >= viewPort_.bottom;
+  public boolean isOutOfBounds(RectF rect) {
+    return !(rect.top >= viewPort_.bottom);
   }
 }

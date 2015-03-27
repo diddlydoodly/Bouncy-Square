@@ -3,7 +3,7 @@ package io.github.omgimanerd.bouncysquare.game;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 import io.github.omgimanerd.bouncysquare.game.platform.Platform;
 import io.github.omgimanerd.bouncysquare.util.CustomResources;
@@ -58,7 +58,7 @@ public class Square {
     isLost_ = false;
   }
 
-  public void update(ViewPort viewport, ArrayList<Platform> platforms) {
+  public void update(ViewPort viewport, LinkedList<Platform> platforms) {
     // Updates the square's horizontal velocity according to the tilt of the
     // phone.
     vx_ = -Util.ACCELEROMETER_VALUES[0];
@@ -99,7 +99,7 @@ public class Square {
     } else {
       // Updates the square's vertical position.
       trueSquare_.offset(0, vy_);
-      isLost_ = !viewport.isVisible(trueSquare_);
+      isLost_ = viewport.isOutOfBounds(trueSquare_);
     }
 
     // Incremements or decrements the orientation angle until it matches the

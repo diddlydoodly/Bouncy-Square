@@ -1,12 +1,10 @@
 package io.github.omgimanerd.bouncysquare.customviews;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.TextView;
 
 import io.github.omgimanerd.bouncysquare.GameActivity;
 import io.github.omgimanerd.bouncysquare.game.Game;

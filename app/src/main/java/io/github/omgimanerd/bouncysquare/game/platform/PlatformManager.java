@@ -3,6 +3,8 @@ package io.github.omgimanerd.bouncysquare.game.platform;
 import android.graphics.Canvas;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
 import io.github.omgimanerd.bouncysquare.util.CustomResources;
@@ -19,25 +21,21 @@ public class PlatformManager {
   private static final double DEFAULT_MIN_PERCENT = 0.25;
   private static final double DEFAULT_MAX_PERCENT = 0.8;
 
-  private ArrayList<Platform> platforms_;
+  private LinkedList<Platform> platforms_;
   private float lastGeneratedHeight_;
 
   public PlatformManager() {
-    platforms_ = new ArrayList<>();
+    platforms_ = new LinkedList<>();
     lastGeneratedHeight_ = 0;
   }
 
   public void update(ViewPort viewPort) {
-    for (Platform platform : platforms_) {
+    Iterator<Platform> iterator = platforms_.iterator();
+    while (iterator.hasNext()) {
+      Platform platform = iterator.next();
       platform.update(viewPort);
-    }
-    int i = 0;
-    while (i < platforms_.size()) {
-      if (!viewPort.isVisible(platforms_.get(i).getPlatform())) {
-        platforms_.remove(i);
-        generateRandomPlatform((double) viewPort.getTop());
-      } else {
-        i++;
+      if (viewPort.isOutOfBounds(platform.getPlatform())) {
+        iterator.remove();
       }
     }
   }
@@ -114,7 +112,7 @@ public class PlatformManager {
     platforms_.add(platform);
   }
 
-  public ArrayList<Platform> getPlatforms() {
+  public LinkedList<Platform> getPlatforms() {
     return platforms_;
   }
 }
