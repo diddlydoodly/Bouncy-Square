@@ -3,9 +3,6 @@ package io.github.omgimanerd.bouncysquare;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.BitmapFactory;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -20,15 +17,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import io.github.omgimanerd.bouncysquare.customviews.GameView;
-import io.github.omgimanerd.bouncysquare.util.Visuals;
-import io.github.omgimanerd.bouncysquare.util.SensorValues;
+import io.github.omgimanerd.bouncysquare.util.CustomResources;
+import io.github.omgimanerd.bouncysquare.util.PersistentData;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class GameActivity extends Activity implements SensorEventListener {
 
-  private Resources res_;
   private SensorManager sensorManager_;
-  private SharedPreferences persistentData_;
 
   private GameView gameView_;
   private TextView liveScoreTextView_;
@@ -46,23 +41,11 @@ public class GameActivity extends Activity implements SensorEventListener {
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                          WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-    res_ = getResources();
     sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-    persistentData_ = getSharedPreferences("bouncy_square", 0);
 
-    Util.SCREEN_WIDTH = res_.getDisplayMetrics().widthPixels;
-    Util.SCREEN_HEIGHT = res_.getDisplayMetrics().heightPixels;
-    // The standard colors must be instantiated in the order of the color of
-    // the square starting from the bottom color, counterclockwise. The
-    // default square is yellow, green, red, and blue starting from the
-    // bottom square moving counterclockwise.
-    Visuals.STANDARD_COLORS[0] = res_.getColor(R.color.STANDARD_YELLOW);
-    Visuals.STANDARD_COLORS[1] = res_.getColor(R.color.STANDARD_GREEN);
-    Visuals.STANDARD_COLORS[2] = res_.getColor(R.color.STANDARD_RED);
-    Visuals.STANDARD_COLORS[3] = res_.getColor(R.color.STANDARD_BLUE);
-    Visuals.SQUARE = BitmapFactory.decodeResource(res_, R.drawable.square);
-    SensorValues.SENSITIVITY = SensorValues.toSensitivityFromData(
-        persistentData_.getInt("sensitivity", 2));
+    CustomResources.init(this);
+    PersistentData.init(this);
+    Util.init(this);
 
     setContentView(R.layout.game_layout);
 
@@ -78,9 +61,11 @@ public class GameActivity extends Activity implements SensorEventListener {
       public void onClick(View v) {
         gameView_.pause();
         if (gameView_.getPauseState()) {
-          pauseButton_.setImageDrawable(res_.getDrawable(R.drawable.play));
+          pauseButton_.setImageDrawable(
+              CustomResources.getDrawable(R.drawable.play));
         } else {
-          pauseButton_.setImageDrawable(res_.getDrawable(R.drawable.pause));
+          pauseButton_.setImageDrawable(
+              CustomResources.getDrawable(R.drawable.pause));
         }
       }
     });
@@ -106,20 +91,18 @@ public class GameActivity extends Activity implements SensorEventListener {
   }
 
   public void updateScoreView(int score) {
-    liveScoreTextView_.setText(res_.getString(R.string.score) + score);
+    liveScoreTextView_.setText(CustomResources.getString(R.string.score) + score);
   }
 
   public void showLostOverlay(int score) {
-    int highScore = persistentData_.getInt("bouncy_square_highscore", 0);
+    int highScore = PersistentData.getHighScore();
     if (score > highScore) {
-      SharedPreferences.Editor editor = persistentData_.edit();
-      editor.putInt("bouncy_square_highscore", score);
-      editor.commit();
+      PersistentData.setHighScore(score);
     }
 
     lostOverlay_.setVisibility(View.VISIBLE);
-    scoreTextView_.setText(res_.getString(R.string.score) + score);
-    highscoreTextView_.setText(res_.getString(R.string.highscore) + highScore);
+    scoreTextView_.setText(CustomResources.getString(R.string.score) + score);
+    highscoreTextView_.setText(CustomResources.getString(R.string.highscore) + highScore);
   }
 
   protected void onResume() {
@@ -140,9 +123,9 @@ public class GameActivity extends Activity implements SensorEventListener {
 
   public void onSensorChanged(SensorEvent event) {
     if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-      for (int i = 0; i < SensorValues.ACCELEROMETER_VALUES.length; ++i) {
-        SensorValues.ACCELEROMETER_VALUES[i] = event.values[i] *
-            SensorValues.SENSITIVITY;
+      for (int i = 0; i < Util.ACCELEROMETER_VALUES.length; ++i) {
+        Util.ACCELEROMETER_VALUES[i] = event.values[i] *
+            PersistentData.getSensitivity();
       }
     }
   }

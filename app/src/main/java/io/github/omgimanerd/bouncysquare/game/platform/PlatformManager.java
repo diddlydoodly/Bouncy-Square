@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import java.util.ArrayList;
 
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
-import io.github.omgimanerd.bouncysquare.util.Visuals;
+import io.github.omgimanerd.bouncysquare.util.CustomResources;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class PlatformManager {
@@ -86,7 +86,7 @@ public class PlatformManager {
         y,
         x + PLATFORM_LENGTH,
         y - PLATFORM_HEIGHT,
-        Visuals.selectRandomColor());
+        CustomResources.selectRandomColor());
     if (Math.random() < getPercentMovingPlatformChance(score,
                                                        DEFAULT_MIN_PERCENT,
                                                        DEFAULT_MAX_PERCENT)) {

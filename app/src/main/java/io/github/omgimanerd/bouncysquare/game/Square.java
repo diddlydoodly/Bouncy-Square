@@ -1,14 +1,13 @@
 package io.github.omgimanerd.bouncysquare.game;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.RectF;
 
 import java.util.ArrayList;
 
 import io.github.omgimanerd.bouncysquare.game.platform.Platform;
-import io.github.omgimanerd.bouncysquare.util.Visuals;
-import io.github.omgimanerd.bouncysquare.util.SensorValues;
+import io.github.omgimanerd.bouncysquare.util.CustomResources;
+import io.github.omgimanerd.bouncysquare.util.PersistentData;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Square {
@@ -62,7 +61,7 @@ public class Square {
   public void update(ViewPort viewport, ArrayList<Platform> platforms) {
     // Updates the square's horizontal velocity according to the tilt of the
     // phone.
-    vx_ = - SensorValues.ACCELEROMETER_VALUES[0];
+    vx_ = -Util.ACCELEROMETER_VALUES[0];
     // Updates the vertical velocity by constantly accelerating downward.
     vy_ += ACCELERATION_Y;
 
@@ -127,7 +126,7 @@ public class Square {
     canvas.save();
     canvas.rotate(orientationAngle_,
                   mappedSquare_.centerX(), mappedSquare_.centerY());
-    canvas.drawBitmap(Visuals.SQUARE, null, mappedSquare_, null);
+    canvas.drawBitmap(CustomResources.getSquare(), null, mappedSquare_, null);
     canvas.restore();
   }
 
@@ -140,7 +139,7 @@ public class Square {
   }
 
   public int getBottomColor() {
-    return Visuals.STANDARD_COLORS[Math.round(((orientationAngle_ + 180) %
+    return CustomResources.STANDARD_COLORS[Math.round(((orientationAngle_ + 180) %
         360) / 90) % 4];
   }
 
