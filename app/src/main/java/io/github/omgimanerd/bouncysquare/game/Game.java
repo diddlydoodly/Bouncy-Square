@@ -3,12 +3,14 @@ package io.github.omgimanerd.bouncysquare.game;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
 
+import io.github.omgimanerd.bouncysquare.game.background.Background;
 import io.github.omgimanerd.bouncysquare.game.platform.PlatformManager;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Game {
 
   private ViewPort viewPort_;
+  private Background background_;
   private Square square_;
   private PlatformManager platformManager_;
 
@@ -16,6 +18,7 @@ public class Game {
 
   public Game() {
     viewPort_ = new ViewPort();
+    background_ = new Background();
     square_ = new Square();
     platformManager_ = new PlatformManager();
     platformManager_.generateDefault();
@@ -26,6 +29,7 @@ public class Game {
   public void update() {
     if (!isLost()) {
       viewPort_.update(square_);
+      background_.update(viewPort_);
       square_.update(viewPort_, platformManager_.getPlatforms());
       platformManager_.update(viewPort_);
 
@@ -36,6 +40,7 @@ public class Game {
   }
 
   public void render(Canvas canvas) {
+    background_.render(canvas);
     square_.render(canvas);
     platformManager_.render(canvas);
   }

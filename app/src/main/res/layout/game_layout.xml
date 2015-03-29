@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-    >
+                android:layout_height="match_parent">
+
+  <ImageButton
+      android:layout_width="@dimen/PAUSE_BUTTON_SIZE"
+      android:layout_height="@dimen/PAUSE_BUTTON_SIZE"
+      android:id="@+id/pauseButton"
+      android:layout_alignParentTop="true"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentEnd="true"
+      android:src="@drawable/pause"
+      android:background="#00000000"
+      android:scaleType="fitXY"
+      android:contentDescription="@string/pause"/>
 
   <io.github.omgimanerd.bouncysquare.customviews.GameView
       android:layout_width="fill_parent"
@@ -22,10 +33,12 @@
 
   <RelativeLayout
       android:layout_width="fill_parent"
-      android:layout_height="fill_parent"
+      android:layout_height="wrap_content"
       android:layout_margin="@dimen/LOST_OVERLAY_MARGIN"
       android:id="@+id/lostOverlay"
-      android:visibility="visible">
+      android:visibility="visible"
+      android:layout_alignParentEnd="false"
+      android:layout_centerVertical="true">
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,26 +59,15 @@
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/HIGHSCORE_TEXT_SIZE"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/main_menu"
-        android:id="@+id/mainMenuButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="@dimen/BUTTON_TEXT_SIZE"/>
-
   </RelativeLayout>
 
-  <ImageButton
-      android:layout_width="@dimen/PAUSE_BUTTON_SIZE"
-      android:layout_height="@dimen/PAUSE_BUTTON_SIZE"
-      android:id="@+id/pauseButton"
-      android:layout_alignParentTop="true"
-      android:layout_alignParentRight="true"
-      android:layout_alignParentEnd="true"
-      android:src="@drawable/pause"
-      android:background="#00000000"
-      android:scaleType="fitXY"/>
+  <Button
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/main_menu"
+      android:id="@+id/mainMenuButton"
+      android:textSize="@dimen/BUTTON_TEXT_SIZE"
+      android:layout_below="@+id/lostOverlay"
+      android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

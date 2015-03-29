@@ -70,8 +70,9 @@ public class GameActivity extends Activity implements SensorEventListener {
       }
     });
     lostOverlay_ = (RelativeLayout) findViewById(R.id.lostOverlay);
-    lostOverlay_.setVisibility(View.GONE);
+    lostOverlay_.setVisibility(View.INVISIBLE);
     mainMenuButton_ = (Button) findViewById(R.id.mainMenuButton);
+    mainMenuButton_.setVisibility(View.INVISIBLE);
     mainMenuButton_.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
         backToMenu();
@@ -100,7 +101,9 @@ public class GameActivity extends Activity implements SensorEventListener {
       PersistentData.setHighScore(score);
     }
 
+    pauseButton_.setVisibility(View.INVISIBLE);
     lostOverlay_.setVisibility(View.VISIBLE);
+    mainMenuButton_.setVisibility(View.VISIBLE);
     scoreTextView_.setText(CustomResources.getString(R.string.score) + score);
     highscoreTextView_.setText(CustomResources.getString(R.string.highscore) + highScore);
   }

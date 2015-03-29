@@ -39,6 +39,9 @@ public class ViewPort {
     RectF mappedRectF = new RectF(rect);
     mappedRectF.offsetTo(rect.left, Util.SCREEN_HEIGHT - (rect.bottom -
         viewPort_.bottom));
+    float tmp = mappedRectF.top;
+    mappedRectF.top = mappedRectF.bottom;
+    mappedRectF.bottom = tmp;
     return mappedRectF;
   }
 

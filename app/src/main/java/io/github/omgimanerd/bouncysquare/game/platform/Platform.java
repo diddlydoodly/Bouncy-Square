@@ -8,7 +8,6 @@ import android.util.Log;
 
 import io.github.omgimanerd.bouncysquare.game.Square;
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
-import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Platform {
 
@@ -78,6 +77,7 @@ public class Platform {
   }
 
   public boolean matchColor(Square square) {
+    Log.d("color", square.getBottomColor() + " " + platformPaint_.getColor());
     return platformPaint_.getColor() == Color.BLACK ||
         square.getBottomColor() == platformPaint_.getColor();
   }

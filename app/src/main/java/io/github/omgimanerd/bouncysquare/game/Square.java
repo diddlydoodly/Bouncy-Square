@@ -117,9 +117,6 @@ public class Square {
     }
 
     mappedSquare_ = viewport.mapToCanvas(trueSquare_);
-    // This is necessary to since the drawing using lines goes out of the
-    // bounding box.
-    mappedSquare_.inset(STROKE_WIDTH, - STROKE_WIDTH);
   }
 
   public void render(Canvas canvas) {

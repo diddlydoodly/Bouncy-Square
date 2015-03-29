@@ -18,6 +18,7 @@ public class CustomResources {
 
   private static Resources res_;
   private static Bitmap square_;
+  private static Bitmap background_;
 
   public static void init(Context context) {
     // The standard colors must be instantiated in the order of the color of
@@ -25,11 +26,12 @@ public class CustomResources {
     // default square is yellow, green, red, and blue starting from the
     // bottom square moving counterclockwise.res_ = context.getResources();
     res_ = context.getResources();
-    STANDARD_COLORS[0] = res_.getColor(R.color.STANDARD_YELLOW);
-    STANDARD_COLORS[1] = res_.getColor(R.color.STANDARD_GREEN);
+    STANDARD_COLORS[0] = res_.getColor(R.color.STANDARD_GREEN);
+    STANDARD_COLORS[1] = res_.getColor(R.color.STANDARD_YELLOW);
     STANDARD_COLORS[2] = res_.getColor(R.color.STANDARD_RED);
     STANDARD_COLORS[3] = res_.getColor(R.color.STANDARD_BLUE);
-    square_ = BitmapFactory.decodeResource(res_, R.drawable.square);
+    square_ = BitmapFactory.decodeResource(res_, R.drawable.box);
+    background_ = BitmapFactory.decodeResource(res_, R.drawable.warehouse1);
   }
 
   public static Drawable getDrawable(int id) {
@@ -42,6 +44,10 @@ public class CustomResources {
 
   public static Bitmap getSquare() {
     return square_;
+  }
+
+  public static Bitmap getBackground() {
+    return background_;
   }
 
   public static int selectRandomColor() {
