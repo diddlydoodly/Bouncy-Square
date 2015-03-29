@@ -9,13 +9,16 @@ import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Background {
 
+  private static final int NUM_FRAMES = 3;
+
   // Frames will follow "normal" coordinate system and will be mapped by the
   // ViewPort.
   private BackgroundFrame[] frames_;
   private int bottomFrameIndex_;
+  private int topFrameIndex_;
 
   public Background() {
-    frames_ = new BackgroundFrame[2];
+    frames_ = new BackgroundFrame[NUM_FRAMES];
     frames_[0] = new BackgroundFrame(0, Util.SCREEN_HEIGHT,
                                      Util.SCREEN_WIDTH, 0,
                                      CustomResources.getBackground());
@@ -26,15 +29,24 @@ public class Background {
                                      Util.SCREEN_WIDTH, 2 * Util.SCREEN_HEIGHT,
                                      CustomResources.getBackground());
     bottomFrameIndex_ = 0;
+    topFrameIndex_ = NUM_FRAMES - 1;
   }
 
   public void update(ViewPort viewPort) {
-    RectF tmp = frames_[bottomFrameIndex_].getTrueFrame();
-    if (viewPort.isOutOfBounds(tmp)) {
-      frames_[bottomFrameIndex_] = new BackgroundFrame(
-          0, tmp.top + Util.SCREEN_HEIGHT, Util.SCREEN_WIDTH, tmp.top,
-          CustomResources.getBackground());
-      bottomFrameIndex_ = (bottomFrameIndex_ + 1) % frames_.length;
+    for (int i = 0; i < frames_.length; ++i) {
+      if (i == bottomFrameIndex_) {
+        if (viewPort.isOutOfBounds(frames_[bottomFrameIndex_].getTrueFrame())) {
+          frames_[bottomFrameIndex_] = new BackgroundFrame(
+              0,
+              frames_[topFrameIndex_].getTrueFrame().top + Util.SCREEN_HEIGHT,
+              Util.SCREEN_WIDTH,
+              frames_[topFrameIndex_].getTrueFrame().top,
+              CustomResources.getBackground());
+          bottomFrameIndex_ = (bottomFrameIndex_ + 1) % NUM_FRAMES;
+          topFrameIndex_ = (topFrameIndex_ + 1) % NUM_FRAMES;
+        }
+      }
+      frames_[i].update(viewPort);
     }
   }
 

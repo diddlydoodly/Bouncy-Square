@@ -30,7 +30,7 @@ public class CustomResources {
     STANDARD_COLORS[1] = res_.getColor(R.color.STANDARD_YELLOW);
     STANDARD_COLORS[2] = res_.getColor(R.color.STANDARD_RED);
     STANDARD_COLORS[3] = res_.getColor(R.color.STANDARD_BLUE);
-    square_ = BitmapFactory.decodeResource(res_, R.drawable.box);
+    square_ = BitmapFactory.decodeResource(res_, R.drawable.square);
     background_ = BitmapFactory.decodeResource(res_, R.drawable.warehouse1);
   }
 
