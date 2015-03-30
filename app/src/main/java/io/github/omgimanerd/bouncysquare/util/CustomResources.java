@@ -11,8 +11,7 @@ import io.github.omgimanerd.bouncysquare.R;
 public class CustomResources {
 
   /**
-   * This array is filled when the GameActivity is started by getting the app
-   * resources.
+   * All values in this class are filled when GameActivity is started.
    */
   public static int[] STANDARD_COLORS = new int[4];
 
@@ -21,10 +20,6 @@ public class CustomResources {
   private static Bitmap background_;
 
   public static void init(Context context) {
-    // The standard colors must be instantiated in the order of the color of
-    // the square starting from the bottom color, counterclockwise. The
-    // default square is yellow, green, red, and blue starting from the
-    // bottom square moving counterclockwise.res_ = context.getResources();
     res_ = context.getResources();
     STANDARD_COLORS[0] = res_.getColor(R.color.STANDARD_GREEN);
     STANDARD_COLORS[1] = res_.getColor(R.color.STANDARD_YELLOW);

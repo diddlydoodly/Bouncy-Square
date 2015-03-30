@@ -7,14 +7,14 @@ public class Util {
 
   public static float SCREEN_HEIGHT;
   public static float SCREEN_WIDTH;
-  public static float[] ACCELEROMETER_VALUES;
+  public static float[] SCALED_ACCELEROMETER_VALUES;
 
   public static void init(Context context) {
     Util.SCREEN_WIDTH = context.getResources().getDisplayMetrics().
         widthPixels;
     Util.SCREEN_HEIGHT = context.getResources().getDisplayMetrics().
         heightPixels;
-    ACCELEROMETER_VALUES = new float[3];
+    SCALED_ACCELEROMETER_VALUES = new float[3];
   }
 
   public static float normalizeAngle(float angle) {

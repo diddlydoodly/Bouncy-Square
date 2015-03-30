@@ -14,7 +14,6 @@ public class Square {
   // ROTATION_SPEED is in degrees/update.
   private static final float ROTATION_SPEED = 15;
   private static final int SIDE_LENGTH = (int) (Util.SCREEN_WIDTH / 6);
-  private static final int STROKE_WIDTH = 10;
   private static final RectF STARTING_RECT = new RectF(
       Util.SCREEN_WIDTH / 2 - SIDE_LENGTH / 2,
       Util.SCREEN_HEIGHT / 2 + SIDE_LENGTH / 2,
@@ -61,7 +60,7 @@ public class Square {
   public void update(ViewPort viewport, LinkedList<Platform> platforms) {
     // Updates the square's horizontal velocity according to the tilt of the
     // phone.
-    vx_ = -Util.ACCELEROMETER_VALUES[0];
+    vx_ = -Util.SCALED_ACCELEROMETER_VALUES[0];
     // Updates the vertical velocity by constantly accelerating downward.
     vy_ += ACCELERATION_Y;
 
