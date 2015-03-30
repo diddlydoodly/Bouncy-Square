@@ -12,7 +12,7 @@ import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class PlatformManager {
 
-  public static final int MAX_NUM_PLATFORMS = 4;
+  public static final int NUM_PLATFORMS = 4;
   public static final float PLATFORM_LENGTH = Util.SCREEN_WIDTH / 5;
   public static final float PLATFORM_HEIGHT = Util.SCREEN_WIDTH / 20;
   public static final float PLATFORM_VELOCITY = 5;
@@ -22,71 +22,59 @@ public class PlatformManager {
   private static final double DEFAULT_MIN_PERCENT = 0.25;
   private static final double DEFAULT_MAX_PERCENT = 0.8;
 
-  private LinkedList<Platform> platforms_;
+  private Platform[] platforms_;
+  private int bottomPlatformIndex_;
+  private int topPlatformIndex_;
   private float lastGeneratedHeight_;
 
   public PlatformManager() {
-    platforms_ = new LinkedList<>();
-    lastGeneratedHeight_ = 0;
-  }
-
-  public void update(ViewPort viewPort) {
-    Iterator<Platform> iterator = platforms_.iterator();
-    while (iterator.hasNext()) {
-      Platform platform = iterator.next();
-      platform.update(viewPort);
-      if (viewPort.isOutOfBounds(platform.getPlatform())) {
-        iterator.remove();
-      }
-    }
-    while (platforms_.size() < MAX_NUM_PLATFORMS) {
-      generateRandomPlatform(viewPort.getTop());
-    }
-  }
-
-  public void render(Canvas canvas) {
-    for (Platform platform : platforms_) {
-      platform.render(canvas);
-    }
-  }
-
-  public void generateDefault() {
+    platforms_ = new Platform[NUM_PLATFORMS];
     /**
      * A new platform is generated as soon as an old one is removed.
      * PlatformManager will automatically take care of spacing them evenly
-     * apart. By manually declaring these four platforms,
-     * we also ensure that there will only be four platforms in existence at
-     * any given point.
+     * apart.
      */
-    generatePlatform(
+    platforms_[0] = new Platform(
         0,
         PlatformManager.PLATFORM_HEIGHT,
         Util.SCREEN_WIDTH,
         0,
         Color.BLACK);
-    generatePlatform(
+    platforms_[1] = new Platform(
         0,
         Util.SCREEN_HEIGHT / 3 + PlatformManager.PLATFORM_HEIGHT,
         PlatformManager.PLATFORM_LENGTH,
         Util.SCREEN_HEIGHT / 3, CustomResources.selectRandomColor());
-    generatePlatform(
+    platforms_[2] = new Platform(
         Util.SCREEN_WIDTH / 3,
         Util.SCREEN_HEIGHT * 2 / 3 + PlatformManager.PLATFORM_HEIGHT,
         Util.SCREEN_WIDTH / 3 + PlatformManager.PLATFORM_LENGTH,
         Util.SCREEN_HEIGHT * 2 / 3, CustomResources.selectRandomColor());
-    generatePlatform(
+    platforms_[3] = new Platform(
         Util.SCREEN_WIDTH * 2 / 3,
         Util.SCREEN_HEIGHT + PlatformManager.PLATFORM_HEIGHT,
         Util.SCREEN_WIDTH * 2 / 3 + PlatformManager.PLATFORM_LENGTH,
         Util.SCREEN_HEIGHT, CustomResources.selectRandomColor());
+    bottomPlatformIndex_ = 0;
+    topPlatformIndex_ = 3;
+    lastGeneratedHeight_ = 0;
   }
 
-  public void generatePlatform(float left, float top,
-                               float right, float bottom,
-                               int color) {
-    platforms_.add(new Platform(left, top, right, bottom, color));
-    if (top > lastGeneratedHeight_) {
-      lastGeneratedHeight_ = top;
+  public void update(ViewPort viewPort, int heightScore) {
+    for (int i = 0; i < NUM_PLATFORMS; ++i) {
+      if (i == bottomPlatformIndex_ &&
+          viewPort.isOutOfBounds(platforms_[i].getPlatform())) {
+        platforms_[i] = generateNextRandomPlatform(heightScore);
+        bottomPlatformIndex_ = (bottomPlatformIndex_ + 1) % NUM_PLATFORMS;
+        topPlatformIndex_ = (topPlatformIndex_ + 1) % NUM_PLATFORMS;
+      }
+      platforms_[i].update(viewPort);
+    }
+  }
+
+  public void render(Canvas canvas) {
+    for (int i = 0; i < NUM_PLATFORMS; ++i) {
+      platforms_[i].render(canvas);
     }
   }
 
@@ -102,7 +90,7 @@ public class PlatformManager {
    * @param maxPercent The upper bound of all generated percentages.
    * @return The percentage that a platform will generate.
    */
-  public static double getPercentMovingPlatformChance(double score,
+  private double getPercentMovingPlatformChance(double score,
                                                       double minPercent,
                                                       double maxPercent) {
     return (- PERCENT_SCALING_FACTOR /
@@ -110,8 +98,7 @@ public class PlatformManager {
         maxPercent;
   }
 
-  public void generateRandomPlatform(double heightReached) {
-    //TODO: improve platform generation
+  private Platform generateNextRandomPlatform(double heightReached) {
     float x = (int) (Math.random() * (Util.SCREEN_WIDTH - PLATFORM_LENGTH));
     float y = lastGeneratedHeight_ + Util.SCREEN_HEIGHT / 3;
     lastGeneratedHeight_ = y;
@@ -145,10 +132,10 @@ public class PlatformManager {
                                y + MOVING_PLATFORM_RANGE});
       }
     }
-    platforms_.add(platform);
+    return platform;
   }
 
-  public LinkedList<Platform> getPlatforms() {
+  public Platform[] getPlatforms() {
     return platforms_;
   }
 }

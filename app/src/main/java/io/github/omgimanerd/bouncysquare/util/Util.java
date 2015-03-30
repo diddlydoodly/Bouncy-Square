@@ -17,6 +17,11 @@ public class Util {
     SCALED_ACCELEROMETER_VALUES = new float[3];
   }
 
+  /**
+   * Takes an angle and returns a coterminal angle from 0 <= angle < 360.
+   * @param angle
+   * @return the normalized angle.
+   */
   public static float normalizeAngle(float angle) {
     while (angle < 0) {
       angle += 360;
@@ -28,7 +33,7 @@ public class Util {
    * This method is needed because the built-in intersects() method for
    * RectF's does not work with "normal" coordinates. This method uses AABB
    * collision detection to quickly detect if two RectF's with "normal"
-   * coordinates where top > bottom have collided.
+   * coordinates (top > bottom) have collided.
    * @param a A RectF to test
    * @param b The RectF to test against the first
    */

@@ -31,10 +31,11 @@ public class Game {
       viewPort_.update(square_);
       background_.update(viewPort_);
       square_.update(viewPort_, platformManager_.getPlatforms());
-      platformManager_.update(viewPort_);
+      platformManager_.update(viewPort_, heightScore_);
 
       if (square_.getSquare().top > heightScore_) {
-        heightScore_ = (int) square_.getSquare().top;
+        heightScore_ = (int) (square_.getSquare().top / Util.SCREEN_HEIGHT *
+            1000);
       }
     }
   }

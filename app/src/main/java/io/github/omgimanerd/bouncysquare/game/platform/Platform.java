@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 
 import io.github.omgimanerd.bouncysquare.game.Square;
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
@@ -26,20 +25,6 @@ public class Platform {
   private boolean isSolid_;
 
   private Paint platformPaint_;
-
-  public Platform(RectF rect, int color) {
-    truePlatform_ = rect;
-    mappedPlatform_ = new RectF();
-    isMoving_ = false;
-    vx_ = 0;
-    vy_ = 0;
-    moveRangeX_ = new float[2];
-    moveRangeY_ = new float[2];
-    isSolid_ = true;
-    platformPaint_ = new Paint();
-    platformPaint_.setColor(color);
-
-  }
 
   public Platform(float left, float top, float right, float bottom, int color) {
     truePlatform_ = new RectF(left, top, right, bottom);
@@ -77,29 +62,12 @@ public class Platform {
   }
 
   public boolean matchColor(Square square) {
-    Log.d("color", square.getBottomColor() + " " + platformPaint_.getColor());
     return platformPaint_.getColor() == Color.BLACK ||
         square.getBottomColor() == platformPaint_.getColor();
   }
 
-  public void setPlatform(RectF rect) {
-    truePlatform_.set(rect);
-  }
-
-  public void setPlatform(float left, float top, float right, float bottom) {
-    truePlatform_.set(left, top, right, bottom);
-  }
-
   public RectF getPlatform() {
     return truePlatform_;
-  }
-
-  public float centerX() {
-    return truePlatform_.centerX();
-  }
-
-  public float centerY() {
-    return truePlatform_.centerY();
   }
 
   public boolean isSolid() {
@@ -118,11 +86,6 @@ public class Platform {
 
   public Platform setSolid(boolean isSolid) {
     isSolid_ = isSolid;
-    return this;
-  }
-
-  public Platform setColor(int color) {
-    platformPaint_.setColor(color);
     return this;
   }
 }

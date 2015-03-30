@@ -34,17 +34,11 @@ public class Background {
 
   public void update(ViewPort viewPort) {
     for (int i = 0; i < frames_.length; ++i) {
-      if (i == bottomFrameIndex_) {
-        if (viewPort.isOutOfBounds(frames_[bottomFrameIndex_].getTrueFrame())) {
-          frames_[bottomFrameIndex_] = new BackgroundFrame(
-              0,
-              frames_[topFrameIndex_].getTrueFrame().top + Util.SCREEN_HEIGHT,
-              Util.SCREEN_WIDTH,
-              frames_[topFrameIndex_].getTrueFrame().top,
-              CustomResources.getBackground());
-          bottomFrameIndex_ = (bottomFrameIndex_ + 1) % NUM_FRAMES;
-          topFrameIndex_ = (topFrameIndex_ + 1) % NUM_FRAMES;
-        }
+      if (i == bottomFrameIndex_ &&
+          viewPort.isOutOfBounds(frames_[bottomFrameIndex_].getTrueFrame())) {
+        frames_[bottomFrameIndex_] = getNextFrame();
+        bottomFrameIndex_ = (bottomFrameIndex_ + 1) % NUM_FRAMES;
+        topFrameIndex_ = (topFrameIndex_ + 1) % NUM_FRAMES;
       }
       frames_[i].update(viewPort);
     }
@@ -54,5 +48,14 @@ public class Background {
     for (int i = 0; i < frames_.length; ++i) {
       frames_[i].redraw(canvas);
     }
+  }
+
+  private BackgroundFrame getNextFrame() {
+    return new BackgroundFrame(
+        0,
+        frames_[topFrameIndex_].getTrueFrame().top + Util.SCREEN_HEIGHT,
+        Util.SCREEN_WIDTH,
+        frames_[topFrameIndex_].getTrueFrame().top,
+        CustomResources.getBackground());
   }
 }
