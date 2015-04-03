@@ -15,14 +15,13 @@ public class Platform {
    * while mappedPlatform_ stores the canvas coordinates of the platform.
    * vx_, vy_, moveRangeX_, and moveRangeY_ are in absolute coordinates.
    */
-  private RectF truePlatform_;
-  private RectF mappedPlatform_;
-  private boolean isMoving_;
-  private float vx_;
-  private float vy_;
-  private float[] moveRangeX_;
-  private float[] moveRangeY_;
-  private boolean isSolid_;
+  protected RectF truePlatform_;
+  protected RectF mappedPlatform_;
+  protected boolean isMoving_;
+  protected float vx_;
+  protected float vy_;
+  protected float[] moveRangeX_;
+  protected float[] moveRangeY_;
 
   private Paint platformPaint_;
 
@@ -34,7 +33,6 @@ public class Platform {
     vy_ = 0;
     moveRangeX_ = new float[2];
     moveRangeY_ = new float[2];
-    isSolid_ = true;
     platformPaint_ = new Paint();
     platformPaint_.setColor(color);
   }
@@ -70,10 +68,6 @@ public class Platform {
     return truePlatform_;
   }
 
-  public boolean isSolid() {
-    return isSolid_;
-  }
-
   public Platform setMotion(float vx, float vy,
                             float[] moveRangeX, float[] moveRangeY) {
     isMoving_ = true;
@@ -81,11 +75,6 @@ public class Platform {
     vy_ = vy;
     moveRangeX_ = moveRangeX;
     moveRangeY_ = moveRangeY;
-    return this;
-  }
-
-  public Platform setSolid(boolean isSolid) {
-    isSolid_ = isSolid;
     return this;
   }
 }

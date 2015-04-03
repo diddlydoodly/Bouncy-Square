@@ -21,7 +21,6 @@ public class Game {
     background_ = new Background();
     square_ = new Square();
     platformManager_ = new PlatformManager();
-    platformManager_.generateDefault();
 
     heightScore_ = 0;
   }

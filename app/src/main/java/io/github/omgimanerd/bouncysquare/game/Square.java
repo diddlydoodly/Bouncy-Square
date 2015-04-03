@@ -57,7 +57,7 @@ public class Square {
     isLost_ = false;
   }
 
-  public void update(ViewPort viewport, LinkedList<Platform> platforms) {
+  public void update(ViewPort viewport, Platform[] platforms) {
     // Updates the square's horizontal velocity according to the tilt of the
     // phone.
     vx_ = -Util.SCALED_ACCELEROMETER_VALUES[0];
@@ -81,8 +81,7 @@ public class Square {
     for (Platform platform : platforms) {
       if (Util.intersects(trueSquare_, platform.getPlatform()) &&
           vy_ < 0 &&
-          trueSquare_.bottom > platform.getPlatform().bottom &&
-          platform.isSolid()) {
+          trueSquare_.bottom > platform.getPlatform().bottom) {
         vy_ = upwardBounceVelocity_;
         isLost_ = !platform.matchColor(this);
         return;

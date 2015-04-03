@@ -3,9 +3,6 @@ package io.github.omgimanerd.bouncysquare.game.platform;
 import android.graphics.Canvas;
 import android.graphics.Color;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
 import io.github.omgimanerd.bouncysquare.util.CustomResources;
 import io.github.omgimanerd.bouncysquare.util.Util;
@@ -18,14 +15,13 @@ public class PlatformManager {
   public static final float PLATFORM_VELOCITY = 5;
 
   private static final float MOVING_PLATFORM_RANGE = Util.SCREEN_HEIGHT / 9;
-  private static final double PERCENT_SCALING_FACTOR = 25000;
+  private static final double PERCENT_SCALING_FACTOR = 20000;
   private static final double DEFAULT_MIN_PERCENT = 0.25;
-  private static final double DEFAULT_MAX_PERCENT = 0.8;
+  private static final double DEFAULT_MAX_PERCENT = 0.95;
 
   private Platform[] platforms_;
   private int bottomPlatformIndex_;
   private int topPlatformIndex_;
-  private float lastGeneratedHeight_;
 
   public PlatformManager() {
     platforms_ = new Platform[NUM_PLATFORMS];
@@ -56,8 +52,7 @@ public class PlatformManager {
         Util.SCREEN_WIDTH * 2 / 3 + PlatformManager.PLATFORM_LENGTH,
         Util.SCREEN_HEIGHT, CustomResources.selectRandomColor());
     bottomPlatformIndex_ = 0;
-    topPlatformIndex_ = 3;
-    lastGeneratedHeight_ = 0;
+    topPlatformIndex_ = NUM_PLATFORMS - 1;
   }
 
   public void update(ViewPort viewPort, int heightScore) {
@@ -91,8 +86,8 @@ public class PlatformManager {
    * @return The percentage that a platform will generate.
    */
   private double getPercentMovingPlatformChance(double score,
-                                                      double minPercent,
-                                                      double maxPercent) {
+                                                double minPercent,
+                                                double maxPercent) {
     return (- PERCENT_SCALING_FACTOR /
         (score + (PERCENT_SCALING_FACTOR / (maxPercent - minPercent)))) +
         maxPercent;
@@ -100,14 +95,15 @@ public class PlatformManager {
 
   private Platform generateNextRandomPlatform(double heightReached) {
     float x = (int) (Math.random() * (Util.SCREEN_WIDTH - PLATFORM_LENGTH));
-    float y = lastGeneratedHeight_ + Util.SCREEN_HEIGHT / 3;
-    lastGeneratedHeight_ = y;
+    float y = platforms_[topPlatformIndex_].getPlatform().top + Util
+        .SCREEN_HEIGHT / 3;
     Platform platform = new Platform(
         x,
         y,
         x + PLATFORM_LENGTH,
         y - PLATFORM_HEIGHT,
         CustomResources.selectRandomColor());
+
     if (Math.random() < getPercentMovingPlatformChance(heightReached,
                                                        DEFAULT_MIN_PERCENT,
                                                        DEFAULT_MAX_PERCENT)) {
