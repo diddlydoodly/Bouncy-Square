@@ -33,6 +33,10 @@ public class Game {
       platformManager_.update(viewPort_, heightScore_);
 
       if (square_.getSquare().top > heightScore_) {
+        // The scaling on heightScore_ ensures that larger resolution devices
+        // cannot achieve a higher score that a lower resolution device for
+        // traveling the same amount since the score is derived from the pixel
+        // height of the square.
         heightScore_ = (int) (square_.getSquare().top / Util.SCREEN_HEIGHT *
             1000);
       }

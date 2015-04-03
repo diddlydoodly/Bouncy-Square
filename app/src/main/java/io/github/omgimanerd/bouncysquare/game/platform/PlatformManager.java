@@ -14,7 +14,7 @@ public class PlatformManager {
   public static final float PLATFORM_HEIGHT = Util.SCREEN_WIDTH / 20;
   public static final float PLATFORM_VELOCITY = 5;
 
-  private static final float MOVING_PLATFORM_RANGE = Util.SCREEN_HEIGHT / 9;
+  private static final float MOVING_PLATFORM_RANGE = Util.SCREEN_HEIGHT / 10;
   private static final double PERCENT_SCALING_FACTOR = 20000;
   private static final double DEFAULT_MIN_PERCENT = 0.25;
   private static final double DEFAULT_MAX_PERCENT = 0.95;

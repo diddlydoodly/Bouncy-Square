@@ -42,6 +42,7 @@ public class Square {
   private float orientationAngle_;
   private float targetOrientationAngle_;
 
+  private boolean isSolid_;
   private boolean isLost_;
 
   public Square() {
@@ -54,6 +55,7 @@ public class Square {
     orientationAngle_ = 0;
     targetOrientationAngle_ = 0;
 
+    isSolid_ = true;
     isLost_ = false;
   }
 
@@ -78,13 +80,14 @@ public class Square {
     // Handles upward velocity when the square bounces off of a platform.
     // The square should bounce if it is falling downward and is above a
     // platform.
-    for (Platform platform : platforms) {
-      if (Util.intersects(trueSquare_, platform.getPlatform()) &&
-          vy_ < 0 &&
-          trueSquare_.bottom > platform.getPlatform().bottom) {
-        vy_ = upwardBounceVelocity_;
-        isLost_ = !platform.matchColor(this);
-        return;
+    if (isSolid_) {
+      for (Platform platform : platforms) {
+        if (Util.intersects(trueSquare_, platform.getPlatform()) &&
+            vy_ < 0 &&
+            trueSquare_.bottom > platform.getPlatform().bottom) {
+          vy_ = upwardBounceVelocity_;
+          isSolid_ = ! platform.matchColor(this);
+        }
       }
     }
 
