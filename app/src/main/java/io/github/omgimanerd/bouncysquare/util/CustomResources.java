@@ -25,28 +25,15 @@ public class CustomResources {
   public static void init(Context context) {
     res_ = context.getResources();
     STANDARD_COLORS = new String[] {
-        getString(R.string.black),
-        getString(R.string.green),
-        getString(R.string.yellow),
         getString(R.string.red),
-        getString(R.string.blue)
+        getString(R.string.blue),
+        getString(R.string.green),
+        getString(R.string.yellow)
     };
     SQUARE = BitmapFactory.decodeResource(res_, R.drawable.square);
     BACKGROUND = BitmapFactory.decodeResource(res_, R.drawable.warehouse1);
     PLATFORMS = new HashMap<>();
     PLATFORMS.put(getString(R.string.black), new Bitmap[] {
-        BitmapFactory.decodeResource(res_, R.drawable.yellow1),
-        BitmapFactory.decodeResource(res_, R.drawable.yellow2),
-        BitmapFactory.decodeResource(res_, R.drawable.yellow3),
-        BitmapFactory.decodeResource(res_, R.drawable.yellow4)
-    });
-    PLATFORMS.put(getString(R.string.green), new Bitmap[] {
-        BitmapFactory.decodeResource(res_, R.drawable.green1),
-        BitmapFactory.decodeResource(res_, R.drawable.green2),
-        BitmapFactory.decodeResource(res_, R.drawable.green3),
-        BitmapFactory.decodeResource(res_, R.drawable.green4)
-    });
-    PLATFORMS.put(getString(R.string.yellow), new Bitmap[] {
         BitmapFactory.decodeResource(res_, R.drawable.yellow1),
         BitmapFactory.decodeResource(res_, R.drawable.yellow2),
         BitmapFactory.decodeResource(res_, R.drawable.yellow3),
@@ -64,6 +51,18 @@ public class CustomResources {
         BitmapFactory.decodeResource(res_, R.drawable.blue3),
         BitmapFactory.decodeResource(res_, R.drawable.blue4)
     });
+    PLATFORMS.put(getString(R.string.green), new Bitmap[] {
+        BitmapFactory.decodeResource(res_, R.drawable.green1),
+        BitmapFactory.decodeResource(res_, R.drawable.green2),
+        BitmapFactory.decodeResource(res_, R.drawable.green3),
+        BitmapFactory.decodeResource(res_, R.drawable.green4)
+    });
+    PLATFORMS.put(getString(R.string.yellow), new Bitmap[] {
+        BitmapFactory.decodeResource(res_, R.drawable.yellow1),
+        BitmapFactory.decodeResource(res_, R.drawable.yellow2),
+        BitmapFactory.decodeResource(res_, R.drawable.yellow3),
+        BitmapFactory.decodeResource(res_, R.drawable.yellow4)
+    });
   }
 
   public static Drawable getDrawable(int id) {
@@ -75,6 +74,6 @@ public class CustomResources {
   }
 
   public static String selectRandomColor() {
-    return STANDARD_COLORS[(int) Math.random() * 4];
+    return STANDARD_COLORS[(int) (Math.random() * 4)];
   }
 }

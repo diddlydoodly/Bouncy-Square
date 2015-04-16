@@ -122,8 +122,8 @@ public class Square {
   }
 
   public String getBottomColor() {
-    return CustomResources.STANDARD_COLORS[Math.round(((orientationAngle_ + 180) %
-        360) / 90) % 4];
+    return CustomResources.STANDARD_COLORS[(Math.round((orientationAngle_) / 90)
+        % 4)];
   }
 
   public void rotateClockwise() {
