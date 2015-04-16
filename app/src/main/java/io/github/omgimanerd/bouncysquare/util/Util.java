@@ -19,7 +19,7 @@ public class Util {
 
   /**
    * Takes an angle and returns a coterminal angle from 0 <= angle < 360.
-   * @param angle
+   * @param angle The angle to normalize
    * @return the normalized angle.
    */
   public static float normalizeAngle(float angle) {

@@ -3,8 +3,6 @@ package io.github.omgimanerd.bouncysquare.game;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
-import java.util.LinkedList;
-
 import io.github.omgimanerd.bouncysquare.game.platform.Platform;
 import io.github.omgimanerd.bouncysquare.util.CustomResources;
 import io.github.omgimanerd.bouncysquare.util.Util;
@@ -85,23 +83,14 @@ public class Square {
         if (Util.intersects(trueSquare_, platform.getPlatform()) &&
             vy_ < 0 &&
             trueSquare_.bottom > platform.getPlatform().bottom) {
-          vy_ = upwardBounceVelocity_;
-          isSolid_ = ! platform.matchColor(this);
+          isSolid_ = platform.matchColor(this);
+          vy_ = isSolid_ ? upwardBounceVelocity_ : upwardBounceVelocity_ / 5;
         }
       }
     }
 
-    // Bottom case, never actually happens.
-    if (trueSquare_.bottom + vy_ <= 0) {
-      // Since RectF expects bottom > top, trueSquare_.height() returns
-      // negative.
-      trueSquare_.offsetTo(trueSquare_.left, - trueSquare_.height());
-      vy_ = 0;
-    } else {
-      // Updates the square's vertical position.
-      trueSquare_.offset(0, vy_);
-      isLost_ = viewport.isOutOfBounds(trueSquare_);
-    }
+    trueSquare_.offset(0, vy_);
+    isLost_ = viewport.isOutOfBounds(trueSquare_);
 
     // Incremements or decrements the orientation angle until it matches the
     // target orientation angle.
@@ -124,7 +113,7 @@ public class Square {
     canvas.save();
     canvas.rotate(orientationAngle_,
                   mappedSquare_.centerX(), mappedSquare_.centerY());
-    canvas.drawBitmap(CustomResources.getSquare(), null, mappedSquare_, null);
+    canvas.drawBitmap(CustomResources.SQUARE, null, mappedSquare_, null);
     canvas.restore();
   }
 
@@ -132,7 +121,7 @@ public class Square {
     return trueSquare_;
   }
 
-  public int getBottomColor() {
+  public String getBottomColor() {
     return CustomResources.STANDARD_COLORS[Math.round(((orientationAngle_ + 180) %
         360) / 90) % 4];
   }

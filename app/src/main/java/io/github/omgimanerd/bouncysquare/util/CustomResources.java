@@ -6,27 +6,64 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 
+import java.util.HashMap;
+
 import io.github.omgimanerd.bouncysquare.R;
 
 public class CustomResources {
 
+  private static Resources res_;
+
   /**
    * All values in this class are filled when GameActivity is started.
    */
-  public static int[] STANDARD_COLORS = new int[4];
-
-  private static Resources res_;
-  private static Bitmap square_;
-  private static Bitmap background_;
+  public static String[] STANDARD_COLORS;
+  public static Bitmap SQUARE;
+  public static Bitmap BACKGROUND;
+  public static HashMap<String, Bitmap[]> PLATFORMS;
 
   public static void init(Context context) {
     res_ = context.getResources();
-    STANDARD_COLORS[0] = res_.getColor(R.color.STANDARD_GREEN);
-    STANDARD_COLORS[1] = res_.getColor(R.color.STANDARD_YELLOW);
-    STANDARD_COLORS[2] = res_.getColor(R.color.STANDARD_RED);
-    STANDARD_COLORS[3] = res_.getColor(R.color.STANDARD_BLUE);
-    square_ = BitmapFactory.decodeResource(res_, R.drawable.square);
-    background_ = BitmapFactory.decodeResource(res_, R.drawable.warehouse1);
+    STANDARD_COLORS = new String[] {
+        getString(R.string.black),
+        getString(R.string.green),
+        getString(R.string.yellow),
+        getString(R.string.red),
+        getString(R.string.blue)
+    };
+    SQUARE = BitmapFactory.decodeResource(res_, R.drawable.square);
+    BACKGROUND = BitmapFactory.decodeResource(res_, R.drawable.warehouse1);
+    PLATFORMS = new HashMap<>();
+    PLATFORMS.put(getString(R.string.black), new Bitmap[] {
+        BitmapFactory.decodeResource(res_, R.drawable.yellow1),
+        BitmapFactory.decodeResource(res_, R.drawable.yellow2),
+        BitmapFactory.decodeResource(res_, R.drawable.yellow3),
+        BitmapFactory.decodeResource(res_, R.drawable.yellow4)
+    });
+    PLATFORMS.put(getString(R.string.green), new Bitmap[] {
+        BitmapFactory.decodeResource(res_, R.drawable.green1),
+        BitmapFactory.decodeResource(res_, R.drawable.green2),
+        BitmapFactory.decodeResource(res_, R.drawable.green3),
+        BitmapFactory.decodeResource(res_, R.drawable.green4)
+    });
+    PLATFORMS.put(getString(R.string.yellow), new Bitmap[] {
+        BitmapFactory.decodeResource(res_, R.drawable.yellow1),
+        BitmapFactory.decodeResource(res_, R.drawable.yellow2),
+        BitmapFactory.decodeResource(res_, R.drawable.yellow3),
+        BitmapFactory.decodeResource(res_, R.drawable.yellow4)
+    });
+    PLATFORMS.put(getString(R.string.red), new Bitmap[] {
+        BitmapFactory.decodeResource(res_, R.drawable.red1),
+        BitmapFactory.decodeResource(res_, R.drawable.red2),
+        BitmapFactory.decodeResource(res_, R.drawable.red3),
+        BitmapFactory.decodeResource(res_, R.drawable.red4)
+    });
+    PLATFORMS.put(getString(R.string.blue), new Bitmap[] {
+        BitmapFactory.decodeResource(res_, R.drawable.blue1),
+        BitmapFactory.decodeResource(res_, R.drawable.blue2),
+        BitmapFactory.decodeResource(res_, R.drawable.blue3),
+        BitmapFactory.decodeResource(res_, R.drawable.blue4)
+    });
   }
 
   public static Drawable getDrawable(int id) {
@@ -37,15 +74,7 @@ public class CustomResources {
     return res_.getString(id);
   }
 
-  public static Bitmap getSquare() {
-    return square_;
-  }
-
-  public static Bitmap getBackground() {
-    return background_;
-  }
-
-  public static int selectRandomColor() {
-    return STANDARD_COLORS[(int) (Math.random() * 4)];
+  public static String selectRandomColor() {
+    return STANDARD_COLORS[(int) Math.random() * 4];
   }
 }

@@ -8,4 +8,9 @@
   <string name="score">Score:&#160;</string>
   <string name="highscore">Highscore:&#160;</string>
   <string name="lost_overlay">lost_overlay</string>
+  <string name="black">BLACK</string>
+  <string name="green">GREEN</string>
+  <string name="yellow">YELLOW</string>
+  <string name="red">RED</string>
+  <string name="blue">BLUE</string>
 </resources>

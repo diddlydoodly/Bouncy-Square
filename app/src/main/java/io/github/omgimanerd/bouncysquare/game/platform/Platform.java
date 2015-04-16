@@ -1,12 +1,15 @@
 package io.github.omgimanerd.bouncysquare.game.platform;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.RectF;
 
+import io.github.omgimanerd.bouncysquare.R;
 import io.github.omgimanerd.bouncysquare.game.Square;
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
+import io.github.omgimanerd.bouncysquare.util.CustomResources;
+
+import static java.lang.System.currentTimeMillis;
 
 public class Platform {
 
@@ -22,10 +25,11 @@ public class Platform {
   protected float vy_;
   protected float[] moveRangeX_;
   protected float[] moveRangeY_;
+  protected String color_;
+  protected Bitmap[] animationFrames_;
 
-  private Paint platformPaint_;
-
-  public Platform(float left, float top, float right, float bottom, int color) {
+  public Platform(float left, float top, float right, float bottom,
+                  String color) {
     truePlatform_ = new RectF(left, top, right, bottom);
     mappedPlatform_ = new RectF();
     isMoving_ = false;
@@ -33,8 +37,8 @@ public class Platform {
     vy_ = 0;
     moveRangeX_ = new float[2];
     moveRangeY_ = new float[2];
-    platformPaint_ = new Paint();
-    platformPaint_.setColor(color);
+    color_ = color;
+    animationFrames_ = CustomResources.PLATFORMS.get(color_);
   }
 
   public void update(ViewPort viewPort) {
@@ -56,12 +60,15 @@ public class Platform {
   }
 
   public void render(Canvas canvas) {
-    canvas.drawRect(mappedPlatform_, platformPaint_);
+    int frameNumber = ((int) ((currentTimeMillis() % 1000) / 50) %
+        animationFrames_.length);
+    canvas.drawBitmap(animationFrames_[frameNumber],
+                      null, mappedPlatform_, null);
   }
 
   public boolean matchColor(Square square) {
-    return platformPaint_.getColor() == Color.BLACK ||
-        square.getBottomColor() == platformPaint_.getColor();
+    return color_.equals(CustomResources.getString(R.string.black)) ||
+        square.getBottomColor().equals(color_);
   }
 
   public RectF getPlatform() {

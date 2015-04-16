@@ -1,7 +1,6 @@
 package io.github.omgimanerd.bouncysquare.game.background;
 
 import android.graphics.Canvas;
-import android.graphics.RectF;
 
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
 import io.github.omgimanerd.bouncysquare.util.CustomResources;
@@ -21,13 +20,13 @@ public class Background {
     frames_ = new BackgroundFrame[NUM_FRAMES];
     frames_[0] = new BackgroundFrame(0, Util.SCREEN_HEIGHT,
                                      Util.SCREEN_WIDTH, 0,
-                                     CustomResources.getBackground());
+                                     CustomResources.BACKGROUND);
     frames_[1] = new BackgroundFrame(0, 2 * Util.SCREEN_HEIGHT,
                                      Util.SCREEN_WIDTH, Util.SCREEN_HEIGHT,
-                                     CustomResources.getBackground());
+                                     CustomResources.BACKGROUND);
     frames_[2] = new BackgroundFrame(0, 3 * Util.SCREEN_HEIGHT,
                                      Util.SCREEN_WIDTH, 2 * Util.SCREEN_HEIGHT,
-                                     CustomResources.getBackground());
+                                     CustomResources.BACKGROUND);
     bottomFrameIndex_ = 0;
     topFrameIndex_ = NUM_FRAMES - 1;
   }
@@ -45,8 +44,8 @@ public class Background {
   }
 
   public void render(Canvas canvas) {
-    for (int i = 0; i < frames_.length; ++i) {
-      frames_[i].redraw(canvas);
+    for (BackgroundFrame frame : frames_) {
+      frame.redraw(canvas);
     }
   }
 
@@ -56,6 +55,6 @@ public class Background {
         frames_[topFrameIndex_].getTrueFrame().top + Util.SCREEN_HEIGHT,
         Util.SCREEN_WIDTH,
         frames_[topFrameIndex_].getTrueFrame().top,
-        CustomResources.getBackground());
+        CustomResources.BACKGROUND);
   }
 }
