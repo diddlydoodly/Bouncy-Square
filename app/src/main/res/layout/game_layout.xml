@@ -26,7 +26,7 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:textSize="@dimen/DEFAULT_TEXT_SIZE"
-        />
+        android:textColor="@color/WHITE" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -35,7 +35,8 @@
         android:id="@+id/highscoreTextView"
         android:layout_below="@+id/scoreTextView"
         android:layout_centerHorizontal="true"
-        android:textSize="@dimen/HIGHSCORE_TEXT_SIZE"/>
+        android:textSize="@dimen/HIGHSCORE_TEXT_SIZE"
+        android:textColor="@color/WHITE" />
 
   </RelativeLayout>
 
@@ -56,7 +57,8 @@
       android:layout_alignParentLeft="true"
       android:layout_alignParentStart="true"
       android:textSize="@dimen/DEFAULT_TEXT_SIZE"
-      android:layout_margin="@dimen/LIVE_SCORE_TEXT_MARGIN"/>
+      android:layout_margin="@dimen/LIVE_SCORE_TEXT_MARGIN"
+      android:textColor="@color/WHITE" />
 
   <ImageButton
       android:layout_width="@dimen/PAUSE_BUTTON_SIZE"

@@ -15,11 +15,10 @@ public class CustomResources {
   private static Resources res_;
 
   /**
-   * All values in this class are filled when GameActivity is started.
+   * All values in this class are filled when MenuActivity is started.
    */
   public static String[] STANDARD_COLORS;
   public static Bitmap[] BG_STARS;
-  public static Bitmap BG_NEBULA;
   public static Bitmap SQUARE;
   public static HashMap<String, Bitmap[]> PLATFORMS;
 
@@ -36,7 +35,6 @@ public class CustomResources {
         BitmapFactory.decodeResource(res_, R.drawable.bg_medium_stars),
         BitmapFactory.decodeResource(res_, R.drawable.bg_large_stars)
     };
-    BG_NEBULA = BitmapFactory.decodeResource(res_, R.drawable.bg_nebula);
     SQUARE = BitmapFactory.decodeResource(res_, R.drawable.square);
     PLATFORMS = new HashMap<>();
     PLATFORMS.put(getString(R.string.black), new Bitmap[] {
