@@ -18,8 +18,9 @@ public class CustomResources {
    * All values in this class are filled when GameActivity is started.
    */
   public static String[] STANDARD_COLORS;
+  public static Bitmap[] BG_STARS;
+  public static Bitmap BG_NEBULA;
   public static Bitmap SQUARE;
-  public static Bitmap BACKGROUND;
   public static HashMap<String, Bitmap[]> PLATFORMS;
 
   public static void init(Context context) {
@@ -30,8 +31,13 @@ public class CustomResources {
         getString(R.string.green),
         getString(R.string.yellow)
     };
+    BG_STARS = new Bitmap[] {
+        BitmapFactory.decodeResource(res_, R.drawable.bg_small_stars),
+        BitmapFactory.decodeResource(res_, R.drawable.bg_medium_stars),
+        BitmapFactory.decodeResource(res_, R.drawable.bg_large_stars)
+    };
+    BG_NEBULA = BitmapFactory.decodeResource(res_, R.drawable.bg_nebula);
     SQUARE = BitmapFactory.decodeResource(res_, R.drawable.square);
-    BACKGROUND = BitmapFactory.decodeResource(res_, R.drawable.warehouse1);
     PLATFORMS = new HashMap<>();
     PLATFORMS.put(getString(R.string.black), new Bitmap[] {
         BitmapFactory.decodeResource(res_, R.drawable.yellow1),
