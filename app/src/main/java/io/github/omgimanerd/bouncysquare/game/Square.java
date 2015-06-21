@@ -8,7 +8,7 @@ import io.github.omgimanerd.bouncysquare.util.CustomResources;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Square {
-  private static final float ACCELERATION_Y = -Util.SCREEN_HEIGHT / 850;
+  private static final float ACCELERATION_Y = -Util.SCREEN_HEIGHT / 1000;
   // ROTATION_SPEED is in degrees/update.
   private static final float ROTATION_SPEED = 15;
   private static final int SIDE_LENGTH = (int) (Util.SCREEN_WIDTH / 6);
