@@ -8,6 +8,10 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import io.github.omgimanerd.bouncysquare.util.CustomResources;
+import io.github.omgimanerd.bouncysquare.util.PersistentData;
+import io.github.omgimanerd.bouncysquare.util.Util;
+
 public class MenuActivity extends Activity {
 
   private Button startButton_;
@@ -20,6 +24,11 @@ public class MenuActivity extends Activity {
     requestWindowFeature(Window.FEATURE_NO_TITLE);
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                          WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+    // This initialization must take place before the setting of the layout.
+    CustomResources.init(this);
+    PersistentData.init(this);
+    Util.init(this);
 
     setContentView(R.layout.menu_layout);
 

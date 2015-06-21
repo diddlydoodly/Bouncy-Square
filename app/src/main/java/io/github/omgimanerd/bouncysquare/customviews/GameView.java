@@ -13,7 +13,7 @@ import static java.lang.System.currentTimeMillis;
 
 public class GameView extends View {
 
-  private static final int FPS = 60;
+  private static final int FPS = 30;
 
   private GameActivity parentActivity_;
   private long lastUpdateTime_;

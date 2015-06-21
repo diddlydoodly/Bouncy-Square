@@ -43,10 +43,6 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
-    CustomResources.init(this);
-    PersistentData.init(this);
-    Util.init(this);
-
     setContentView(R.layout.game_layout);
 
     init();
