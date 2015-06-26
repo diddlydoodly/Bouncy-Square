@@ -31,11 +31,12 @@ public class GameView extends View {
 
   public void onDraw(Canvas canvas) {
     // Game loop interpolation, this logic here ensures a quasi-constant FPS.
-    if (currentTimeMillis() > lastUpdateTime_ + (1000 / FPS) && !paused_) {
+    if (currentTimeMillis() > lastUpdateTime_ + (1000.0 / FPS) && !paused_) {
       game_.update();
-      parentActivity_.updateScoreView(game_.getScore());
+      lastUpdateTime_ = currentTimeMillis();
     }
 
+    parentActivity_.updateScoreView(game_.getScore());
     game_.render(canvas);
 
     if (game_.isLost()) {
