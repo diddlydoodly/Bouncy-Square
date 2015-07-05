@@ -1,17 +1,18 @@
 package io.github.omgimanerd.bouncysquare.game.platform;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.RectF;
 
-import io.github.omgimanerd.bouncysquare.R;
-import io.github.omgimanerd.bouncysquare.game.Square;
+import io.github.omgimanerd.bouncysquare.game.PlayerShape;
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
-import io.github.omgimanerd.bouncysquare.util.CustomResources;
-
-import static java.lang.System.currentTimeMillis;
+import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class Platform {
+
+  public static final float PLATFORM_LENGTH = Util.SCREEN_WIDTH / 5f;
+  public static final float PLATFORM_HEIGHT = Util.SCREEN_WIDTH / 20f;
+  public static final float BASE_BOUNCE_VELOCITY = Util.SCREEN_HEIGHT / 28f;
 
   /**
    * truePlatform_ stores the absolute position of the platform,
@@ -25,11 +26,13 @@ public class Platform {
   protected float vy_;
   protected float[] moveRangeX_;
   protected float[] moveRangeY_;
-  protected String color_;
-  protected Bitmap[] animationFrames_;
+  protected float bounceVelocity_;
+  protected int color_;
+
+  protected Paint platformPaint_;
 
   public Platform(float left, float top, float right, float bottom,
-                  String color) {
+                  int color) {
     truePlatform_ = new RectF(left, top, right, bottom);
     mappedPlatform_ = new RectF();
     isMoving_ = false;
@@ -37,8 +40,11 @@ public class Platform {
     vy_ = 0;
     moveRangeX_ = new float[2];
     moveRangeY_ = new float[2];
+    bounceVelocity_ = BASE_BOUNCE_VELOCITY;
     color_ = color;
-    animationFrames_ = CustomResources.PLATFORMS.get(color_);
+
+    platformPaint_ = new Paint();
+    platformPaint_.setColor(color_);
   }
 
   public void update(ViewPort viewPort) {
@@ -60,15 +66,11 @@ public class Platform {
   }
 
   public void render(Canvas canvas) {
-    int frameNumber = ((int) ((currentTimeMillis() % 1000) / 50) %
-        animationFrames_.length);
-    canvas.drawBitmap(animationFrames_[frameNumber],
-                      null, mappedPlatform_, null);
+    canvas.drawRect(mappedPlatform_, platformPaint_);
   }
 
-  public boolean matchColor(Square square) {
-    return color_.equals(CustomResources.getString(R.string.black)) ||
-        square.getBottomColor().equals(color_);
+  public boolean matchColor(PlayerShape playerShape) {
+    return playerShape.getBottomColor() == color_;
   }
 
   public RectF getPlatform() {
@@ -82,6 +84,15 @@ public class Platform {
     vy_ = vy;
     moveRangeX_ = moveRangeX;
     moveRangeY_ = moveRangeY;
+    return this;
+  }
+
+  public float getBounceVelocity() {
+    return bounceVelocity_;
+  }
+
+  public Platform setBounceVelocity(float bounceVelocity) {
+    bounceVelocity_ = bounceVelocity;
     return this;
   }
 }

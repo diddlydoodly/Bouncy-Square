@@ -18,15 +18,11 @@ public class ViewPort {
     upperScrollBound_ = Util.SCREEN_HEIGHT * 3 / 4;
   }
 
-  public void update(Square square) {
-    if (square.getSquare().top > upperScrollBound_) {
-      upperScrollBound_ = square.getSquare().top;
+  public void update(PlayerShape playerShape) {
+    if (playerShape.getShape().top > upperScrollBound_) {
+      upperScrollBound_ = playerShape.getShape().top;
       viewPort_.offsetTo(0, upperScrollBound_ + Util.SCREEN_HEIGHT / 4);
     }
-  }
-
-  public float getTop() {
-    return viewPort_.top;
   }
 
   /**

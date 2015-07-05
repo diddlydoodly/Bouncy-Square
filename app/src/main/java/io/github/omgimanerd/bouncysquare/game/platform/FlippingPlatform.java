@@ -2,7 +2,7 @@ package io.github.omgimanerd.bouncysquare.game.platform;
 
 import android.graphics.Canvas;
 
-import io.github.omgimanerd.bouncysquare.game.Square;
+import io.github.omgimanerd.bouncysquare.game.PlayerShape;
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
@@ -14,7 +14,7 @@ public class FlippingPlatform extends Platform {
   private float targetOrientationAngle_;
 
   public FlippingPlatform(float left, float top, float right, float bottom,
-                          String color) {
+                          int color) {
     super(left, top, right, bottom, color);
   }
 
@@ -38,7 +38,7 @@ public class FlippingPlatform extends Platform {
     targetOrientationAngle_ = (targetOrientationAngle_ + 180) % 360;
   }
 
-  public boolean matchColor(Square square) {
+  public boolean matchColor(PlayerShape playerShape) {
     return false;
   }
 }

@@ -14,7 +14,6 @@ import io.github.omgimanerd.bouncysquare.util.PersistentData;
 public class SettingsActivity extends Activity {
 
   private SeekBar sensitivityControl_;
-  private Button mainMenuButton_;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -45,17 +44,6 @@ public class SettingsActivity extends Activity {
       @Override
       public void onStopTrackingTouch(SeekBar seekBar) {
         PersistentData.setSensitivity(seekBar.getProgress());
-      }
-    });
-
-    mainMenuButton_ = (Button) findViewById(R.id.mainMenuButton);
-    mainMenuButton_.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        Intent intent = new Intent(getApplicationContext(),
-                                   MenuActivity.class);
-        startActivity(intent);
-        finish();
       }
     });
   }

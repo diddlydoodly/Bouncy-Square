@@ -13,10 +13,8 @@ public class PlatformManager {
    * The number of platforms out on the screen is a constant number.
    */
   private static final int NUM_PLATFORMS = 4;
-  private static final float PLATFORM_LENGTH = Util.SCREEN_WIDTH / 5;
-  private static final float PLATFORM_HEIGHT = Util.SCREEN_WIDTH / 12.5f;
   private static final float PLATFORM_VELOCITY = 5;
-  private static final float VERTICAL_RANGE = Util.SCREEN_HEIGHT / 15;
+  private static final float VERTICAL_RANGE = Util.SCREEN_HEIGHT / 15f;
 
   private static final double PERCENT_SCALING_FACTOR = 20000;
   private static final double DEFAULT_MIN_PERCENT = 0.25;
@@ -34,26 +32,30 @@ public class PlatformManager {
      * apart.
      */
     platforms_[0] = new Platform(
-        0,
-        PlatformManager.PLATFORM_HEIGHT,
-        Util.SCREEN_WIDTH,
-        0,
-        CustomResources.getString(R.string.black));
+        0.20f * Util.SCREEN_WIDTH,
+        0.33f * Util.SCREEN_HEIGHT + Platform.PLATFORM_HEIGHT,
+        0.80f * Util.SCREEN_WIDTH,
+        0.33f * Util.SCREEN_HEIGHT,
+        CustomResources.getRandomColor())
+        .setBounceVelocity(Platform.BASE_BOUNCE_VELOCITY * 2.5f);
     platforms_[1] = new Platform(
-        0,
-        Util.SCREEN_HEIGHT / 3 + PlatformManager.PLATFORM_HEIGHT,
-        PlatformManager.PLATFORM_LENGTH,
-        Util.SCREEN_HEIGHT / 3, CustomResources.selectRandomColor());
+        -10,
+        0.66f * Util.SCREEN_HEIGHT + Platform.PLATFORM_HEIGHT,
+        -10,
+        0.66f * Util.SCREEN_HEIGHT,
+        CustomResources.getRandomColor());
     platforms_[2] = new Platform(
-        Util.SCREEN_WIDTH / 3,
-        Util.SCREEN_HEIGHT * 2 / 3 + PlatformManager.PLATFORM_HEIGHT,
-        Util.SCREEN_WIDTH / 3 + PlatformManager.PLATFORM_LENGTH,
-        Util.SCREEN_HEIGHT * 2 / 3, CustomResources.selectRandomColor());
+        -10,
+        Util.SCREEN_HEIGHT + Platform.PLATFORM_HEIGHT,
+        -10,
+        Util.SCREEN_HEIGHT,
+        CustomResources.getRandomColor());
     platforms_[3] = new Platform(
-        Util.SCREEN_WIDTH * 2 / 3,
-        Util.SCREEN_HEIGHT + PlatformManager.PLATFORM_HEIGHT,
-        Util.SCREEN_WIDTH * 2 / 3 + PlatformManager.PLATFORM_LENGTH,
-        Util.SCREEN_HEIGHT, CustomResources.selectRandomColor());
+        -10,
+        1.33f * Util.SCREEN_HEIGHT + Platform.PLATFORM_HEIGHT,
+        -10,
+        1.33f * Util.SCREEN_HEIGHT,
+        CustomResources.getRandomColor());
     bottomPlatformIndex_ = 0;
     topPlatformIndex_ = NUM_PLATFORMS - 1;
   }
@@ -97,15 +99,16 @@ public class PlatformManager {
   }
 
   private Platform generateNextRandomPlatform(double heightReached) {
-    float x = (int) (Math.random() * (Util.SCREEN_WIDTH - PLATFORM_LENGTH));
+    float x = (int) (Math.random() * (Util.SCREEN_WIDTH -
+        Platform.PLATFORM_LENGTH));
     float y = platforms_[topPlatformIndex_].getPlatform().top + Util
         .SCREEN_HEIGHT / 3;
     Platform platform = new Platform(
         x,
         y,
-        x + PLATFORM_LENGTH,
-        y - PLATFORM_HEIGHT,
-        CustomResources.selectRandomColor());
+        x + Platform.PLATFORM_LENGTH,
+        y - Platform.PLATFORM_HEIGHT,
+        CustomResources.getRandomColor());
 
     double progressPercent = getPercentMovingPlatformChance(
         heightReached, DEFAULT_MIN_PERCENT, DEFAULT_MAX_PERCENT);

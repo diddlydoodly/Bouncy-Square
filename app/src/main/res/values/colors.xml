@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <color name="STANDARD_RED">#E74C3C</color>
-  <color name="STANDARD_BLUE">#3498DB</color>
-  <color name="STANDARD_YELLOW">#F1C40F</color>
-  <color name="STANDARD_GREEN">#2ECC71</color>
-  <color name="STANDARD_PURPLE">#6F306D</color>
+  <color name="RED">#E74C3C</color>
+  <color name="BLUE">#3498DB</color>
+  <color name="YELLOW">#F1C40F</color>
+  <color name="GREEN">#2ECC71</color>
+  <color name="PURPLE">#6F306D</color>
   <color name="WHITE">#FFFFFF</color>
 </resources>

@@ -43,6 +43,10 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
+    Util.init(this);
+    CustomResources.init(this);
+    PersistentData.init(this);
+
     setContentView(R.layout.game_layout);
 
     init();
@@ -69,22 +73,8 @@ public class GameActivity extends Activity implements SensorEventListener {
     lostOverlay_.setVisibility(View.INVISIBLE);
     mainMenuButton_ = (Button) findViewById(R.id.mainMenuButton);
     mainMenuButton_.setVisibility(View.INVISIBLE);
-    mainMenuButton_.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View v) {
-        backToMenu();
-      }
-    });
     scoreTextView_ = (TextView) findViewById(R.id.scoreTextView);
     highscoreTextView_ = (TextView) findViewById(R.id.highscoreTextView);
-  }
-
-  private void backToMenu() {
-    Intent intent = new Intent(getApplicationContext(),
-                               MenuActivity.class);
-    startActivity(intent);
-    overridePendingTransition(R.anim.abc_slide_in_bottom,
-                              R.anim.abc_slide_out_top);
-    finish();
   }
 
   public void updateScoreView(int score) {
@@ -114,8 +104,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
   protected void onPause() {
     sensorManager_.unregisterListener(this);
-    backToMenu();
-    super.onStop();
+    super.onPause();
   }
 
   public void onAccuracyChanged(Sensor sensor, int accuracy) {}
