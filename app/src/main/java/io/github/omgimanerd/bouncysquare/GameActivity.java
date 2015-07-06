@@ -2,7 +2,6 @@ package io.github.omgimanerd.bouncysquare;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -29,7 +28,7 @@ public class GameActivity extends Activity implements SensorEventListener {
   private TextView liveScoreTextView_;
   private ImageButton pauseButton_;
   private RelativeLayout lostOverlay_;
-  private Button mainMenuButton_;
+  private Button playAgainButton_;
   private TextView scoreTextView_;
   private TextView highscoreTextView_;
 
@@ -71,8 +70,16 @@ public class GameActivity extends Activity implements SensorEventListener {
     });
     lostOverlay_ = (RelativeLayout) findViewById(R.id.lostOverlay);
     lostOverlay_.setVisibility(View.INVISIBLE);
-    mainMenuButton_ = (Button) findViewById(R.id.mainMenuButton);
-    mainMenuButton_.setVisibility(View.INVISIBLE);
+    playAgainButton_ = (Button) findViewById(R.id.playAgainButton);
+    playAgainButton_.setVisibility(View.INVISIBLE);
+    playAgainButton_.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        gameView_.reset();
+        lostOverlay_.setVisibility(View.INVISIBLE);
+        playAgainButton_.setVisibility(View.INVISIBLE);
+      }
+    });
     scoreTextView_ = (TextView) findViewById(R.id.scoreTextView);
     highscoreTextView_ = (TextView) findViewById(R.id.highscoreTextView);
   }
@@ -89,7 +96,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     pauseButton_.setVisibility(View.INVISIBLE);
     lostOverlay_.setVisibility(View.VISIBLE);
-    mainMenuButton_.setVisibility(View.VISIBLE);
+    playAgainButton_.setVisibility(View.VISIBLE);
     scoreTextView_.setText(CustomResources.getString(R.string.score) + score);
     highscoreTextView_.setText(CustomResources.getString(R.string.highscore) + highScore);
   }

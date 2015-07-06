@@ -49,6 +49,10 @@ public class GameView extends View {
     paused_ = !paused_;
   }
 
+  public void reset() {
+    game_ = new Game();
+  }
+
   public boolean getPauseState() {
     return paused_;
   }

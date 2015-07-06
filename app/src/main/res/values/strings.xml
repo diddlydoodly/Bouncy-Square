@@ -4,13 +4,7 @@
   <string name="sensitivity">Sensitivity</string>
   <string name="play">Play</string>
   <string name="pause">Pause</string>
-  <string name="main_menu">Main Menu</string>
+  <string name="play_again">Play Again</string>
   <string name="score">Score:&#160;</string>
   <string name="highscore">Highscore:&#160;</string>
-  <string name="lost_overlay">lost_overlay</string>
-  <string name="black">BLACK</string>
-  <string name="green">GREEN</string>
-  <string name="yellow">YELLOW</string>
-  <string name="red">RED</string>
-  <string name="blue">BLUE</string>
 </resources>
