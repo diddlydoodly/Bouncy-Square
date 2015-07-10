@@ -43,4 +43,19 @@ public class Util {
            Math.abs(a.centerY() - b.centerY()) <
                -a.height() / 2 + -b.height() / 2;
   }
+
+  /**
+   * Generates a random integer within the given min, inclusive and max,
+   * exclusive.
+   * @param min
+   * @param max
+   * @return An integer within the bounds of min and max.
+   */
+  public static int randRangeInt(int min, int max) {
+    return (int) (Math.floor(Math.random() * (max - min))) + min;
+  }
+
+  public static int randRangeInt(int max) {
+    return randRangeInt(0, max);
+  }
 }

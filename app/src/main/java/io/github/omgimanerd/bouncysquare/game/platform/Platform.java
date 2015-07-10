@@ -77,6 +77,10 @@ public class Platform {
     return truePlatform_;
   }
 
+  public void flip() {
+    throw new Error("Unimplemented method");
+  }
+
   public Platform setMotion(float vx, float vy,
                             float[] moveRangeX, float[] moveRangeY) {
     isMoving_ = true;

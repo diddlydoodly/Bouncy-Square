@@ -2,7 +2,6 @@ package io.github.omgimanerd.bouncysquare.game.platform;
 
 import android.graphics.Canvas;
 
-import io.github.omgimanerd.bouncysquare.R;
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
 import io.github.omgimanerd.bouncysquare.util.CustomResources;
 import io.github.omgimanerd.bouncysquare.util.Util;
@@ -36,35 +35,35 @@ public class PlatformManager {
         0.33f * Util.SCREEN_HEIGHT + Platform.PLATFORM_HEIGHT,
         0.80f * Util.SCREEN_WIDTH,
         0.33f * Util.SCREEN_HEIGHT,
-        CustomResources.getRandomColor())
+        CustomResources.getRandomPlatformColor())
         .setBounceVelocity(Platform.BASE_BOUNCE_VELOCITY * 2.5f);
     platforms_[1] = new Platform(
         -10,
         0.66f * Util.SCREEN_HEIGHT + Platform.PLATFORM_HEIGHT,
         -10,
         0.66f * Util.SCREEN_HEIGHT,
-        CustomResources.getRandomColor());
+        CustomResources.getRandomPlatformColor());
     platforms_[2] = new Platform(
         -10,
         Util.SCREEN_HEIGHT + Platform.PLATFORM_HEIGHT,
         -10,
         Util.SCREEN_HEIGHT,
-        CustomResources.getRandomColor());
+        CustomResources.getRandomPlatformColor());
     platforms_[3] = new Platform(
         -10,
         1.33f * Util.SCREEN_HEIGHT + Platform.PLATFORM_HEIGHT,
         -10,
         1.33f * Util.SCREEN_HEIGHT,
-        CustomResources.getRandomColor());
+        CustomResources.getRandomPlatformColor());
     bottomPlatformIndex_ = 0;
     topPlatformIndex_ = NUM_PLATFORMS - 1;
   }
 
-  public void update(ViewPort viewPort, int heightScore) {
+  public void update(ViewPort viewPort, int score) {
     for (int i = 0; i < NUM_PLATFORMS; ++i) {
       if (i == bottomPlatformIndex_ &&
           viewPort.isOutOfBounds(platforms_[i].getPlatform())) {
-        platforms_[i] = generateNextRandomPlatform(heightScore);
+        platforms_[i] = generateNextRandomPlatform(score);
         bottomPlatformIndex_ = (bottomPlatformIndex_ + 1) % NUM_PLATFORMS;
         topPlatformIndex_ = (topPlatformIndex_ + 1) % NUM_PLATFORMS;
       }
@@ -98,20 +97,33 @@ public class PlatformManager {
         maxPercent;
   }
 
-  private Platform generateNextRandomPlatform(double heightReached) {
-    float x = (int) (Math.random() * (Util.SCREEN_WIDTH -
-        Platform.PLATFORM_LENGTH));
+  private Platform generateNextRandomPlatform(double score) {
+    float x = Util.randRangeInt((int) (Util.SCREEN_WIDTH - Platform
+        .PLATFORM_LENGTH));
     float y = platforms_[topPlatformIndex_].getPlatform().top + Util
         .SCREEN_HEIGHT / 3;
-    Platform platform = new Platform(
-        x,
-        y,
-        x + Platform.PLATFORM_LENGTH,
-        y - Platform.PLATFORM_HEIGHT,
-        CustomResources.getRandomColor());
 
-    double progressPercent = getPercentMovingPlatformChance(
-        heightReached, DEFAULT_MIN_PERCENT, DEFAULT_MAX_PERCENT);
+//    double progressPercent = getPercentMovingPlatformChance(
+//        heightReached, DEFAULT_MIN_PERCENT, DEFAULT_MAX_PERCENT);
+    double progressPercent = 0.5;
+    Platform platform;
+
+    if (Math.random() < progressPercent) {
+      platform = new FlippingPlatform(
+          x,
+          y,
+          x + Platform.PLATFORM_LENGTH,
+          y - Platform.PLATFORM_HEIGHT,
+          CustomResources.getRandomFlippingPlatformColors());
+    } else {
+      platform = new Platform(
+          x,
+          y,
+          x + Platform.PLATFORM_LENGTH,
+          y - Platform.PLATFORM_HEIGHT,
+          CustomResources.getRandomPlatformColor());
+    }
+
     if (Math.random() < progressPercent) {
       if (Math.random() < 0.33) {
         platform.setMotion((float) progressPercent * PLATFORM_VELOCITY,

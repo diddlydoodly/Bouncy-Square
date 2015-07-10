@@ -40,7 +40,16 @@ public class CustomResources {
     return res_.getString(id);
   }
 
-  public static int getRandomColor() {
-    return COLORS[(int) Math.floor(Math.random() * COLORS.length)];
+  public static int getRandomPlatformColor() {
+    return COLORS[Util.randRangeInt(COLORS.length)];
   }
+
+  public static int[] getRandomFlippingPlatformColors() {
+    int i1 = Util.randRangeInt(COLORS.length);
+    int i2 = (i1 + Util.randRangeInt(1, 3)) % COLORS.length;
+    return new int[] {
+        COLORS[i1], COLORS[i2]
+    };
+  }
+
 }

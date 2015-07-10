@@ -3,6 +3,7 @@ package io.github.omgimanerd.bouncysquare.game;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
+import io.github.omgimanerd.bouncysquare.game.platform.FlippingPlatform;
 import io.github.omgimanerd.bouncysquare.game.platform.Platform;
 import io.github.omgimanerd.bouncysquare.util.CustomResources;
 import io.github.omgimanerd.bouncysquare.util.Util;
@@ -90,7 +91,12 @@ public class PlayerShape {
           if (Util.intersects(truePosition_, platform.getPlatform()) &&
               vy_ < 0 &&
               truePosition_.bottom > platform.getPlatform().bottom) {
+
             isSolid_ = platform.matchColor(this);
+
+            if (platform instanceof FlippingPlatform) {
+              platform.flip();
+            }
 
             if (isSolid_) {
               vy_ = platform.getBounceVelocity();

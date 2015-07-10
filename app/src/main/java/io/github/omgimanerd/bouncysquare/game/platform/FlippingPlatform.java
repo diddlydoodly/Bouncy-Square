@@ -50,7 +50,7 @@ public class FlippingPlatform extends Platform {
     canvas.drawRect(mappedPlatform_.left, mappedPlatform_.top,
                     mappedPlatform_.right, mappedPlatform_.centerY(),
                     paints_[0]);
-    canvas.drawLine(mappedPlatform_.left, mappedPlatform_.centerY(),
+    canvas.drawRect(mappedPlatform_.left, mappedPlatform_.centerY(),
                     mappedPlatform_.right, mappedPlatform_.bottom,
                     paints_[1]);
     canvas.restore();
