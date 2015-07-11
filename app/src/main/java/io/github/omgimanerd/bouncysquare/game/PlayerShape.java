@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 
 import io.github.omgimanerd.bouncysquare.game.platform.FlippingPlatform;
+import io.github.omgimanerd.bouncysquare.game.platform.NormalPlatform;
 import io.github.omgimanerd.bouncysquare.game.platform.Platform;
 import io.github.omgimanerd.bouncysquare.util.CustomResources;
 import io.github.omgimanerd.bouncysquare.util.Util;
@@ -29,7 +30,6 @@ public class PlayerShape {
    */
   private RectF truePosition_;
   private RectF mappedPosition_;
-  private int sides_;
   private float vx_;
   private float vy_;
 
@@ -89,8 +89,7 @@ public class PlayerShape {
       if (isSolid_) {
         for (Platform platform : platforms) {
           if (Util.intersects(truePosition_, platform.getPlatform()) &&
-              vy_ < 0 &&
-              truePosition_.bottom > platform.getPlatform().bottom) {
+              vy_ < 0) {
 
             isSolid_ = platform.matchColor(this);
 
@@ -102,7 +101,7 @@ public class PlayerShape {
               vy_ = platform.getBounceVelocity();
               score_++;
             } else {
-              vy_ = Platform.BASE_BOUNCE_VELOCITY / 5;
+              vy_ = NormalPlatform.BASE_BOUNCE_VELOCITY / 5;
             }
           }
         }

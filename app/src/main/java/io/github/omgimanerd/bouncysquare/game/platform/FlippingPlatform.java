@@ -2,7 +2,6 @@ package io.github.omgimanerd.bouncysquare.game.platform;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.RectF;
 
 import io.github.omgimanerd.bouncysquare.game.PlayerShape;
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
@@ -21,7 +20,7 @@ public class FlippingPlatform extends Platform {
 
   public FlippingPlatform(float left, float top, float right, float bottom,
                           int[] colors) {
-    super(left, top, right, bottom, 0);
+    super(left, top, right, bottom);
 
     colors_ = colors;
     if (colors.length != 2) {

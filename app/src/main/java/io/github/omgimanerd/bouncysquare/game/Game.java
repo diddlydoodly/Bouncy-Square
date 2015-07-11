@@ -26,7 +26,7 @@ public class Game {
       viewPort_.update(playerShape_);
       background_.update(viewPort_);
       playerShape_.update(viewPort_, platformManager_.getPlatforms());
-      platformManager_.update(viewPort_, (int) playerShape_.getShape().top);
+      platformManager_.update(viewPort_, playerShape_.getScore());
     }
   }
 

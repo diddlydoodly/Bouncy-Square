@@ -1,24 +1,19 @@
 package io.github.omgimanerd.bouncysquare.game.platform;
 
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.RectF;
 
 import io.github.omgimanerd.bouncysquare.game.PlayerShape;
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
-public class Platform {
+public abstract class Platform {
 
   public static final float PLATFORM_LENGTH = Util.SCREEN_WIDTH / 5f;
   public static final float PLATFORM_HEIGHT = Util.SCREEN_WIDTH / 20f;
   public static final float BASE_BOUNCE_VELOCITY = Util.SCREEN_HEIGHT / 28f;
+  public static final float PLATFORM_VELOCITY = Util.SCREEN_HEIGHT / 1000f;
 
-  /**
-   * truePlatform_ stores the absolute position of the platform,
-   * while mappedPlatform_ stores the canvas coordinates of the platform.
-   * vx_, vy_, moveRangeX_, and moveRangeY_ are in absolute coordinates.
-   */
   protected RectF truePlatform_;
   protected RectF mappedPlatform_;
   protected boolean isMoving_;
@@ -27,12 +22,8 @@ public class Platform {
   protected float[] moveRangeX_;
   protected float[] moveRangeY_;
   protected float bounceVelocity_;
-  protected int color_;
 
-  protected Paint platformPaint_;
-
-  public Platform(float left, float top, float right, float bottom,
-                  int color) {
+  public Platform(float left, float top, float right, float bottom) {
     truePlatform_ = new RectF(left, top, right, bottom);
     mappedPlatform_ = new RectF();
     isMoving_ = false;
@@ -41,10 +32,6 @@ public class Platform {
     moveRangeX_ = new float[2];
     moveRangeY_ = new float[2];
     bounceVelocity_ = BASE_BOUNCE_VELOCITY;
-    color_ = color;
-
-    platformPaint_ = new Paint();
-    platformPaint_.setColor(color_);
   }
 
   public void update(ViewPort viewPort) {
@@ -66,23 +53,23 @@ public class Platform {
   }
 
   public void render(Canvas canvas) {
-    canvas.drawRect(mappedPlatform_, platformPaint_);
+    throw new UnsupportedOperationException("Unimplemented method.");
+  }
+
+  public void flip() {
+    throw new UnsupportedOperationException("Unimplemented method.");
   }
 
   public boolean matchColor(PlayerShape playerShape) {
-    return playerShape.getBottomColor() == color_;
+    throw new UnsupportedOperationException("Unimplemented method.");
   }
 
   public RectF getPlatform() {
     return truePlatform_;
   }
 
-  public void flip() {
-    throw new Error("Unimplemented method");
-  }
-
   public Platform setMotion(float vx, float vy,
-                            float[] moveRangeX, float[] moveRangeY) {
+                                  float[] moveRangeX, float[] moveRangeY) {
     isMoving_ = true;
     vx_ = vx;
     vy_ = vy;
@@ -99,4 +86,5 @@ public class Platform {
     bounceVelocity_ = bounceVelocity;
     return this;
   }
+
 }

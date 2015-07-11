@@ -14,7 +14,7 @@ public class PersistentData {
   private static final String PERSISTENT_DATA_KEY = "bouncy_square";
 
   private static final String SENSITIVITY_KEY = "sensitivity";
-  private static final int DEFAULT_UNSET_SENSITIVITY = 2;
+  private static final int DEFAULT_UNSET_SENSITIVITY = 3;
 
   private static final String HIGHSCORE_KEY = "highscore";
   private static final int DEFAULT_HIGHSCORE = 0;

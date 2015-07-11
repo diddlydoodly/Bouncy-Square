@@ -1,6 +1,7 @@
 package io.github.omgimanerd.bouncysquare.game.platform;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
 import io.github.omgimanerd.bouncysquare.util.CustomResources;
@@ -12,12 +13,9 @@ public class PlatformManager {
    * The number of platforms out on the screen is a constant number.
    */
   private static final int NUM_PLATFORMS = 4;
-  private static final float PLATFORM_VELOCITY = 5;
+  private static final int FLIPPING_PLATFORM_THRESHOLD = 40;
+  private static final float FLIPPING_PLATFORM_CHANCE = 0.33f;
   private static final float VERTICAL_RANGE = Util.SCREEN_HEIGHT / 15f;
-
-  private static final double PERCENT_SCALING_FACTOR = 20000;
-  private static final double DEFAULT_MIN_PERCENT = 0.25;
-  private static final double DEFAULT_MAX_PERCENT = 0.95;
 
   private Platform[] platforms_;
   private int bottomPlatformIndex_;
@@ -30,28 +28,28 @@ public class PlatformManager {
      * PlatformManager will automatically take care of spacing them evenly
      * apart.
      */
-    platforms_[0] = new Platform(
+    platforms_[0] = new NormalPlatform(
         0.20f * Util.SCREEN_WIDTH,
         0.33f * Util.SCREEN_HEIGHT + Platform.PLATFORM_HEIGHT,
         0.80f * Util.SCREEN_WIDTH,
         0.33f * Util.SCREEN_HEIGHT,
         CustomResources.getRandomPlatformColor())
-        .setBounceVelocity(Platform.BASE_BOUNCE_VELOCITY * 2.5f);
-    platforms_[1] = new Platform(
+        .setBounceVelocity(NormalPlatform.BASE_BOUNCE_VELOCITY * 2f);
+    platforms_[1] = new NormalPlatform(
         -10,
-        0.66f * Util.SCREEN_HEIGHT + Platform.PLATFORM_HEIGHT,
+        0.66f * Util.SCREEN_HEIGHT + NormalPlatform.PLATFORM_HEIGHT,
         -10,
         0.66f * Util.SCREEN_HEIGHT,
         CustomResources.getRandomPlatformColor());
-    platforms_[2] = new Platform(
+    platforms_[2] = new NormalPlatform(
         -10,
-        Util.SCREEN_HEIGHT + Platform.PLATFORM_HEIGHT,
+        Util.SCREEN_HEIGHT + NormalPlatform.PLATFORM_HEIGHT,
         -10,
         Util.SCREEN_HEIGHT,
         CustomResources.getRandomPlatformColor());
-    platforms_[3] = new Platform(
+    platforms_[3] = new NormalPlatform(
         -10,
-        1.33f * Util.SCREEN_HEIGHT + Platform.PLATFORM_HEIGHT,
+        1.33f * Util.SCREEN_HEIGHT + NormalPlatform.PLATFORM_HEIGHT,
         -10,
         1.33f * Util.SCREEN_HEIGHT,
         CustomResources.getRandomPlatformColor());
@@ -78,37 +76,26 @@ public class PlatformManager {
   }
 
   /**
-   * Given the height of the viewport, which determines how far the player
-   * has progressed, this method returns the percent chance in (minPercent,
-   * maxPercent) that the next platform generated will be a moving platform.
-   * Recommend passing in a min-max range of (0.25, 0.8), which are preset in
-   * PlatformManager defaults.
-   * Preconditions; (0 < minPercent < 1) && (minPercent < maxPercent)
-   * @param score The score or height that the player has reached
-   * @param minPercent The lower bound of all generated percentages.
-   * @param maxPercent The upper bound of all generated percentages.
-   * @return The percentage that a platform will generate.
+   * Given the player's score, returns the chance that further generated
+   * platforms will move.
+   * @param score The player's score.
+   * @return The percentage that the generated platform will move.
    */
-  private double getPercentMovingPlatformChance(double score,
-                                                double minPercent,
-                                                double maxPercent) {
-    return (- PERCENT_SCALING_FACTOR /
-        (score + (PERCENT_SCALING_FACTOR / (maxPercent - minPercent)))) +
-        maxPercent;
+  private double getPercentMovingPlatformChance(double score) {
+    return Math.max(Math.min(Math.log(0.01 * score) + 1, 1), 0);
   }
 
   private Platform generateNextRandomPlatform(double score) {
-    float x = Util.randRangeInt((int) (Util.SCREEN_WIDTH - Platform
+    float x = Util.randRangeInt((int) (Util.SCREEN_WIDTH - NormalPlatform
         .PLATFORM_LENGTH));
     float y = platforms_[topPlatformIndex_].getPlatform().top + Util
         .SCREEN_HEIGHT / 3;
 
-//    double progressPercent = getPercentMovingPlatformChance(
-//        heightReached, DEFAULT_MIN_PERCENT, DEFAULT_MAX_PERCENT);
-    double progressPercent = 0.5;
+    double progressPercent = getPercentMovingPlatformChance(score);
     Platform platform;
 
-    if (Math.random() < progressPercent) {
+    if (score > FLIPPING_PLATFORM_THRESHOLD &&
+        Math.random() < FLIPPING_PLATFORM_CHANCE) {
       platform = new FlippingPlatform(
           x,
           y,
@@ -116,7 +103,7 @@ public class PlatformManager {
           y - Platform.PLATFORM_HEIGHT,
           CustomResources.getRandomFlippingPlatformColors());
     } else {
-      platform = new Platform(
+      platform = new NormalPlatform(
           x,
           y,
           x + Platform.PLATFORM_LENGTH,
@@ -124,22 +111,23 @@ public class PlatformManager {
           CustomResources.getRandomPlatformColor());
     }
 
+    Log.d("progressPercent", progressPercent + "");
     if (Math.random() < progressPercent) {
       if (Math.random() < 0.33) {
-        platform.setMotion((float) progressPercent * PLATFORM_VELOCITY,
+        platform.setMotion((float) progressPercent * Platform.PLATFORM_VELOCITY,
                            0,
                            new float[] {0, Util.SCREEN_WIDTH},
                            new float[] {0, 0});
       } else if (Math.random() < 0.66) {
         platform.setMotion(0,
-                           (float) progressPercent * PLATFORM_VELOCITY,
+                           (float) progressPercent * Platform.PLATFORM_VELOCITY,
                            new float[] {0, 0},
                            new float[] {
                                y - VERTICAL_RANGE,
                                y + VERTICAL_RANGE});
       } else {
-        platform.setMotion((float) progressPercent * PLATFORM_VELOCITY,
-                           (float) progressPercent * PLATFORM_VELOCITY,
+        platform.setMotion((float) progressPercent * Platform.PLATFORM_VELOCITY,
+                           (float) progressPercent * Platform.PLATFORM_VELOCITY,
                            new float[] {0, Util.SCREEN_WIDTH},
                            new float[] {
                                y - VERTICAL_RANGE,
