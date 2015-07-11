@@ -8,8 +8,8 @@ android {
     applicationId "io.github.omgimanerd.bouncysquare"
     minSdkVersion 11
     targetSdkVersion 21
-    versionCode 4
-    versionName "2.0.0"
+    versionCode 5
+    versionName "2.1.0"
   }
   buildTypes {
     release {
