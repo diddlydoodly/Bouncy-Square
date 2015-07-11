@@ -89,7 +89,8 @@ public class PlayerShape {
       if (isSolid_) {
         for (Platform platform : platforms) {
           if (Util.intersects(truePosition_, platform.getPlatform()) &&
-              vy_ < 0) {
+              vy_ < 0 &&
+              truePosition_.bottom < platform.getPlatform().bottom) {
 
             isSolid_ = platform.matchColor(this);
 

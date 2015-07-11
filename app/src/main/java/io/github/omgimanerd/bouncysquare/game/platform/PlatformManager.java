@@ -16,6 +16,7 @@ public class PlatformManager {
   private static final int FLIPPING_PLATFORM_THRESHOLD = 40;
   private static final float FLIPPING_PLATFORM_CHANCE = 0.33f;
   private static final float VERTICAL_RANGE = Util.SCREEN_HEIGHT / 15f;
+  private static final float FIRST_PLATFORM_BOOST = 2.75f;
 
   private Platform[] platforms_;
   private int bottomPlatformIndex_;
@@ -33,8 +34,8 @@ public class PlatformManager {
         0.33f * Util.SCREEN_HEIGHT + Platform.PLATFORM_HEIGHT,
         0.80f * Util.SCREEN_WIDTH,
         0.33f * Util.SCREEN_HEIGHT,
-        CustomResources.getRandomPlatformColor())
-        .setBounceVelocity(NormalPlatform.BASE_BOUNCE_VELOCITY * 2f);
+        CustomResources.getRandomPlatformColor()).setBounceVelocity(
+            Platform.BASE_BOUNCE_VELOCITY * FIRST_PLATFORM_BOOST);
     platforms_[1] = new NormalPlatform(
         -10,
         0.66f * Util.SCREEN_HEIGHT + NormalPlatform.PLATFORM_HEIGHT,
@@ -82,7 +83,7 @@ public class PlatformManager {
    * @return The percentage that the generated platform will move.
    */
   private double getPercentMovingPlatformChance(double score) {
-    return Math.max(Math.min(Math.log(0.01 * score) + 1, 1), 0);
+    return Math.max(Math.min(Math.log10(0.01 * score) + 1, 1), 0);
   }
 
   private Platform generateNextRandomPlatform(double score) {
@@ -111,7 +112,6 @@ public class PlatformManager {
           CustomResources.getRandomPlatformColor());
     }
 
-    Log.d("progressPercent", progressPercent + "");
     if (Math.random() < progressPercent) {
       if (Math.random() < 0.33) {
         platform.setMotion((float) progressPercent * Platform.PLATFORM_VELOCITY,
