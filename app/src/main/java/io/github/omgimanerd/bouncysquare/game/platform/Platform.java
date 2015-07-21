@@ -16,6 +16,7 @@ public abstract class Platform {
 
   protected RectF truePlatform_;
   protected RectF mappedPlatform_;
+  protected boolean hasBeenBouncedOn_;
   protected boolean isMoving_;
   protected float vx_;
   protected float vy_;
@@ -66,6 +67,15 @@ public abstract class Platform {
 
   public RectF getPlatform() {
     return truePlatform_;
+  }
+
+  public Platform setBouncedOn() {
+    hasBeenBouncedOn_ = true;
+    return this;
+  }
+
+  public boolean hasBeenBouncedOn() {
+    return hasBeenBouncedOn_;
   }
 
   public Platform setMotion(float vx, float vy,

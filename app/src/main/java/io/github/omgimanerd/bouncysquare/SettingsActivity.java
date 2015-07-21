@@ -24,28 +24,5 @@ public class SettingsActivity extends Activity {
                          WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
     setContentView(R.layout.settings_layout);
-
-    init();
   }
-
-  private void init() {
-    int sensitivity = PersistentData.getRawSensitivity();
-
-    sensitivityControl_ = (SeekBar) findViewById(R.id.sensitivityControl);
-    sensitivityControl_.setProgress(sensitivity);
-    sensitivityControl_.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-      @Override
-      public void onProgressChanged(SeekBar seekBar, int progress,
-                                    boolean fromUser) {}
-
-      @Override
-      public void onStartTrackingTouch(SeekBar seekBar) {}
-
-      @Override
-      public void onStopTrackingTouch(SeekBar seekBar) {
-        PersistentData.setSensitivity(seekBar.getProgress());
-      }
-    });
-  }
-
 }

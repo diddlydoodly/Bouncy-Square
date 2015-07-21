@@ -118,10 +118,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
   public void onSensorChanged(SensorEvent event) {
     if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
-      for (int i = 0; i < Util.SCALED_ACCELEROMETER_VALUES.length; ++i) {
-        Util.SCALED_ACCELEROMETER_VALUES[i] = event.values[i] *
-            PersistentData.getConvertedSensitivity();
-      }
+      Util.ACCELEROMETER_TILT = -event.values[0];
     }
   }
 }

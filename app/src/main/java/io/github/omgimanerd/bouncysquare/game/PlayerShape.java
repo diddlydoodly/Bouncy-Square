@@ -7,6 +7,7 @@ import io.github.omgimanerd.bouncysquare.game.platform.FlippingPlatform;
 import io.github.omgimanerd.bouncysquare.game.platform.NormalPlatform;
 import io.github.omgimanerd.bouncysquare.game.platform.Platform;
 import io.github.omgimanerd.bouncysquare.util.CustomResources;
+import io.github.omgimanerd.bouncysquare.util.PersistentData;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class PlayerShape {
@@ -68,7 +69,7 @@ public class PlayerShape {
     if (isReleased_) {
       // Updates the square's horizontal velocity according to the tilt of the
       // phone.
-      vx_ = - Util.SCALED_ACCELEROMETER_VALUES[0];
+      vx_ = Util.ACCELEROMETER_TILT * PersistentData.getConvertedSensitivity();
       // Updates the vertical velocity by constantly accelerating downward.
       vy_ += ACCELERATION_Y;
 
@@ -92,18 +93,21 @@ public class PlayerShape {
               vy_ < 0 &&
               truePosition_.bottom < platform.getPlatform().bottom) {
 
-            isSolid_ = platform.matchColor(this);
+            if (platform.matchColor(this)) {
+              vy_ = platform.getBounceVelocity();
+            } else {
+              vy_ = NormalPlatform.BASE_BOUNCE_VELOCITY / 5;
+              isSolid_ = false;
+            }
 
             if (platform instanceof FlippingPlatform) {
               platform.flip();
             }
 
-            if (isSolid_) {
-              vy_ = platform.getBounceVelocity();
+            if (!platform.hasBeenBouncedOn()) {
               score_++;
-            } else {
-              vy_ = NormalPlatform.BASE_BOUNCE_VELOCITY / 5;
             }
+            platform.setBouncedOn();
           }
         }
       }

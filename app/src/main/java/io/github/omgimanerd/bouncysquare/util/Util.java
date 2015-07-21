@@ -3,18 +3,20 @@ package io.github.omgimanerd.bouncysquare.util;
 import android.content.Context;
 import android.graphics.RectF;
 
+import java.security.InvalidParameterException;
+
 public class Util {
 
   public static float SCREEN_HEIGHT;
   public static float SCREEN_WIDTH;
-  public static float[] SCALED_ACCELEROMETER_VALUES;
+
+  public static float ACCELEROMETER_TILT;
 
   public static void init(Context context) {
     Util.SCREEN_WIDTH = context.getResources().getDisplayMetrics().
         widthPixels;
     Util.SCREEN_HEIGHT = context.getResources().getDisplayMetrics().
         heightPixels;
-    SCALED_ACCELEROMETER_VALUES = new float[3];
   }
 
   /**
@@ -47,15 +49,22 @@ public class Util {
   /**
    * Generates a random integer within the given min, inclusive and max,
    * exclusive.
-   * @param min
-   * @param max
+   * @param min The minimum bound, inclusive.
+   * @param max The maximum bound, exclusive.
    * @return An integer within the bounds of min and max.
    */
   public static int randRangeInt(int min, int max) {
+    if (min > max) {
+      throw new InvalidParameterException("Ya done fucked up");
+    }
     return (int) (Math.floor(Math.random() * (max - min))) + min;
   }
 
   public static int randRangeInt(int max) {
     return randRangeInt(0, max);
+  }
+
+  public static int getSign(float n) {
+    return n == 0 ? (int) n : (int) (n / Math.abs(n));
   }
 }
