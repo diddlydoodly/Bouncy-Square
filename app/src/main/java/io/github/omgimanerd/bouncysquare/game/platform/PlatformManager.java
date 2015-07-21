@@ -13,7 +13,7 @@ public class PlatformManager {
    * The number of platforms out on the screen is a constant number.
    */
   private static final int NUM_PLATFORMS = 4;
-  private static final int FLIPPING_PLATFORM_THRESHOLD = 40;
+  private static final int FLIPPING_PLATFORM_THRESHOLD = 25;
   private static final float FLIPPING_PLATFORM_CHANCE = 0.33f;
   private static final float VERTICAL_RANGE = Util.SCREEN_HEIGHT / 15f;
   private static final float FIRST_PLATFORM_BOOST = 2.75f;
