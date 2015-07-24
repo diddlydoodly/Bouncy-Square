@@ -11,6 +11,7 @@ import io.github.omgimanerd.bouncysquare.util.PersistentData;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class PlayerShape {
+
   private static final float ACCELERATION_Y = -Util.SCREEN_HEIGHT / 800f;
   // ROTATION_SPEED is in degrees/update.
   private static final float ROTATION_SPEED = 15;

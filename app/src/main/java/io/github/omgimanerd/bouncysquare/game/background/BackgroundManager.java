@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
-public class Background {
+public class BackgroundManager {
 
   private static final int NUM_FRAMES = 3;
 
@@ -15,7 +15,7 @@ public class Background {
   private int bottomFrameIndex_;
   private int topFrameIndex_;
 
-  public Background() {
+  public BackgroundManager() {
     frames_ = new BackgroundFrame[NUM_FRAMES];
     frames_[0] = BackgroundFrame.generateRandomFrame(
         0, Util.SCREEN_HEIGHT, Util.SCREEN_WIDTH, 0);

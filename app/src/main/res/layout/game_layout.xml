@@ -38,20 +38,20 @@
         android:textSize="@dimen/HIGHSCORE_TEXT_SIZE"
         android:textColor="@android:color/black" />
 
+      <Button
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="@string/play_again"
+          android:id="@+id/playAgainButton"
+          android:textSize="@dimen/BUTTON_TEXT_SIZE"
+          android:layout_below="@+id/lostOverlay"
+          android:layout_centerHorizontal="true"
+          android:singleLine="false"
+          android:longClickable="false"/>
+
   </RelativeLayout>
 
-  <Button
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/play_again"
-      android:id="@+id/playAgainButton"
-      android:textSize="@dimen/BUTTON_TEXT_SIZE"
-      android:layout_below="@+id/lostOverlay"
-      android:layout_centerHorizontal="true"
-      android:singleLine="false"
-      android:longClickable="false"/>
-
-  <TextView
+    <TextView
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:id="@+id/liveScoreTextView"

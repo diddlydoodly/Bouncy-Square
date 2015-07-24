@@ -28,9 +28,9 @@ public class GameActivity extends Activity implements SensorEventListener {
   private TextView liveScoreTextView_;
   private ImageButton pauseButton_;
   private RelativeLayout lostOverlay_;
-  private Button playAgainButton_;
   private TextView scoreTextView_;
   private TextView highscoreTextView_;
+  private Button playAgainButton_;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,7 @@ public class GameActivity extends Activity implements SensorEventListener {
   private void init() {
     gameView_ = (GameView) findViewById(R.id.gameView);
     liveScoreTextView_= (TextView) findViewById(R.id.liveScoreTextView);
+
     pauseButton_ = (ImageButton) findViewById(R.id.pauseButton);
     pauseButton_.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -70,8 +71,8 @@ public class GameActivity extends Activity implements SensorEventListener {
     });
     lostOverlay_ = (RelativeLayout) findViewById(R.id.lostOverlay);
     lostOverlay_.setVisibility(View.INVISIBLE);
+
     playAgainButton_ = (Button) findViewById(R.id.playAgainButton);
-    playAgainButton_.setVisibility(View.INVISIBLE);
     playAgainButton_.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
@@ -94,9 +95,7 @@ public class GameActivity extends Activity implements SensorEventListener {
       PersistentData.setHighScore(score);
     }
 
-    pauseButton_.setVisibility(View.INVISIBLE);
     lostOverlay_.setVisibility(View.VISIBLE);
-    playAgainButton_.setVisibility(View.VISIBLE);
     scoreTextView_.setText(CustomResources.getString(R.string.score) + score);
     highscoreTextView_.setText(CustomResources.getString(R.string.highscore) + highScore);
   }
