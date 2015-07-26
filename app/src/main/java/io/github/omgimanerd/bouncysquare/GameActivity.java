@@ -78,7 +78,6 @@ public class GameActivity extends Activity implements SensorEventListener {
       public void onClick(View v) {
         gameView_.reset();
         lostOverlay_.setVisibility(View.INVISIBLE);
-        playAgainButton_.setVisibility(View.INVISIBLE);
       }
     });
     scoreTextView_ = (TextView) findViewById(R.id.scoreTextView);
