@@ -14,15 +14,18 @@ public class PlatformManager {
    */
   private static final int NUM_PLATFORMS = 4;
   private static final int FLIPPING_PLATFORM_THRESHOLD = 25;
+  private static final int COLOR_VARIANCE_THRESHOLD = 2;
   private static final float FLIPPING_PLATFORM_CHANCE = 0.33f;
   private static final float VERTICAL_RANGE = Util.SCREEN_HEIGHT / 15f;
   private static final float FIRST_PLATFORM_BOOST = 2.75f;
 
   private Platform[] platforms_;
+  private int choiceInitialColor_;
   private int bottomPlatformIndex_;
   private int topPlatformIndex_;
 
   public PlatformManager() {
+    choiceInitialColor_ = CustomResources.getRandomPlatformColor();
     platforms_ = new Platform[NUM_PLATFORMS];
     /**
      * A new platform is generated as soon as an old one is removed.
@@ -34,26 +37,26 @@ public class PlatformManager {
         0.33f * Util.SCREEN_HEIGHT + Platform.PLATFORM_HEIGHT,
         0.80f * Util.SCREEN_WIDTH,
         0.33f * Util.SCREEN_HEIGHT,
-        CustomResources.getRandomPlatformColor()).setBounceVelocity(
+        choiceInitialColor_).setBounceVelocity(
             Platform.BASE_BOUNCE_VELOCITY * FIRST_PLATFORM_BOOST);
     platforms_[1] = new NormalPlatform(
         -10,
         0.66f * Util.SCREEN_HEIGHT + NormalPlatform.PLATFORM_HEIGHT,
         -10,
         0.66f * Util.SCREEN_HEIGHT,
-        CustomResources.getRandomPlatformColor());
+        choiceInitialColor_);
     platforms_[2] = new NormalPlatform(
         -10,
         Util.SCREEN_HEIGHT + NormalPlatform.PLATFORM_HEIGHT,
         -10,
         Util.SCREEN_HEIGHT,
-        CustomResources.getRandomPlatformColor());
+        choiceInitialColor_);
     platforms_[3] = new NormalPlatform(
         -10,
         1.33f * Util.SCREEN_HEIGHT + NormalPlatform.PLATFORM_HEIGHT,
         -10,
         1.33f * Util.SCREEN_HEIGHT,
-        CustomResources.getRandomPlatformColor());
+        choiceInitialColor_);
     bottomPlatformIndex_ = 0;
     topPlatformIndex_ = NUM_PLATFORMS - 1;
   }
@@ -104,12 +107,18 @@ public class PlatformManager {
           y - Platform.PLATFORM_HEIGHT,
           CustomResources.getRandomFlippingPlatformColors());
     } else {
+      int color;
+      if (score > COLOR_VARIANCE_THRESHOLD) {
+        color = CustomResources.getRandomPlatformColor();
+      } else {
+        color = choiceInitialColor_;
+      }
       platform = new NormalPlatform(
           x,
           y,
           x + Platform.PLATFORM_LENGTH,
           y - Platform.PLATFORM_HEIGHT,
-          CustomResources.getRandomPlatformColor());
+          color);
     }
 
     if (Math.random() < progressPercent) {

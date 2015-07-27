@@ -12,7 +12,7 @@ public abstract class Platform {
   public static final float PLATFORM_LENGTH = Util.SCREEN_WIDTH / 5f;
   public static final float PLATFORM_HEIGHT = Util.SCREEN_WIDTH / 20f;
   public static final float BASE_BOUNCE_VELOCITY = Util.SCREEN_HEIGHT / 28f;
-  public static final float PLATFORM_VELOCITY = Util.SCREEN_HEIGHT / 1000f;
+  public static final float PLATFORM_VELOCITY = Util.SCREEN_HEIGHT / 800f;
 
   protected RectF truePlatform_;
   protected RectF mappedPlatform_;

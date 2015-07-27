@@ -7,6 +7,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -112,7 +113,9 @@ public class GameActivity extends Activity implements SensorEventListener {
     super.onPause();
   }
 
-  public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+  public void onAccuracyChanged(Sensor sensor, int accuracy) {
+    Log.d("accuracy log", "Accuracy: " + accuracy);
+  }
 
   public void onSensorChanged(SensorEvent event) {
     if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
