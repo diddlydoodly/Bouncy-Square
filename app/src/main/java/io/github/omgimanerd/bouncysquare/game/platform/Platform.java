@@ -17,6 +17,7 @@ public abstract class Platform {
   protected RectF truePlatform_;
   protected RectF mappedPlatform_;
   protected boolean hasBeenBouncedOn_;
+  protected boolean isSolid_;
   protected boolean isMoving_;
   protected float vx_;
   protected float vy_;
@@ -27,6 +28,7 @@ public abstract class Platform {
   public Platform(float left, float top, float right, float bottom) {
     truePlatform_ = new RectF(left, top, right, bottom);
     mappedPlatform_ = new RectF();
+    isSolid_ = true;
     isMoving_ = false;
     vx_ = 0;
     vy_ = 0;
@@ -76,6 +78,15 @@ public abstract class Platform {
 
   public boolean hasBeenBouncedOn() {
     return hasBeenBouncedOn_;
+  }
+
+  public Platform setSolidState(boolean solidState) {
+    isSolid_ = solidState;
+    return this;
+  }
+
+  public boolean isSolid() {
+    return isSolid_;
   }
 
   public Platform setMotion(float vx, float vy,

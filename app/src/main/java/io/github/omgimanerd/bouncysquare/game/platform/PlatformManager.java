@@ -15,7 +15,9 @@ public class PlatformManager {
   private static final int NUM_PLATFORMS = 4;
   private static final int FLIPPING_PLATFORM_THRESHOLD = 25;
   private static final int COLOR_VARIANCE_THRESHOLD = 2;
+  private static final int BREAKING_PLATFORM_THRESHOLD = 20;
   private static final float FLIPPING_PLATFORM_CHANCE = 0.33f;
+  private static final float BREAKING_PLATFORM_CHANCE = 0.4f;
   private static final float VERTICAL_RANGE = Util.SCREEN_HEIGHT / 15f;
   private static final float FIRST_PLATFORM_BOOST = 2.75f;
 
@@ -106,6 +108,14 @@ public class PlatformManager {
           x + Platform.PLATFORM_LENGTH,
           y - Platform.PLATFORM_HEIGHT,
           CustomResources.getRandomFlippingPlatformColors());
+    } else if (score > BREAKING_PLATFORM_THRESHOLD &&
+               Math.random() < BREAKING_PLATFORM_CHANCE) {
+      platform = new BreakingPlatform(
+          x,
+          y,
+          x + Platform.PLATFORM_LENGTH,
+          y - Platform.PLATFORM_HEIGHT,
+          CustomResources.getRandomPlatformColor());
     } else {
       int color;
       if (score > COLOR_VARIANCE_THRESHOLD) {
@@ -143,6 +153,7 @@ public class PlatformManager {
                                y + VERTICAL_RANGE});
       }
     }
+
     return platform;
   }
 
