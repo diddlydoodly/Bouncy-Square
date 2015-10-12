@@ -2,6 +2,7 @@ package io.github.omgimanerd.bouncysquare;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -27,8 +28,13 @@ public class GameActivity extends Activity implements SensorEventListener {
 
   private GameView gameView_;
   private TextView liveScoreTextView_;
+
+  private ImageButton settingsButton_;
   private ImageButton pauseButton_;
+
+  private RelativeLayout settingsOverlay_;
   private RelativeLayout lostOverlay_;
+
   private TextView scoreTextView_;
   private TextView highscoreTextView_;
   private Button playAgainButton_;
@@ -39,7 +45,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     requestWindowFeature(Window.FEATURE_NO_TITLE);
     getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                         WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
     sensorManager_ = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
@@ -55,6 +61,25 @@ public class GameActivity extends Activity implements SensorEventListener {
   private void init() {
     gameView_ = (GameView) findViewById(R.id.gameView);
     liveScoreTextView_= (TextView) findViewById(R.id.liveScoreTextView);
+    settingsOverlay_ = (RelativeLayout) findViewById(R.id.settingsOverlay);
+    settingsOverlay_.setVisibility(View.INVISIBLE);
+    lostOverlay_ = (RelativeLayout) findViewById(R.id.lostOverlay);
+    lostOverlay_.setVisibility(View.INVISIBLE);
+
+    settingsButton_ = (ImageButton) findViewById(R.id.settingsButton);
+    settingsButton_.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        gameView_.pause();
+        if (settingsOverlay_.getVisibility() == View.VISIBLE) {
+          settingsButton_.setBackgroundColor(Color.parseColor("#000000CC"));
+          settingsOverlay_.setVisibility(View.INVISIBLE);
+        } else {
+          settingsButton_.setBackgroundColor(Color.parseColor("#FF0000CC"));
+          settingsOverlay_.setVisibility(View.VISIBLE);
+        }
+      }
+    });
 
     pauseButton_ = (ImageButton) findViewById(R.id.pauseButton);
     pauseButton_.setOnClickListener(new View.OnClickListener() {
@@ -70,8 +95,6 @@ public class GameActivity extends Activity implements SensorEventListener {
         }
       }
     });
-    lostOverlay_ = (RelativeLayout) findViewById(R.id.lostOverlay);
-    lostOverlay_.setVisibility(View.INVISIBLE);
 
     playAgainButton_ = (Button) findViewById(R.id.playAgainButton);
     playAgainButton_.setOnClickListener(new View.OnClickListener() {
