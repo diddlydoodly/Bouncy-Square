@@ -3,6 +3,7 @@ package io.github.omgimanerd.bouncysquare.game.background;
 import android.graphics.Canvas;
 
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
+import io.github.omgimanerd.bouncysquare.util.CustomResources;
 import io.github.omgimanerd.bouncysquare.util.Util;
 
 public class BackgroundManager {
@@ -17,12 +18,12 @@ public class BackgroundManager {
 
   public BackgroundManager() {
     frames_ = new BackgroundFrame[NUM_FRAMES];
-    frames_[0] = BackgroundFrame.generateRandomFrame(
-        0, Util.SCREEN_HEIGHT, Util.SCREEN_WIDTH, 0);
-    frames_[1] = BackgroundFrame.generateRandomFrame(
-        0, 2 * Util.SCREEN_HEIGHT, Util.SCREEN_WIDTH, Util.SCREEN_HEIGHT);
-    frames_[2] = BackgroundFrame.generateRandomFrame(
-        0, 3 * Util.SCREEN_HEIGHT, Util.SCREEN_WIDTH, 2 * Util.SCREEN_HEIGHT);
+    frames_[0] = new BackgroundFrame(
+        0, Util.SCREEN_HEIGHT, Util.SCREEN_WIDTH, 0, CustomResources.BG);
+    frames_[1] = new BackgroundFrame(
+        0, 2 * Util.SCREEN_HEIGHT, Util.SCREEN_WIDTH, Util.SCREEN_HEIGHT, null);
+    frames_[2] = new BackgroundFrame(
+        0, 3 * Util.SCREEN_HEIGHT, Util.SCREEN_WIDTH, 2 * Util.SCREEN_HEIGHT, null);
     bottomFrameIndex_ = 0;
     topFrameIndex_ = NUM_FRAMES - 1;
   }
@@ -46,11 +47,12 @@ public class BackgroundManager {
   }
 
   private BackgroundFrame getNextFrame() {
-    return BackgroundFrame.generateRandomFrame(
+    return new BackgroundFrame(
         0,
         frames_[topFrameIndex_].getTrueFrame().top + Util.SCREEN_HEIGHT,
         Util.SCREEN_WIDTH,
-        frames_[topFrameIndex_].getTrueFrame().top
+        frames_[topFrameIndex_].getTrueFrame().top,
+        null
     );
   }
 }

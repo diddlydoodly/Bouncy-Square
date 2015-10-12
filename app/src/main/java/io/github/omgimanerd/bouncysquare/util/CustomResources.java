@@ -19,6 +19,7 @@ public class CustomResources {
    */
   public static int[] COLORS;
   public static Bitmap SQUARE;
+  public static Bitmap BG;
 
   public static void init(Context context) {
     res_ = context.getResources();
@@ -30,6 +31,7 @@ public class CustomResources {
     };
 
     SQUARE = BitmapFactory.decodeResource(res_, R.drawable.square);
+    BG = BitmapFactory.decodeResource(res_, R.drawable.bg);
   }
 
   public static Drawable getDrawable(int id) {

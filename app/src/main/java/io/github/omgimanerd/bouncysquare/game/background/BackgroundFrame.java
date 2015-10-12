@@ -1,8 +1,7 @@
 package io.github.omgimanerd.bouncysquare.game.background;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.RectF;
 
 import io.github.omgimanerd.bouncysquare.game.ViewPort;
@@ -11,17 +10,11 @@ public class BackgroundFrame {
 
   private RectF trueFrame_;
   private RectF mappedFrame_;
-  private Paint bgPaint_;
+  private Bitmap bgImage_;
 
-  public BackgroundFrame(float left, float top, float right, float bottom) {
+  public BackgroundFrame(float left, float top, float right, float bottom, Bitmap bgImage) {
     trueFrame_ = new RectF(left, top, right, bottom);
-    bgPaint_ = new Paint();
-    bgPaint_.setColor(Color.WHITE);
-  }
-
-  public static BackgroundFrame generateRandomFrame(float left, float top,
-                                             float right, float bottom) {
-    return new BackgroundFrame(left, top, right, bottom);
+    bgImage_ = bgImage;
   }
 
   public void update(ViewPort viewPort) {
@@ -29,7 +22,9 @@ public class BackgroundFrame {
   }
 
   public void redraw(Canvas canvas) {
-    canvas.drawRect(mappedFrame_, bgPaint_);
+    if (bgImage_ != null) {
+      canvas.drawBitmap(bgImage_, null, mappedFrame_, null);
+    }
   }
 
   public RectF getTrueFrame() {
