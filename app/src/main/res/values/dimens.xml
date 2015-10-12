@@ -6,7 +6,7 @@
   <dimen name="LOST_OVERLAY_MARGIN">35dp</dimen>
 
   <dimen name="PAUSE_BUTTON_SIZE">40dp</dimen>
-  <dimen name="SETTINGS_BUTTON_SIZE">40dp</dimen>
+  <dimen name="SETTINGS_BUTTON_SIZE">35dp</dimen>
 
   <dimen name="SETTINGS_TITLE_TEXT_SIZE">40sp</dimen>
   <dimen name="SETTINGS_MARGIN">30dp</dimen>

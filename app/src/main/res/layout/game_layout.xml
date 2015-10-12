@@ -77,7 +77,8 @@
         android:id="@+id/sensitivityControl"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_margin="@dimen/SETTINGS_MARGIN"/>
+        android:layout_margin="@dimen/SETTINGS_MARGIN"
+        android:max="@integer/MAX_SENSITIVITY"/>
   </RelativeLayout>
 
   <TextView

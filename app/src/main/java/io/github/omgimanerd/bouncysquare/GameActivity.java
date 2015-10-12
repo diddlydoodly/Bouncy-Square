@@ -15,6 +15,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import io.github.omgimanerd.bouncysquare.customviews.GameView;
@@ -33,8 +34,9 @@ public class GameActivity extends Activity implements SensorEventListener {
   private ImageButton pauseButton_;
 
   private RelativeLayout settingsOverlay_;
-  private RelativeLayout lostOverlay_;
+  private SeekBar sensitivityControl_;
 
+  private RelativeLayout lostOverlay_;
   private TextView scoreTextView_;
   private TextView highscoreTextView_;
   private Button playAgainButton_;
@@ -72,12 +74,26 @@ public class GameActivity extends Activity implements SensorEventListener {
       public void onClick(View v) {
         gameView_.pause();
         if (settingsOverlay_.getVisibility() == View.VISIBLE) {
-          settingsButton_.setBackgroundColor(Color.parseColor("#000000CC"));
+          settingsButton_.setImageDrawable(CustomResources.getDrawable(R.drawable.settings));
           settingsOverlay_.setVisibility(View.INVISIBLE);
         } else {
-          settingsButton_.setBackgroundColor(Color.parseColor("#FF0000CC"));
+          settingsButton_.setImageDrawable(CustomResources.getDrawable(R.drawable.close));
           settingsOverlay_.setVisibility(View.VISIBLE);
         }
+      }
+    });
+    sensitivityControl_ = (SeekBar) findViewById(R.id.sensitivityControl);
+    sensitivityControl_.setProgress(PersistentData.getRawSensitivity());
+    sensitivityControl_.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+      @Override
+      public void onProgressChanged(SeekBar seekBar, int i, boolean b) {}
+
+      @Override
+      public void onStartTrackingTouch(SeekBar seekBar) {}
+
+      @Override
+      public void onStopTrackingTouch(SeekBar seekBar) {
+        PersistentData.setSensitivity(seekBar.getProgress());
       }
     });
 
