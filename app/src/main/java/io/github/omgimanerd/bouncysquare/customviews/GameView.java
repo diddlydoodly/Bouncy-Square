@@ -53,6 +53,10 @@ public class GameView extends View {
     game_ = new Game();
   }
 
+  public boolean isLost() {
+    return game_.isLost();
+  }
+
   public boolean getPauseState() {
     return paused_;
   }

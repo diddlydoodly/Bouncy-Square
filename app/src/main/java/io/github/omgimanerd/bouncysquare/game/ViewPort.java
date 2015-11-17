@@ -15,7 +15,7 @@ public class ViewPort {
 
   public ViewPort() {
     viewPort_ = new RectF(0, Util.SCREEN_HEIGHT, Util.SCREEN_WIDTH, 0);
-    upperScrollBound_ = Util.SCREEN_HEIGHT * 3 / 4;
+    upperScrollBound_ = Util.SCREEN_HEIGHT * (2.0f / 3.0f);
   }
 
   public void update(PlayerShape playerShape) {

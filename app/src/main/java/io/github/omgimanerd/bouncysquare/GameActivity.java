@@ -76,9 +76,13 @@ public class GameActivity extends Activity implements SensorEventListener {
         if (settingsOverlay_.getVisibility() == View.VISIBLE) {
           settingsButton_.setImageDrawable(CustomResources.getDrawable(R.drawable.settings));
           settingsOverlay_.setVisibility(View.INVISIBLE);
+          playAgainButton_.setClickable(true);
+          pauseButton_.setClickable(true);
         } else {
           settingsButton_.setImageDrawable(CustomResources.getDrawable(R.drawable.close));
           settingsOverlay_.setVisibility(View.VISIBLE);
+          playAgainButton_.setClickable(false);
+          pauseButton_.setClickable(false);
         }
       }
     });
@@ -101,13 +105,15 @@ public class GameActivity extends Activity implements SensorEventListener {
     pauseButton_.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        gameView_.pause();
-        if (gameView_.getPauseState()) {
-          pauseButton_.setImageDrawable(
-              CustomResources.getDrawable(R.drawable.play));
-        } else {
-          pauseButton_.setImageDrawable(
-              CustomResources.getDrawable(R.drawable.pause));
+        if (!gameView_.isLost()) {
+          gameView_.pause();
+          if (gameView_.getPauseState()) {
+            pauseButton_.setImageDrawable(
+                CustomResources.getDrawable(R.drawable.play));
+          } else {
+            pauseButton_.setImageDrawable(
+                CustomResources.getDrawable(R.drawable.pause));
+          }
         }
       }
     });
